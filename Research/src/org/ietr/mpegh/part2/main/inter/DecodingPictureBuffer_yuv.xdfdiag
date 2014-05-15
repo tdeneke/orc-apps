@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="xdfDiagram" name="DecodingPictureBuffer_yuv" snapToGrid="true" pictogramLinks="//@link //@children.0/@link //@children.0/@anchors.0/@link //@children.0/@anchors.1/@link //@children.0/@anchors.2/@link //@children.0/@anchors.3/@link //@children.0/@anchors.4/@link //@children.0/@anchors.5/@link //@children.0/@anchors.6/@link //@children.0/@anchors.7/@link //@children.0/@anchors.8/@link //@children.0/@anchors.9/@link //@children.1/@link //@children.1/@anchors.0/@link //@children.1/@anchors.1/@link //@children.1/@anchors.2/@link //@children.1/@anchors.3/@link //@children.1/@anchors.4/@link //@children.1/@anchors.5/@link //@children.1/@anchors.6/@link //@children.1/@anchors.7/@link //@children.1/@anchors.8/@link //@children.1/@anchors.9/@link //@children.2/@link //@children.2/@anchors.0/@link //@children.2/@anchors.1/@link //@children.2/@anchors.2/@link //@children.2/@anchors.3/@link //@children.2/@anchors.4/@link //@children.2/@anchors.5/@link //@children.2/@anchors.6/@link //@children.2/@anchors.7/@link //@children.2/@anchors.8/@link //@children.2/@anchors.9/@link //@children.3/@link //@children.4/@link //@children.5/@link //@children.6/@link //@children.7/@link //@children.8/@link //@children.9/@link //@children.10/@link //@children.11/@link //@children.12/@link //@children.13/@link //@children.14/@link //@children.15/@link //@children.16/@link //@connections.0/@link //@connections.1/@link //@connections.2/@link //@connections.3/@link //@connections.4/@link //@connections.5/@link //@connections.6/@link //@connections.7/@link //@connections.8/@link //@connections.9/@link //@connections.10/@link //@connections.11/@link //@connections.12/@link //@connections.13/@link //@connections.14/@link //@connections.15/@link //@connections.16/@link //@connections.17/@link //@connections.18/@link //@connections.19/@link //@connections.20/@link //@connections.21/@link //@connections.22/@link //@connections.23/@link //@connections.24/@link //@connections.25/@link //@connections.26/@link //@connections.27/@link //@connections.28/@link //@connections.29/@link" version="0.10.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="xdfDiagram" name="DecodingPictureBuffer_yuv" snapToGrid="true" pictogramLinks="//@link //@children.0/@link //@children.1/@link //@children.2/@link //@children.3/@link //@children.4/@link //@children.5/@link //@children.6/@link //@children.7/@link //@children.8/@link //@children.9/@link //@children.10/@link //@children.11/@link //@children.12/@link //@children.13/@link //@children.14/@link //@children.15/@link //@children.16/@link //@connections.0/@link //@connections.1/@link //@connections.2/@link //@connections.3/@link //@connections.4/@link //@connections.5/@link //@connections.6/@link //@connections.7/@link //@connections.8/@link //@connections.9/@link //@connections.10/@link //@connections.11/@link //@connections.12/@link //@connections.13/@link //@connections.14/@link //@connections.15/@link //@connections.16/@link //@connections.17/@link //@connections.18/@link //@connections.19/@link //@connections.20/@link //@connections.21/@link //@connections.22/@link //@connections.23/@link //@connections.24/@link //@connections.25/@link //@connections.26/@link //@connections.27/@link //@connections.28/@link //@connections.29/@link //@children.2/@anchors.0/@link //@children.2/@anchors.1/@link //@children.2/@anchors.2/@link //@children.2/@anchors.3/@link //@children.2/@anchors.4/@link //@children.2/@anchors.5/@link //@children.2/@anchors.6/@link //@children.2/@anchors.7/@link //@children.2/@anchors.8/@link //@children.2/@anchors.9/@link //@children.2/@anchors.10/@link //@children.1/@anchors.0/@link //@children.1/@anchors.1/@link //@children.1/@anchors.2/@link //@children.1/@anchors.3/@link //@children.1/@anchors.4/@link //@children.1/@anchors.5/@link //@children.1/@anchors.6/@link //@children.1/@anchors.7/@link //@children.1/@anchors.8/@link //@children.1/@anchors.9/@link //@children.1/@anchors.10/@link //@children.0/@anchors.0/@link //@children.0/@anchors.1/@link //@children.0/@anchors.2/@link //@children.0/@anchors.3/@link //@children.0/@anchors.4/@link //@children.0/@anchors.5/@link //@children.0/@anchors.6/@link //@children.0/@anchors.7/@link //@children.0/@anchors.8/@link //@children.0/@anchors.9/@link //@children.0/@anchors.10/@link //@children.17/@link //@children.18/@link //@children.19/@link //@connections.30/@link //@connections.31/@link //@connections.32/@link" version="0.10.0">
   <properties key="xdf_diagram_version" value="1"/>
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
@@ -8,52 +8,56 @@
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="158" height="180" x="359" y="798" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="158" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_y">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="157" height="189" x="374" y="822" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="157" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_y">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
       <graphicsAlgorithmChildren xsi:type="al:Polyline" lineWidth="1" lineStyle="UNSPECIFIED">
         <properties key="XDF_ID" value="INSTANCE_SEPARATOR"/>
         <points y="40"/>
-        <points x="158" y="40"/>
+        <points x="157" y="40"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="58" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="73" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="75" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="88" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="91" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="103" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="107" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="118" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="123" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="133" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="139" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="148" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="155" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="163" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="171" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+        <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
+        <properties key="SHAPE_DIRECTION" value="output"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="VID">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="output"/>
       </graphicsAlgorithmChildren>
@@ -69,7 +73,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.0"/>
       </link>
-      <location y="48"/>
+      <location y="50"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -79,7 +83,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.1"/>
       </link>
-      <location y="63"/>
+      <location y="66"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -89,7 +93,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.2"/>
       </link>
-      <location y="78"/>
+      <location y="82"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -99,7 +103,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.3"/>
       </link>
-      <location y="93"/>
+      <location y="98"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -109,7 +113,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.4"/>
       </link>
-      <location y="108"/>
+      <location y="114"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -119,7 +123,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.5"/>
       </link>
-      <location y="123"/>
+      <location y="130"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -129,7 +133,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.6"/>
       </link>
-      <location y="138"/>
+      <location y="146"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -139,7 +143,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.7"/>
       </link>
-      <location y="153"/>
+      <location y="162"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -149,7 +153,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@inputs.8"/>
       </link>
-      <location y="168"/>
+      <location y="178"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.27" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -159,58 +163,72 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@outputs.0"/>
       </link>
-      <location x="158" y="48"/>
+      <location x="157" y="50"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.32" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="XDF_ID" value="INSTANCE_PORT"/>
+      <properties key="REF_PORT_NAME" value="VID"/>
+      <properties key="SHAPE_DIRECTION" value="output"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="13" height="12" x="-12" y="-6" style="//@styles.0/@styles.1"/>
+      <link>
+        <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferLuma.ir#//@outputs.1"/>
+      </link>
+      <location x="157" y="66"/>
     </anchors>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="158" height="180" x="359" y="588" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="158" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_u">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="157" height="189" x="374" y="603" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="157" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_u">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
       <graphicsAlgorithmChildren xsi:type="al:Polyline" lineWidth="1" lineStyle="UNSPECIFIED">
         <properties key="XDF_ID" value="INSTANCE_SEPARATOR"/>
         <points y="40"/>
-        <points x="158" y="40"/>
+        <points x="157" y="40"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="58" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="73" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="75" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="88" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="91" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="103" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="107" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="118" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="123" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="133" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="139" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="148" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="155" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="163" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="171" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+        <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
+        <properties key="SHAPE_DIRECTION" value="output"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="VID">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="output"/>
       </graphicsAlgorithmChildren>
@@ -226,7 +244,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.0"/>
       </link>
-      <location y="48"/>
+      <location y="50"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.10" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -236,7 +254,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.1"/>
       </link>
-      <location y="63"/>
+      <location y="66"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.11" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -246,7 +264,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.2"/>
       </link>
-      <location y="78"/>
+      <location y="82"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.12" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -256,7 +274,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.3"/>
       </link>
-      <location y="93"/>
+      <location y="98"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.13" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -266,7 +284,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.4"/>
       </link>
-      <location y="108"/>
+      <location y="114"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.14" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -276,7 +294,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.5"/>
       </link>
-      <location y="123"/>
+      <location y="130"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.15" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -286,7 +304,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.6"/>
       </link>
-      <location y="138"/>
+      <location y="146"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.16" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -296,7 +314,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.7"/>
       </link>
-      <location y="153"/>
+      <location y="162"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.17" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -306,7 +324,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.8"/>
       </link>
-      <location y="168"/>
+      <location y="178"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.28" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -316,58 +334,72 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@outputs.0"/>
       </link>
-      <location x="158" y="48"/>
+      <location x="157" y="50"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.31" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="XDF_ID" value="INSTANCE_PORT"/>
+      <properties key="REF_PORT_NAME" value="VID"/>
+      <properties key="SHAPE_DIRECTION" value="output"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="13" height="12" x="-12" y="-6" style="//@styles.0/@styles.1"/>
+      <link>
+        <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@outputs.1"/>
+      </link>
+      <location x="157" y="66"/>
     </anchors>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="158" height="180" x="359" y="12" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="158" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_v">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="157" height="189" x="374" y="27" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="157" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_v">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
       <graphicsAlgorithmChildren xsi:type="al:Polyline" lineWidth="1" lineStyle="UNSPECIFIED">
         <properties key="XDF_ID" value="INSTANCE_SEPARATOR"/>
         <points y="40"/>
-        <points x="158" y="40"/>
+        <points x="157" y="40"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsBiPredOrLx">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="58" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="IsReadOrNewSlc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="73" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="75" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Mv">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="88" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="91" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PicSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="103" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="107" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Poc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="118" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="123" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PocRef">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="133" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="139" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="PredCuSize">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="148" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="155" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="RpsPoc">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="163" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="171" style="//@styles.1/@styles.1" verticalAlignment="UNSPECIFIED" value="Sample">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="input"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="130" height="13" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="RefSample">
+        <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
+        <properties key="SHAPE_DIRECTION" value="output"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="14" x="14" y="59" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="VID">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="output"/>
       </graphicsAlgorithmChildren>
@@ -383,7 +415,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.0"/>
       </link>
-      <location y="48"/>
+      <location y="50"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.19" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -393,7 +425,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.1"/>
       </link>
-      <location y="63"/>
+      <location y="66"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.20" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -403,7 +435,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.2"/>
       </link>
-      <location y="78"/>
+      <location y="82"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.21" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -413,7 +445,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.3"/>
       </link>
-      <location y="93"/>
+      <location y="98"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.22" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -423,7 +455,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.4"/>
       </link>
-      <location y="108"/>
+      <location y="114"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.23" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -433,7 +465,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.5"/>
       </link>
-      <location y="123"/>
+      <location y="130"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.24" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -443,7 +475,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.6"/>
       </link>
-      <location y="138"/>
+      <location y="146"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.25" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -453,7 +485,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.7"/>
       </link>
-      <location y="153"/>
+      <location y="162"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.26" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -463,7 +495,7 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@inputs.8"/>
       </link>
-      <location y="168"/>
+      <location y="178"/>
     </anchors>
     <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.29" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
@@ -473,12 +505,22 @@
       <link>
         <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@outputs.0"/>
       </link>
-      <location x="158" y="48"/>
+      <location x="157" y="50"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.30" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="XDF_ID" value="INSTANCE_PORT"/>
+      <properties key="REF_PORT_NAME" value="VID"/>
+      <properties key="SHAPE_DIRECTION" value="output"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="13" height="12" x="-12" y="-6" style="//@styles.0/@styles.1"/>
+      <link>
+        <businessObjects href="../../../../../../../bin/org/ietr/mpegh/part2/main/inter/DecodingPictureBufferChroma.ir#//@outputs.1"/>
+      </link>
+      <location x="157" y="66"/>
     </anchors>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="47" height="50" x="21" y="949">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="47" height="50" x="21" y="983">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="9" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -496,7 +538,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="63" height="50" x="13" y="227">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="63" height="50" x="13" y="252">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="17" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -514,7 +556,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="90" height="50" y="291">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="90" height="50" y="316">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="30" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -532,7 +574,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="30" y="355">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="30" y="380">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -550,7 +592,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="37" height="50" x="26" y="419">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="37" height="50" x="26" y="444">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="4" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -568,7 +610,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="30" y="483">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="30" y="508">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -586,7 +628,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="35" height="50" x="27" y="547">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="35" height="50" x="27" y="572">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="3" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -604,7 +646,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="57" height="50" x="16" y="611">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="57" height="50" x="16" y="636">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="14" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -622,7 +664,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="37" height="50" x="26" y="675">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="37" height="50" x="26" y="700">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="4" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -640,7 +682,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="48" height="50" x="21" y="739">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="48" height="50" x="21" y="764">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="9" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -658,7 +700,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="IN_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="47" height="50" x="21" y="163">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="47" height="50" x="21" y="188">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="9" style="//@styles.0/@styles.3">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points y="17"/>
@@ -676,7 +718,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="OUT_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="64" height="50" x="531" y="829">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="64" height="50" x="545" y="807">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="17" style="//@styles.0/@styles.4">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points/>
@@ -694,7 +736,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="OUT_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="65" height="50" x="530" y="619">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="65" height="50" x="544" y="588">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="18" style="//@styles.0/@styles.4">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points/>
@@ -712,7 +754,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="OUT_PORT"/>
-    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="64" height="50" x="531" y="43">
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="64" height="50" x="545" y="12">
       <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" x="17" style="//@styles.0/@styles.4">
         <properties key="XDF_ID" value="PORT_SHAPE"/>
         <points/>
@@ -727,6 +769,60 @@
       <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@outputs.RefSample_v"/>
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.29"/>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="XDF_ID" value="OUT_PORT"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="562" y="871">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" style="//@styles.0/@styles.4">
+        <properties key="XDF_ID" value="PORT_SHAPE"/>
+        <points/>
+        <points y="34"/>
+        <points x="29" y="17"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="29" height="14" y="38" style="//@styles.1/@styles.2" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="vid_y">
+        <properties key="XDF_ID" value="PORT_LABEL"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@outputs.vid_y"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.32"/>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="XDF_ID" value="OUT_PORT"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="562" y="652">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" style="//@styles.0/@styles.4">
+        <properties key="XDF_ID" value="PORT_SHAPE"/>
+        <points/>
+        <points y="34"/>
+        <points x="29" y="17"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="29" height="14" y="38" style="//@styles.1/@styles.2" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="vid_u">
+        <properties key="XDF_ID" value="PORT_LABEL"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@outputs.vid_u"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.31"/>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="XDF_ID" value="OUT_PORT"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="29" height="50" x="562" y="76">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="29" height="34" style="//@styles.0/@styles.4">
+        <properties key="XDF_ID" value="PORT_SHAPE"/>
+        <points/>
+        <points y="34"/>
+        <points x="29" y="17"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="29" height="14" y="38" style="//@styles.1/@styles.2" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="vid_v">
+        <properties key="XDF_ID" value="PORT_LABEL"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@outputs.vid_v"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.30"/>
   </children>
   <styles lineWidth="1" lineVisible="true" transparency="0.0" id="COMMON_GENERIC" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
     <styles lineStyle="UNSPECIFIED" filled="true" id="INSTANCE" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
@@ -845,8 +941,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="329" y="253"/>
-    <bendpoints x="329" y="846"/>
+    <bendpoints x="329" y="278"/>
+    <bendpoints x="329" y="872"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.5/@anchors.0" end="//@children.0/@anchors.1">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -860,8 +956,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="299" y="317"/>
-    <bendpoints x="299" y="861"/>
+    <bendpoints x="284" y="342"/>
+    <bendpoints x="284" y="888"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.0/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -875,8 +971,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="269" y="381"/>
-    <bendpoints x="269" y="876"/>
+    <bendpoints x="239" y="406"/>
+    <bendpoints x="239" y="904"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.7/@anchors.0" end="//@children.0/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -890,8 +986,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="239" y="445"/>
-    <bendpoints x="239" y="891"/>
+    <bendpoints x="194" y="470"/>
+    <bendpoints x="194" y="920"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.0/@anchors.4">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -905,8 +1001,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="194" y="509"/>
-    <bendpoints x="194" y="906"/>
+    <bendpoints x="164" y="534"/>
+    <bendpoints x="164" y="936"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.9/@anchors.0" end="//@children.0/@anchors.5">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -920,8 +1016,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="134" y="573"/>
-    <bendpoints x="134" y="921"/>
+    <bendpoints x="134" y="598"/>
+    <bendpoints x="134" y="952"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.10/@anchors.0" end="//@children.0/@anchors.6">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -935,8 +1031,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="104" y="637"/>
-    <bendpoints x="104" y="936"/>
+    <bendpoints x="104" y="662"/>
+    <bendpoints x="104" y="968"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.11/@anchors.0" end="//@children.0/@anchors.7">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -950,8 +1046,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="74" y="701"/>
-    <bendpoints x="74" y="951"/>
+    <bendpoints x="74" y="726"/>
+    <bendpoints x="74" y="984"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.0" end="//@children.0/@anchors.8">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -978,8 +1074,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="344" y="244"/>
-    <bendpoints x="344" y="636"/>
+    <bendpoints x="359" y="269"/>
+    <bendpoints x="359" y="653"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.5/@anchors.0" end="//@children.1/@anchors.1">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -993,8 +1089,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="314" y="308"/>
-    <bendpoints x="314" y="651"/>
+    <bendpoints x="314" y="333"/>
+    <bendpoints x="314" y="669"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.1/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1008,8 +1104,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="284" y="372"/>
-    <bendpoints x="284" y="666"/>
+    <bendpoints x="269" y="397"/>
+    <bendpoints x="269" y="685"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.7/@anchors.0" end="//@children.1/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1023,8 +1119,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="254" y="436"/>
-    <bendpoints x="254" y="681"/>
+    <bendpoints x="224" y="461"/>
+    <bendpoints x="224" y="701"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.1/@anchors.4">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1038,8 +1134,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="224" y="500"/>
-    <bendpoints x="224" y="696"/>
+    <bendpoints x="179" y="525"/>
+    <bendpoints x="179" y="717"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.9/@anchors.0" end="//@children.1/@anchors.5">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1053,8 +1149,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="179" y="564"/>
-    <bendpoints x="179" y="711"/>
+    <bendpoints x="149" y="589"/>
+    <bendpoints x="149" y="733"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.10/@anchors.0" end="//@children.1/@anchors.6">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1068,8 +1164,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="119" y="628"/>
-    <bendpoints x="119" y="726"/>
+    <bendpoints x="119" y="653"/>
+    <bendpoints x="119" y="749"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.11/@anchors.0" end="//@children.1/@anchors.7">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1083,8 +1179,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="89" y="692"/>
-    <bendpoints x="89" y="741"/>
+    <bendpoints x="89" y="717"/>
+    <bendpoints x="89" y="765"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.12/@anchors.0" end="//@children.1/@anchors.8">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1111,8 +1207,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="74" y="236"/>
-    <bendpoints x="74" y="60"/>
+    <bendpoints x="74" y="261"/>
+    <bendpoints x="74" y="77"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.5/@anchors.0" end="//@children.2/@anchors.1">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1126,8 +1222,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="89" y="300"/>
-    <bendpoints x="89" y="75"/>
+    <bendpoints x="89" y="325"/>
+    <bendpoints x="89" y="93"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.2/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1141,8 +1237,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="104" y="364"/>
-    <bendpoints x="104" y="90"/>
+    <bendpoints x="104" y="389"/>
+    <bendpoints x="104" y="109"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.7/@anchors.0" end="//@children.2/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1156,8 +1252,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="119" y="428"/>
-    <bendpoints x="119" y="105"/>
+    <bendpoints x="119" y="453"/>
+    <bendpoints x="119" y="125"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.2/@anchors.4">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1171,8 +1267,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="134" y="492"/>
-    <bendpoints x="134" y="120"/>
+    <bendpoints x="209" y="517"/>
+    <bendpoints x="209" y="141"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.9/@anchors.0" end="//@children.2/@anchors.5">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1186,8 +1282,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="149" y="556"/>
-    <bendpoints x="149" y="135"/>
+    <bendpoints x="254" y="581"/>
+    <bendpoints x="254" y="157"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.10/@anchors.0" end="//@children.2/@anchors.6">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1201,8 +1297,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="164" y="620"/>
-    <bendpoints x="164" y="150"/>
+    <bendpoints x="299" y="645"/>
+    <bendpoints x="299" y="173"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.11/@anchors.0" end="//@children.2/@anchors.7">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1216,8 +1312,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="209" y="684"/>
-    <bendpoints x="209" y="165"/>
+    <bendpoints x="344" y="709"/>
+    <bendpoints x="344" y="189"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.13/@anchors.0" end="//@children.2/@anchors.8">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1244,6 +1340,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
+    <bendpoints x="547" y="872"/>
+    <bendpoints x="547" y="824"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.1/@anchors.9" end="//@children.15/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
@@ -1257,11 +1355,54 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
+    <bendpoints x="547" y="653"/>
+    <bendpoints x="547" y="605"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.9" end="//@children.16/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
     <link>
       <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@connections:DPB_v.RefSample-RefSample_v"/>
+    </link>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.5">
+        <points/>
+        <points x="-12" y="5"/>
+        <points x="-12" y="-5"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <bendpoints x="547" y="77"/>
+    <bendpoints x="547" y="29"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.10" end="//@children.19/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@connections:DPB_v.VID-vid_v"/>
+    </link>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.5">
+        <points/>
+        <points x="-12" y="5"/>
+        <points x="-12" y="-5"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.1/@anchors.10" end="//@children.18/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@connections:DPB_u.VID-vid_u"/>
+    </link>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.5">
+        <points/>
+        <points x="-12" y="5"/>
+        <points x="-12" y="-5"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.10" end="//@children.17/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.5"/>
+    <link>
+      <businessObjects href="DecodingPictureBuffer_yuv.xdf#//@connections:DPB_y.VID-vid_y"/>
     </link>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.5">
