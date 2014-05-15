@@ -180,9 +180,6 @@
     <Connection dst="SAOFilter" dst-port="SaoSe_y" src="Algo_Parser" src-port="SaoSeLuma"/>
     <Connection dst="SAOFilter" dst-port="SaoSe_u" src="Algo_Parser" src-port="SaoSeChromaU"/>
     <Connection dst="SAOFilter" dst-port="SaoSe_v" src="Algo_Parser" src-port="SaoSeChromaV"/>
-    <Connection dst="Merger" dst-port="Y" src="SAOFilter" src-port="Out_y"/>
-    <Connection dst="Merger" dst-port="U" src="SAOFilter" src-port="Out_u"/>
-    <Connection dst="Merger" dst-port="V" src="SAOFilter" src-port="Out_v"/>
     <Connection dst="DBFilter" dst-port="Samp_y" src="Select" src-port="Out_y"/>
     <Connection dst="DBFilter" dst-port="Samp_u" src="Select" src-port="Out_u"/>
     <Connection dst="DBFilter" dst-port="Samp_v" src="Select" src-port="Out_v"/>
@@ -214,4 +211,7 @@
     <Connection dst="Select" dst-port="Residual_y" src="xIT" src-port="Block_y"/>
     <Connection dst="Select" dst-port="Residual_u" src="xIT" src-port="Block_u"/>
     <Connection dst="Select" dst-port="Residual_v" src="xIT" src-port="Block_v"/>
+    <Connection dst="Merger" dst-port="Y" src="DPB" src-port="vid_y"/>
+    <Connection dst="Merger" dst-port="U" src="DPB" src-port="vid_u"/>
+    <Connection dst="Merger" dst-port="V" src="DPB" src-port="vid_v"/>
 </XDF>

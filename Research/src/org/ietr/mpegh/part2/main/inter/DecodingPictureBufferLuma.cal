@@ -74,7 +74,8 @@ actor DecodingPictureBufferLuma ()
 	int (size=16) RpsPoc,
 	uint(size=8)  Sample
 		==>
-	uint(size=8)  RefSample
+	uint(size=8)  RefSample,
+	uint(size=8)  VID
 		:
 
 
@@ -183,7 +184,9 @@ actor DecodingPictureBufferLuma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 	end
-uint pictNum;
+	
+	uint pictNum;
+	
 	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
@@ -277,7 +280,7 @@ uint pictNum;
   	      xPixIdx,
   	      yPixIdx,
   	      lastIdx);
-
+  	    
 		xIdx := xIdx + 1;
 		if(xIdx = picSizeInCu[0]) then
 			xIdx := 0;
@@ -288,6 +291,45 @@ uint pictNum;
 	/* When we get the picture we add the border (in order to be able to give a
 	 * reference pixels which can be outside of the picture).
 	 */
+	 
+	bool pocDone[1000] := [false : for int i in 0 .. 16];
+	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
+	uint currentPoc := 0;
+	uint sendx := 0;
+	uint sendy := 0;
+	
+	action ==> VID:[CU] repeat 16*16
+	guard
+		sendy < picSizeInCu[1],
+		pocDone[currentPoc] = true
+	var
+		uint (size=8) CU[16*16]
+	do
+		foreach int i in 0 .. 15 do	
+			foreach int j in 0 .. 15 do
+				CU[i*16 + j] := pictureBuffer[pocToIndex[currentPoc]][BORDER_SIZE + sendy * 16 + i ][BORDER_SIZE + sendx * 16 + j];
+			end
+		end
+			
+		sendx := sendx + 1;
+		if(sendx = picSizeInCu[0]) then
+			sendx := 0;
+			sendy := sendy + 1;
+		end
+	end
+	
+	action ==>
+	guard
+		sendy = picSizeInCu[1],
+		pocDone[currentPoc] = true
+	do
+		sendx := 0;
+		sendy := 0;
+		pocDone[currentPoc] := false;
+		currentPoc := currentPoc + 1;
+		
+	end
+	
 	getCuPix.done: action ==>
 	guard
 		yIdx = picSizeInCu[1]
@@ -302,6 +344,12 @@ uint pictNum;
 			xSize,
 			ySize,
 			BORDER_SIZE);
+			
+			pocDone[pocRef[lastIdx]] := true;
+			pocToIndex[pocRef[lastIdx]] := lastIdx;
+		if pocRef[lastIdx] < currentPoc then
+				currentPoc := 0;
+		end
 	end
 
 	getReadAddr: action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>

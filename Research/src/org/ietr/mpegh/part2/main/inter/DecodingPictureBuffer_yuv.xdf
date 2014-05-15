@@ -98,6 +98,27 @@
             </Entry>
         </Type>
     </Port>
+    <Port kind="Output" name="vid_y">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="vid_u">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="vid_v">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
     <Instance id="DPB_y">
         <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferLuma"/>
     </Instance>
@@ -137,4 +158,7 @@
     <Connection dst="" dst-port="RefSample_y" src="DPB_y" src-port="RefSample"/>
     <Connection dst="" dst-port="RefSample_u" src="DPB_u" src-port="RefSample"/>
     <Connection dst="" dst-port="RefSample_v" src="DPB_v" src-port="RefSample"/>
+    <Connection dst="" dst-port="vid_v" src="DPB_v" src-port="VID"/>
+    <Connection dst="" dst-port="vid_u" src="DPB_u" src-port="VID"/>
+    <Connection dst="" dst-port="vid_y" src="DPB_y" src-port="VID"/>
 </XDF>
