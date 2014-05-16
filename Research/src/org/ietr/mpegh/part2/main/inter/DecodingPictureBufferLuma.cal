@@ -62,7 +62,7 @@ import std.util.Math.*;
 import devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
 
 import org.ietr.mpegh.part2.main.inter.DecodingPictureBufferFunctions.*;
-
+//@DEBUG
 actor DecodingPictureBufferLuma ()
 	uint(size=2)  IsBiPredOrLx,
 	uint(size=1)  IsReadOrNewSlc,
@@ -172,25 +172,27 @@ actor DecodingPictureBufferLuma ()
 			end
 		end
     end
-
+	
 	/** Getting informations from new slice/picture. Updating these informations **/
-	isNewSlice: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
+	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
 		/* Fix me : We should know when there is a new picture */
-		isRead = 0 and if(currIdx = -1) then false else poc = pocRef[currIdx]end
+		idx = 3, isRead = 0 and if(currIdx = -1) then false else poc = pocRef[currIdx]end
 	do
 		isNewPicture := false;
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		idx := 4;
 	end
 	
 	uint pictNum;
+	int idx := 0;
 	
-	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
+	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
-		isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
+		(idx = 0 or idx = 3), isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
 	do
 //		println("Dpb ; Pict num "+pictNum);
 		pictNum := pictNum + 1;
@@ -212,21 +214,33 @@ actor DecodingPictureBufferLuma ()
 		isNewPicture    := true;
 		nbList          := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		
+		if idx = 0 then
+			idx := 1;
+		else
+			idx := 4;
+		end
 	end
 
 	/** We get all the references from the 5 lists of the Rps
 	 * (StCurrentBefore, StCurrentAfter, StFollowing, LtCurrent, LtFollowing)
 	 **/
-	getRps.launch: action RpsPoc:[numPic]==>
+	action RpsPoc:[numPic]==>
 	guard
-		nbList < 5
+		(idx = 1 or idx = 4), nbList < 5
 	do
 		sizeOfList := numPic;
+		
+		if idx = 1 then
+			idx := 2;
+		else
+			idx := 5;
+		end
 	end
 
-	getRps.done: action ==>
+	action ==>
 	guard
-		nbList = 5
+		(idx = 1 or idx = 4), nbList = 5
 	do
 		/* We remove from the Dpb all the pictures who are not in the Rps of
 		 * the current picture
@@ -236,14 +250,20 @@ actor DecodingPictureBufferLuma ()
 			isRef[i] := isRef[i] and isStillRef[i];
 		end
 		isRef[currIdx] := true;
+		
+		if idx = 1 then
+			idx := 3;
+		else
+			idx := 6;
+		end
 	end
 
 	/** For each we check the index of the reference poc
 	 * (in order to not remove them from the Dpb).
 	 **/
-	getRpsPoc.launch: action RpsPoc:[pocVal] ==>
+	action RpsPoc:[pocVal] ==>
 	guard
-		sizeOfList > 0
+		(idx = 2 or idx = 5), sizeOfList > 0
 	do
 		sizeOfList := sizeOfList - 1;
 		foreach int i in 0 .. DPB_SIZE - 1
@@ -254,19 +274,24 @@ actor DecodingPictureBufferLuma ()
 		end
 	end
 
-	getRpsPoc.done: action ==>
+	action ==>
 	guard
-		sizeOfList = 0
+		(idx = 2 or idx = 5), sizeOfList = 0
 	do
 		nbList := nbList + 1;
+		if idx = 2 then
+			idx := 1;
+		else
+			idx := 4;
+		end
 	end
 
 	/* We get the whole Cu decoded (luma and chroma components) and we save
 	 * it in the Dpb (pictureBuffer).
 	 */
-	getCuPix.launch: action Sample:[samp] repeat 16*16 ==>
+	action Sample:[samp] repeat 16*16 ==>
 	guard
-		yIdx < picSizeInCu[1]
+		idx = 7, yIdx < picSizeInCu[1]
 	var
 		int xPixIdx,
 		int yPixIdx
@@ -300,6 +325,7 @@ actor DecodingPictureBufferLuma ()
 	
 	action ==> VID:[CU] repeat 16*16
 	guard
+		idx = 3,
 		sendy < picSizeInCu[1],
 		pocDone[currentPoc] = true
 	var
@@ -320,6 +346,7 @@ actor DecodingPictureBufferLuma ()
 	
 	action ==>
 	guard
+		idx = 3,
 		sendy = picSizeInCu[1],
 		pocDone[currentPoc] = true
 	do
@@ -330,9 +357,9 @@ actor DecodingPictureBufferLuma ()
 		
 	end
 	
-	getCuPix.done: action ==>
+	action ==>
 	guard
-		yIdx = picSizeInCu[1]
+		idx = 7, yIdx = picSizeInCu[1]
 	var
 		int xSize := picSize[0],
 		int ySize := picSize[1]
@@ -350,11 +377,12 @@ actor DecodingPictureBufferLuma ()
 		if pocRef[lastIdx] < currentPoc then
 				currentPoc := 0;
 		end
+		idx := 3;
 	end
 
-	getReadAddr: action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
+	action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
 	guard
-		isRead = 1
+		idx = 3, isRead = 1
 	do
 		numPocRef :=
 			if(isBiPredOrLx = BI_PRED) then
@@ -362,15 +390,16 @@ actor DecodingPictureBufferLuma ()
 			else
 				1
 			end;
+		idx := 8;
 	end
 
 	/* We get all the informations needed for sending the reference Cu. We save
 	 * these samples in RefCu, it will be sent with the actions sendCu.isYxY
 	 */
-	getMvInfo.launch.is64: action PocRef:[poc], PredCuSize:[predCuSize],
+	action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[RefCu] repeat (64+7)*(64+7)
 	guard
-		numPocRef != 0 && predCuSize = 64
+		idx = 8, numPocRef != 0 && predCuSize = 64
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -412,10 +441,10 @@ actor DecodingPictureBufferLuma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	getMvInfo.launch.is32: action PocRef:[poc], PredCuSize:[predCuSize],
+	action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[RefCu] repeat (32+7)*(32+7)
 	guard
-		numPocRef != 0 && predCuSize = 32
+		idx = 8, numPocRef != 0 && predCuSize = 32
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -457,10 +486,10 @@ actor DecodingPictureBufferLuma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	getMvInfo.launch.is16: action PocRef:[poc], PredCuSize:[predCuSize],
+	action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[RefCu] repeat (16+7)*(16+7)
 	guard
-		numPocRef != 0 && predCuSize = 16
+		idx = 8, numPocRef != 0 && predCuSize = 16
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -502,10 +531,10 @@ actor DecodingPictureBufferLuma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	getMvInfo.launch.is8: action PocRef:[poc], PredCuSize:[predCuSize],
+	action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[RefCu] repeat (8+7)*(8+7)
 	guard
-		numPocRef != 0 && predCuSize = 8
+		idx = 8, numPocRef != 0 && predCuSize = 8
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -547,10 +576,10 @@ actor DecodingPictureBufferLuma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	getMvInfo.launch.is4: action PocRef:[poc], PredCuSize:[predCuSize],
+	action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat (4+7)*(4+7)
 	guard
-		numPocRef != 0 && predCuSize = 4
+		idx = 8, numPocRef != 0 && predCuSize = 4
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -593,47 +622,54 @@ actor DecodingPictureBufferLuma ()
 	end
 	
 	
-	getMvInfo.done: action ==>
+	action ==>
 	guard
+		idx = 8,
 		numPocRef = 0
+	do
+		idx := 3;
 	end
 
-	checkIsNewPict.isTrue: action ==>
+	action ==>
 	guard
-		isNewPicture
+		idx = 6, isNewPicture
+	do
+		idx := 7;
 	end
 
-	checkIsNewPict.isFalse: action ==>
+	action ==>
 	guard
-		not isNewPicture
+		idx = 6, not isNewPicture
+	do
+		idx := 3;
 	end
 
-	schedule fsm IsFirstNewPic:
-		IsFirstNewPic (isNewPict )--> GetFirstRps;
-
-		GetFirstRps (getRps.launch )--> GetRpsFirstPoc;
-		GetFirstRps (getRps.done   )--> IsNewSlice;
-
-		GetRpsFirstPoc (getRpsPoc.launch )--> GetRpsFirstPoc;
-		GetRpsFirstPoc (getRpsPoc.done   )--> GetFirstRps;
-
-		IsNewSlice (isNewPict   )--> GetRps;
-		IsNewSlice (isNewSlice  )--> GetRps;
-		IsNewSlice (getReadAddr )--> GetMvInfo;
-
-		GetRps (getRps.launch )--> GetRpsPoc;
-		GetRps (getRps.done   )--> CheckIsNewPict;
-
-		GetRpsPoc (getRpsPoc.launch )--> GetRpsPoc;
-		GetRpsPoc (getRpsPoc.done   )--> GetRps;
-
-		CheckIsNewPict (checkIsNewPict.isTrue  )--> GetCuPix;
-		CheckIsNewPict (checkIsNewPict.isFalse )--> IsNewSlice;
-
-		GetCuPix (getCuPix.launch )--> GetCuPix;
-		GetCuPix (getCuPix.done   )--> IsNewSlice;
-
-		GetMvInfo (getMvInfo.launch )--> GetMvInfo;
-		GetMvInfo (getMvInfo.done   )--> IsNewSlice;
-	end
+//	schedule fsm IsFirstNewPic:
+//		IsFirstNewPic (isNewPict )--> GetFirstRps;
+//
+//		GetFirstRps (getRps.launch )--> GetRpsFirstPoc;
+//		GetFirstRps (getRps.done   )--> IsNewSlice;
+//
+//		GetRpsFirstPoc (getRpsPoc.launch )--> GetRpsFirstPoc;
+//		GetRpsFirstPoc (getRpsPoc.done   )--> GetFirstRps;
+//
+//		IsNewSlice (isNewPict   )--> GetRps;
+//		IsNewSlice (isNewSlice  )--> GetRps;
+//		IsNewSlice (getReadAddr )--> GetMvInfo;
+//
+//		GetRps (getRps.launch )--> GetRpsPoc;
+//		GetRps (getRps.done   )--> CheckIsNewPict;
+//
+//		GetRpsPoc (getRpsPoc.launch )--> GetRpsPoc;
+//		GetRpsPoc (getRpsPoc.done   )--> GetRps;
+//
+//		CheckIsNewPict (checkIsNewPict.isTrue  )--> GetCuPix;
+//		CheckIsNewPict (checkIsNewPict.isFalse )--> IsNewSlice;
+//
+//		GetCuPix (getCuPix.launch )--> GetCuPix;
+//		GetCuPix (getCuPix.done   )--> IsNewSlice;
+//
+//		GetMvInfo (getMvInfo.launch )--> GetMvInfo;
+//		GetMvInfo (getMvInfo.done   )--> IsNewSlice;
+//	end
 end
