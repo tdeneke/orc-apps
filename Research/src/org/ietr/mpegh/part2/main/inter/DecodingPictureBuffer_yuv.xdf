@@ -77,6 +77,83 @@
             </Entry>
         </Type>
     </Port>
+    <Port kind="Input" name="IsBiPredOrLx2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="2"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="IsReadOrNewSlice2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="1"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Mv2">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="PicSize2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Poc2">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="PocRef2">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="PredCuSize2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="7"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="RpsPoc2">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_v2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_y2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_u2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
     <Port kind="Output" name="RefSample_y">
         <Type name="uint">
             <Entry kind="Expr" name="size">
@@ -113,6 +190,27 @@
         </Type>
     </Port>
     <Port kind="Output" name="vid_v">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefSample_v2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefSample_u2">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefSample_y2">
         <Type name="uint">
             <Entry kind="Expr" name="size">
                 <Expr kind="Literal" literal-kind="Integer" value="8"/>
@@ -161,4 +259,34 @@
     <Connection dst="" dst-port="vid_v" src="DPB_v" src-port="VID"/>
     <Connection dst="" dst-port="vid_u" src="DPB_u" src-port="VID"/>
     <Connection dst="" dst-port="vid_y" src="DPB_y" src-port="VID"/>
+    <Connection dst="" dst-port="RefSample_v2" src="DPB_v" src-port="RefSample2"/>
+    <Connection dst="" dst-port="RefSample_u2" src="DPB_u" src-port="RefSample2"/>
+    <Connection dst="" dst-port="RefSample_y2" src="DPB_y" src-port="RefSample2"/>
+    <Connection dst="DPB_v" dst-port="Sample2" src="" src-port="Sample_v2"/>
+    <Connection dst="DPB_u" dst-port="Sample2" src="" src-port="Sample_u2"/>
+    <Connection dst="DPB_y" dst-port="Sample2" src="" src-port="Sample_y2"/>
+    <Connection dst="DPB_v" dst-port="IsBiPredOrLx2" src="" src-port="IsBiPredOrLx2"/>
+    <Connection dst="DPB_v" dst-port="IsReadOrNewSlc2" src="" src-port="IsReadOrNewSlice2"/>
+    <Connection dst="DPB_v" dst-port="Mv2" src="" src-port="Mv2"/>
+    <Connection dst="DPB_v" dst-port="PicSize2" src="" src-port="PicSize2"/>
+    <Connection dst="DPB_v" dst-port="Poc2" src="" src-port="Poc2"/>
+    <Connection dst="DPB_v" dst-port="PocRef2" src="" src-port="PocRef2"/>
+    <Connection dst="DPB_v" dst-port="PredCuSize2" src="" src-port="PredCuSize2"/>
+    <Connection dst="DPB_v" dst-port="RpsPoc2" src="" src-port="RpsPoc2"/>
+    <Connection dst="DPB_u" dst-port="IsBiPredOrLx2" src="" src-port="IsBiPredOrLx2"/>
+    <Connection dst="DPB_u" dst-port="IsReadOrNewSlc2" src="" src-port="IsReadOrNewSlice2"/>
+    <Connection dst="DPB_u" dst-port="Mv2" src="" src-port="Mv2"/>
+    <Connection dst="DPB_u" dst-port="PicSize2" src="" src-port="PicSize2"/>
+    <Connection dst="DPB_u" dst-port="Poc2" src="" src-port="Poc2"/>
+    <Connection dst="DPB_u" dst-port="PocRef2" src="" src-port="PocRef2"/>
+    <Connection dst="DPB_u" dst-port="PredCuSize2" src="" src-port="PredCuSize2"/>
+    <Connection dst="DPB_u" dst-port="RpsPoc2" src="" src-port="RpsPoc2"/>
+    <Connection dst="DPB_y" dst-port="IsBiPredOrLx2" src="" src-port="IsBiPredOrLx2"/>
+    <Connection dst="DPB_y" dst-port="IsReadOrNewSlc2" src="" src-port="IsReadOrNewSlice2"/>
+    <Connection dst="DPB_y" dst-port="Mv2" src="" src-port="Mv2"/>
+    <Connection dst="DPB_y" dst-port="PicSize2" src="" src-port="PicSize2"/>
+    <Connection dst="DPB_y" dst-port="Poc2" src="" src-port="Poc2"/>
+    <Connection dst="DPB_y" dst-port="PocRef2" src="" src-port="PocRef2"/>
+    <Connection dst="DPB_y" dst-port="PredCuSize2" src="" src-port="PredCuSize2"/>
+    <Connection dst="DPB_y" dst-port="RpsPoc2" src="" src-port="RpsPoc2"/>
 </XDF>

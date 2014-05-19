@@ -18,14 +18,77 @@
             <Expr kind="Literal" literal-kind="Integer" value="0"/>
         </Parameter>
     </Instance>
-    <Instance id="check_MD5">
-        <Class name="devel.org.sc29.wg11.mpegh.part2.common.MD5Net"/>
+    <Instance id="HevcDecoder_2">
+        <Class name="org.ietr.mpegh.part2.HEVCDecoderInter"/>
+        <Parameter name="TILE_SPLIT_ENABLE">
+            <Expr kind="Literal" literal-kind="Integer" value="0"/>
+        </Parameter>
+        <Parameter name="TILE_INDEX">
+            <Expr kind="Literal" literal-kind="Integer" value="0"/>
+        </Parameter>
+    </Instance>
+    <Instance id="DPB_FrameBase">
+        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBuffer_yuv"/>
+    </Instance>
+    <Instance id="Merger">
+        <Class name="org.ietr.mpegh.part2.common.MergeYUV"/>
     </Instance>
     <Connection dst="HevcDecoder" dst-port="BYTE" src="Source" src-port="O"/>
     <Connection dst="display" dst-port="DispCoord" src="HevcDecoder" src-port="DispCoord"/>
     <Connection dst="display" dst-port="PicSizeInMb" src="HevcDecoder" src-port="SIZE"/>
-    <Connection dst="display" dst-port="Byte" src="HevcDecoder" src-port="VID"/>
-    <Connection dst="check_MD5" dst-port="Byte" src="HevcDecoder" src-port="VID"/>
-    <Connection dst="check_MD5" dst-port="SEI_MD5" src="HevcDecoder" src-port="MD5"/>
-    <Connection dst="check_MD5" dst-port="PictSize" src="HevcDecoder" src-port="pictSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_y"
+        src="HevcDecoder" src-port="Sample_y"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_u"
+        src="HevcDecoder" src-port="Sample_u"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_v"
+        src="HevcDecoder" src-port="Sample_v"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx"
+        src="HevcDecoder" src-port="IsBiPredOrLx"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice"
+        src="HevcDecoder" src-port="IsReadOrNewSlice"/>
+    <Connection dst="DPB_FrameBase" dst-port="Mv" src="HevcDecoder" src-port="Mv"/>
+    <Connection dst="DPB_FrameBase" dst-port="PictSize"
+        src="HevcDecoder" src-port="PictSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="Poc" src="HevcDecoder" src-port="Poc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PocRef" src="HevcDecoder" src-port="RefPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PredCuSize"
+        src="HevcDecoder" src-port="PredCuSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="RpsPoc" src="HevcDecoder" src-port="RpsPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_y2"
+        src="HevcDecoder_2" src-port="Sample_y"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_u2"
+        src="HevcDecoder_2" src-port="Sample_u"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_v2"
+        src="HevcDecoder_2" src-port="Sample_v"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx2"
+        src="HevcDecoder_2" src-port="IsBiPredOrLx"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice2"
+        src="HevcDecoder_2" src-port="IsReadOrNewSlice"/>
+    <Connection dst="DPB_FrameBase" dst-port="Mv2" src="HevcDecoder_2" src-port="Mv"/>
+    <Connection dst="DPB_FrameBase" dst-port="PicSize2"
+        src="HevcDecoder_2" src-port="PictSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="Poc2" src="HevcDecoder_2" src-port="Poc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PocRef2"
+        src="HevcDecoder_2" src-port="RefPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PredCuSize2"
+        src="HevcDecoder_2" src-port="PredCuSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="RpsPoc2"
+        src="HevcDecoder_2" src-port="RpsPoc"/>
+    <Connection dst="Merger" dst-port="Y" src="DPB_FrameBase" src-port="vid_y"/>
+    <Connection dst="Merger" dst-port="U" src="DPB_FrameBase" src-port="vid_u"/>
+    <Connection dst="Merger" dst-port="V" src="DPB_FrameBase" src-port="vid_v"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_y"
+        src="DPB_FrameBase" src-port="RefSample_y"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_u"
+        src="DPB_FrameBase" src-port="RefSample_u"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_v"
+        src="DPB_FrameBase" src-port="RefSample_v"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_v"
+        src="DPB_FrameBase" src-port="RefSample_v2"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_u"
+        src="DPB_FrameBase" src-port="RefSample_u2"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_y"
+        src="DPB_FrameBase" src-port="RefSample_y2"/>
+    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Source" src-port="O"/>
+    <Connection dst="display" dst-port="Byte" src="Merger" src-port="YUV"/>
 </XDF>

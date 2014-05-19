@@ -68,14 +68,26 @@ actor DecodingPictureBufferChroma ()
 	uint(size=1)  IsReadOrNewSlc,
 	int (size=32) Mv,
 	uint(size=16) PicSize,
-	int(size=16) Poc,
+	int(size=16)  Poc,
 	int (size=16) PocRef,
 	uint(size=7)  PredCuSize,
 	int (size=16) RpsPoc,
-	uint(size=8)  Sample
+	uint(size=8)  Sample,
+	
+	uint(size=2)  IsBiPredOrLx2,
+	uint(size=1)  IsReadOrNewSlc2,
+	int (size=32) Mv2,
+	uint(size=16) PicSize2,
+	int(size=16)  Poc2,
+	int (size=16) PocRef2,
+	uint(size=7)  PredCuSize2,
+	int (size=16) RpsPoc2,
+	uint(size=8)  Sample2
 		==>
 	uint(size=8)  RefSample,
-	uint(size=8)  VID
+	uint(size=8)  VID,
+	
+	uint(size=8)  RefSample2
 		:
 
 
@@ -88,7 +100,9 @@ actor DecodingPictureBufferChroma ()
 	int (size=16) pocRef[DPB_SIZE];
 	bool          isRef[DPB_SIZE];
 	bool          isStillRef[DPB_SIZE];
-	
+	bool pocDone[1000] := [false : for int i in 0 .. 16];
+	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
+	uint currentPoc := 0;	
 
 	int (size=4)  currIdx := -1;
 	int (size=4)  lastIdx := -1;
@@ -100,6 +114,25 @@ actor DecodingPictureBufferChroma ()
 	uint(size=3)  nbList;
 	uint(size=3)  sizeOfList;
 	bool          isNewPicture;
+	uint pictNum;
+	int idx := 0;
+	uint sendx := 0;
+	uint sendy := 0;
+	
+	int (size=4)  currIdx2 := -1;
+	int (size=4)  lastIdx2 := -1;
+	uint(size=6)  picSizeInCu2[2];
+	uint(size=16) picSize2[2];
+	uint(size=6)  xIdx2;
+	uint(size=6)  yIdx2;
+	uint(size=1)  numPocRef2;
+	uint(size=3)  nbList2;
+	uint(size=3)  sizeOfList2;
+	bool          isNewPicture2;
+	uint pictNum2;
+	int idx2 := 0;
+	uint sendx2 := 0;
+	uint sendy2 := 0;
 	
 	@optimize_c(condition="defined(SSE_ENABLE)", name="getmvinfo_dpb_64_chroma_orcc")
     procedure getmvinfo_dpb_64_chroma_cal(
@@ -168,10 +201,7 @@ actor DecodingPictureBufferChroma ()
 		idx := 4;
 	end
 	
-	uint pictNum;
-	int idx := 0;
-	
-	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
+	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
 		(idx = 0 or idx = 3),isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
@@ -299,11 +329,6 @@ actor DecodingPictureBufferChroma ()
 	/* When we get the picture we add the border (in order to be able to give a
 	 * reference pixels which can be outside of the picture).
 	 */
-	bool pocDone[1000] := [false : for int i in 0 .. 16];
-	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
-	uint currentPoc := 0;
-	uint sendx := 0;
-	uint sendy := 0;
 	
 	action ==> VID:[CU] repeat 8*8
 	guard
@@ -615,32 +640,457 @@ actor DecodingPictureBufferChroma ()
 		idx := 3;
 	end
 
-//	schedule fsm IsFirstNewPic:
-//		IsFirstNewPic (isNewPict )--> GetFirstRps;
-//
-//		GetFirstRps (getRps.launch )--> GetRpsFirstPoc;
-//		GetFirstRps (getRps.done   )--> IsNewSlice;
-//
-//		GetRpsFirstPoc (getRpsPoc.launch )--> GetRpsFirstPoc;
-//		GetRpsFirstPoc (getRpsPoc.done   )--> GetFirstRps;
-//
-//		IsNewSlice (isNewPict   )--> GetRps;
-//		IsNewSlice (isNewSlice  )--> GetRps;
-//		IsNewSlice (getReadAddr )--> GetMvInfo;
-//
-//		GetRps (getRps.launch )--> GetRpsPoc;
-//		GetRps (getRps.done   )--> CheckIsNewPict;
-//
-//		GetRpsPoc (getRpsPoc.launch )--> GetRpsPoc;
-//		GetRpsPoc (getRpsPoc.done   )--> GetRps;
-//
-//		CheckIsNewPict (checkIsNewPict.isTrue  )--> GetCuPix;
-//		CheckIsNewPict (checkIsNewPict.isFalse )--> IsNewSlice;
-//
-//		GetCuPix (getCuPix.launch )--> GetCuPix;
-//		GetCuPix (getCuPix.done   )--> IsNewSlice;
-//
-//		GetMvInfo (getMvInfo.launch )--> GetMvInfo;
-//		GetMvInfo (getMvInfo.done   )--> IsNewSlice;
-//	end
+///////////////////////////////////////////////////////////// Second frame /////////////////////////////////////////////////////////////
+
+/** Getting informations from new slice/picture. Updating these informations **/
+	action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
+		picHeightInPix], Poc2:[poc] ==>
+	guard
+		/* Fix me : We should know when there is a new picture */
+		idx2 = 3, isRead = 0 and if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end
+	do
+		isNewPicture2 := false;
+		nbList2 := 0;
+		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		idx2 := 4;
+	end
+	
+	action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
+		picHeightInPix], Poc2:[poc] ==>
+	guard
+		(idx2 = 0 or idx2 = 3),isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)
+	do
+//		println("Dpb ; Pict num "+pictNum);
+		pictNum2 := pictNum2 + 1;
+		picSizeInCu2[0] := (picWidthInPix+15)/16;
+		picSizeInCu2[1] := (picHeightInPix+15)/16;
+		picSize2[0] := picWidthInPix;
+		picSize2[1] := picHeightInPix;
+		xIdx2 := 0;
+		yIdx2 := 0;
+		lastIdx2 := currIdx2;
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(not isRef[i]) then
+				currIdx2 := i;
+			end
+		end
+		isRef[currIdx2]  := true;
+		pocRef[currIdx2] := poc;
+		isNewPicture2    := true;
+		nbList2          := 0;
+		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		
+		if idx2 = 0 then
+			idx2 := 1;
+		else
+			idx2 := 4;
+		end
+	end
+
+	/** We get all the references from the 5 lists of the Rps
+	 * (StCurrentBefore, StCurrentAfter, StFollowing, LtCurrent, LtFollowing)
+	 **/
+	action RpsPoc2:[numPic]==>
+	guard
+		(idx2 = 1 or idx2 = 4),nbList2 < 5
+	do
+		sizeOfList2 := numPic;
+		
+		if idx2 = 1 then
+			idx2 := 2;
+		else
+			idx2 := 5;
+		end
+	end
+
+	action ==>
+	guard
+		(idx2 = 1 or idx2 = 4), nbList2 = 5
+	do
+		/* We remove from the Dpb all the pictures who are not in the Rps of
+		 * the current picture
+		 */
+		foreach int i in 0 .. DPB_SIZE - 1
+		do
+			isRef[i] := isRef[i] and isStillRef[i];
+		end
+		isRef[currIdx2] := true;
+		
+		if idx2 = 1 then
+			idx2 := 3;
+		else
+			idx2 := 6;
+		end
+	end
+
+	/** For each we check the index of the reference poc
+	 * (in order to not remove them from the Dpb).
+	 **/
+	action RpsPoc2:[pocVal] ==>
+	guard
+		(idx2 = 2 or idx2 = 5), sizeOfList2 > 0
+	do
+		sizeOfList2 := sizeOfList2 - 1;
+		foreach int i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = pocVal)then
+				isStillRef[i] := true;
+			end
+		end
+	end
+
+	action ==>
+	guard
+		(idx2 = 2 or idx2 = 5), sizeOfList2 = 0
+	do
+		nbList2 := nbList2 + 1;
+		
+		if idx2 = 2 then
+			idx2 := 1;
+		else
+			idx2 := 4;
+		end
+	end
+
+	/* We get the whole Cu decoded (luma and chroma components) and we save
+	 * it in the Dpb (pictureBuffer).
+	 */
+	action Sample2:[samp] repeat 8*8 ==>
+	guard
+		idx2 = 7, yIdx2 < picSizeInCu2[1]
+	var
+		uint(size=16) xPixIdx,
+		uint(size=16) yPixIdx
+	do
+		xPixIdx := (BORDER_SIZE + xIdx2*16)>>1;
+		yPixIdx := (BORDER_SIZE + yIdx2*16)>>1;
+		
+		copy_cu_dpb_chroma_cal(
+          samp,
+  	      pictureBuffer,
+  	      xPixIdx,
+  	      yPixIdx,
+  	      lastIdx2);
+		
+		xIdx2 := xIdx2 + 1;
+		if(xIdx2 = picSizeInCu2[0]) then
+			xIdx2 := 0;
+			yIdx2 := yIdx2 + 1;
+		end
+	end
+
+	/* When we get the picture we add the border (in order to be able to give a
+	 * reference pixels which can be outside of the picture).
+	 */
+	
+	action ==> VID:[CU] repeat 8*8
+	guard
+		idx2 = 3,
+		sendy2 < picSizeInCu2[1],
+		pocDone[currentPoc] = true
+	var
+		uint (size=8) CU[8*8]
+	do
+		foreach int i in 0 .. 7 do	
+			foreach int j in 0 .. 7 do
+				CU[i*8 + j] := pictureBuffer[pocToIndex[currentPoc]][((BORDER_SIZE + sendy2 * 16) >> 1 )+ i][((BORDER_SIZE + sendx2 * 16) >> 1 ) + j];
+			end
+		end
+			
+		sendx2 := sendx2 + 1;
+		if(sendx2 = picSizeInCu2[0]) then
+			sendx2 := 0;
+			sendy2 := sendy2 + 1;
+		end
+	end
+	
+	action ==>
+	guard
+		idx2 = 3,
+		sendy2 = picSizeInCu2[1],
+		pocDone[currentPoc] = true
+	do
+		sendx2 := 0;
+		sendy2 := 0;
+		pocDone[currentPoc] := false;
+		currentPoc := currentPoc + 1;
+	end
+	
+	action ==>
+	guard
+		idx2 = 7, yIdx2 = picSizeInCu2[1]
+	var
+		uint xSize := picSize2[0],
+		uint ySize := picSize2[1]
+	do
+	/* Fill in chroma border */
+		
+		fillBorder_chroma_cal(
+		  pictureBuffer,
+		  lastIdx2,
+		  xSize / 2,
+		  ySize / 2,
+		  BORDER_SIZE / 2);
+		  pocDone[pocRef[lastIdx2]] := true;
+		  pocToIndex[pocRef[lastIdx2]] := lastIdx2;
+		if pocRef[lastIdx2] < currentPoc then
+				currentPoc := 0;
+		end
+		idx2 := 3;
+	end
+
+	action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
+	guard
+		idx2 = 3, isRead = 1
+	do
+		numPocRef2 :=
+			if(isBiPredOrLx = BI_PRED) then
+				2
+			else
+				1
+			end;
+		idx2 := 8;
+	end
+
+	/* We get all the informations needed for sending the reference Cu. We save
+	 * these samples in refCu, it will be sent with the actions sendCu.isYxY
+	 */
+	action PocRef2:[poc], PredCuSize2:[predCuSize],
+		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(32+3)*(32+3)
+	guard
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 64
+	var
+		uint(size=3) idx := 0,
+		int (size=32) xOffset,
+		int (size=32) yOffset,
+		uint(size=7)  sideMax = 64,
+		uint(size=8)  refCu[(32+3)*(32+3)]
+	do
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = poc and isRef[i]) then
+				idx := i;
+			end
+		end
+
+		/* We remove 1 for each coordinate component, because for the chroma
+		 * prediction we need the previous pixel
+		 */
+		xOffset := (mvX >> 3);
+		xOffset := min(xOffset, picSize2[0]/2+1);
+		xOffset := max(xOffset, -(4 +1 -1) -(sideMax/2-1));
+		xOffset := xOffset +BORDER_SIZE/2-1;
+		yOffset := (mvY >> 3);
+		yOffset := min(yOffset, picSize2[1]/2+1);
+		yOffset := max(yOffset, -(4 +1 -1) -(sideMax/2-1));
+		yOffset := yOffset +BORDER_SIZE/2-1;
+		/* We also need the 2 next pixels for the prediction, that's why we
+		 * add 3 to sideMax
+		 */
+		
+		getmvinfo_dpb_64_chroma_cal(
+  	      pictureBuffer,
+  	      refCu,
+  	      idx, 
+  	      sideMax / 2 + 3, 
+  	      xOffset,
+  	      yOffset);
+		numPocRef2 := numPocRef2 - 1;
+	end
+	
+	action PocRef2:[poc], PredCuSize2:[predCuSize],
+		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(16+3)*(16+3)
+	guard
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 32
+	var
+		uint(size=3) idx := 0,
+		int (size=32) xOffset,
+		int (size=32) yOffset,
+		uint(size=7)  sideMax = 32,
+		uint(size=8)  refCu[(16+3)*(16+3)]
+	do
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = poc and isRef[i]) then
+				idx := i;
+			end
+		end
+
+		/* We remove 1 for each coordinate component, because for the chroma
+		 * prediction we need the previous pixel
+		 */
+		xOffset := (mvX >> 3);
+		xOffset := min(xOffset, picSize2[0]/2+1);
+		xOffset := max(xOffset, -(4 +1 -1) -(sideMax/2-1));
+		xOffset := xOffset +BORDER_SIZE/2-1;
+		yOffset := (mvY >> 3);
+		yOffset := min(yOffset, picSize2[1]/2+1);
+		yOffset := max(yOffset, -(4 +1 -1) -(sideMax/2-1));
+		yOffset := yOffset +BORDER_SIZE/2-1;
+		/* We also need the 2 next pixels for the prediction, that's why we
+		 * add 3 to sideMax
+		 */
+		
+		getmvinfo_dpb_32_chroma_cal(
+  	      pictureBuffer,
+  	      refCu,
+  	      idx, 
+  	      sideMax / 2 + 3, 
+  	      xOffset,
+  	      yOffset);
+		numPocRef2 := numPocRef2 - 1;
+	end
+	
+	action PocRef2:[poc], PredCuSize2:[predCuSize],
+		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(8+3)*(8+3)
+	guard
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 16
+	var
+		uint(size=3) idx := 0,
+		int (size=32) xOffset,
+		int (size=32) yOffset,
+		uint(size=7)  sideMax = 16,
+		uint(size=8)  refCu[(8+3)*(8+3)]
+	do
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = poc and isRef[i]) then
+				idx := i;
+			end
+		end
+
+		/* We remove 1 for each coordinate component, because for the chroma
+		 * prediction we need the previous pixel
+		 */
+		xOffset := (mvX >> 3);
+		xOffset := min(xOffset, picSize2[0]/2+1);
+		xOffset := max(xOffset, -(4 +1 -1) -(sideMax/2-1));
+		xOffset := xOffset +BORDER_SIZE/2-1;
+		yOffset := (mvY >> 3);
+		yOffset := min(yOffset, picSize2[1]/2+1);
+		yOffset := max(yOffset, -(4 +1 -1) -(sideMax/2-1));
+		yOffset := yOffset +BORDER_SIZE/2-1;
+		/* We also need the 2 next pixels for the prediction, that's why we
+		 * add 3 to sideMax
+		 */
+		
+		getmvinfo_dpb_16_chroma_cal(
+  	      pictureBuffer,
+  	      refCu,
+  	      idx, 
+  	      sideMax / 2 + 3, 
+  	      xOffset,
+  	      yOffset);
+		numPocRef2 := numPocRef2 - 1;
+	end
+	
+	action PocRef2:[poc], PredCuSize2:[predCuSize],
+		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(4+3)*(4+3)
+	guard
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 8
+	var
+		uint(size=3) idx := 0,
+		int (size=32) xOffset,
+		int (size=32) yOffset,
+		uint(size=7)  sideMax = 8,
+		uint(size=8)  refCu[(4+3)*(4+3)]
+	do
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = poc and isRef[i]) then
+				idx := i;
+			end
+		end
+
+		/* We remove 1 for each coordinate component, because for the chroma
+		 * prediction we need the previous pixel
+		 */
+		xOffset := (mvX >> 3);
+		xOffset := min(xOffset, picSize2[0]/2+1);
+		xOffset := max(xOffset, -(4 +1 -1) -(sideMax/2-1));
+		xOffset := xOffset +BORDER_SIZE/2-1;
+		yOffset := (mvY >> 3);
+		yOffset := min(yOffset, picSize2[1]/2+1);
+		yOffset := max(yOffset, -(4 +1 -1) -(sideMax/2-1));
+		yOffset := yOffset +BORDER_SIZE/2-1;
+		/* We also need the 2 next pixels for the prediction, that's why we
+		 * add 3 to sideMax
+		 */
+		
+		foreach int y in 0 .. sideMax/2+3 -1
+		do
+			foreach int x in 0 .. sideMax/2+3 -1
+			do
+				refCu[x+y*(sideMax/2+3)] := pictureBuffer[idx][y+yOffset][x+xOffset];
+			end
+		end
+		numPocRef2 := numPocRef2 - 1;
+	end
+	
+	action PocRef2:[poc], PredCuSize2:[predCuSize],
+		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(2+3)*(2+3)
+	guard
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 4
+	var
+		uint(size=3) idx := 0,
+		int (size=32) xOffset,
+		int (size=32) yOffset,
+		uint(size=7)  sideMax = 4,
+		uint(size=8)  refCu[(2+3)*(2+3)]
+	do
+		foreach uint i in 0 .. DPB_SIZE - 1
+		do
+			if(pocRef[i] = poc and isRef[i]) then
+				idx := i;
+			end
+		end
+
+		/* We remove 1 for each coordinate component, because for the chroma
+		 * prediction we need the previous pixel
+		 */
+		xOffset := (mvX >> 3);
+		xOffset := min(xOffset, picSize2[0]/2+1);
+		xOffset := max(xOffset, -(4 +1 -1) -(sideMax/2-1));
+		xOffset := xOffset +BORDER_SIZE/2-1;
+		yOffset := (mvY >> 3);
+		yOffset := min(yOffset, picSize2[1]/2+1);
+		yOffset := max(yOffset, -(4 +1 -1) -(sideMax/2-1));
+		yOffset := yOffset +BORDER_SIZE/2-1;
+		/* We also need the 2 next pixels for the prediction, that's why we
+		 * add 3 to sideMax
+		 */
+		
+		foreach int y in 0 .. sideMax/2+3 -1
+		do
+			foreach int x in 0 .. sideMax/2+3 -1
+			do
+				refCu[x+y*(sideMax/2+3)] := pictureBuffer[idx][y+yOffset][x+xOffset];
+			end
+		end
+		numPocRef2 := numPocRef2 - 1;
+	end
+	
+	action ==>
+	guard
+		idx2 = 8,
+		numPocRef2 = 0
+	do
+		idx2 := 3;
+	end
+
+	action ==>
+	guard
+		idx2 = 6, isNewPicture2
+	do
+		idx2 := 7;
+	end
+
+	action ==>
+	guard
+		idx2 = 6, not isNewPicture2
+	do
+		idx2 := 3;
+	end
+
 end
