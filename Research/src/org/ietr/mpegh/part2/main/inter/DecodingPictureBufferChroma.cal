@@ -100,6 +100,7 @@ actor DecodingPictureBufferChroma ()
 	int (size=16) pocRef[DPB_SIZE];
 	bool          isRef[DPB_SIZE];
 	bool          isStillRef[DPB_SIZE];
+	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
 	bool pocDone[1000] := [false : for int i in 0 .. 16];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
 	uint currentPoc := 0;	
@@ -304,14 +305,14 @@ actor DecodingPictureBufferChroma ()
 	 */
 	action Sample:[samp] repeat 8*8 ==>
 	guard
-		idx = 7, yIdx < picSizeInCu[1]
+		idx = 7, yIdx < picSizeInCu[1],
+		usefulPoc[lastIdx] = false
 	var
 		uint(size=16) xPixIdx,
 		uint(size=16) yPixIdx
 	do
 		xPixIdx := (BORDER_SIZE + xIdx*16)>>1;
 		yPixIdx := (BORDER_SIZE + yIdx*16)>>1;
-		
 		copy_cu_dpb_chroma_cal(
           samp,
   	      pictureBuffer,
@@ -357,10 +358,12 @@ actor DecodingPictureBufferChroma ()
 		sendy = picSizeInCu[1],
 		pocDone[currentPoc] = true
 	do
+		println("send1Done currentPoc = " + currentPoc);
 		sendx := 0;
 		sendy := 0;
 		pocDone[currentPoc] := false;
 		currentPoc := currentPoc + 1;
+		usefulPoc[lastIdx] := false;
 	end
 	
 	action ==>
@@ -371,7 +374,8 @@ actor DecodingPictureBufferChroma ()
 		uint ySize := picSize[1]
 	do
 	/* Fill in chroma border */
-		
+		println("endfill1done lastIdx = " + lastIdx);
+		println("pocRef[lastIdx] = " + pocRef[lastIdx]);
 		fillBorder_chroma_cal(
 		  pictureBuffer,
 		  lastIdx,
@@ -380,9 +384,10 @@ actor DecodingPictureBufferChroma ()
 		  BORDER_SIZE / 2);
 		  pocDone[pocRef[lastIdx]] := true;
 		  pocToIndex[pocRef[lastIdx]] := lastIdx;
-		if pocRef[lastIdx] < currentPoc then
-				currentPoc := 0;
-		end
+		  usefulPoc[lastIdx] := true;
+//		if pocRef[lastIdx] < currentPoc then
+//				currentPoc := 0;
+//		end
 		idx := 3;
 	end
 
@@ -758,14 +763,14 @@ actor DecodingPictureBufferChroma ()
 	 */
 	action Sample2:[samp] repeat 8*8 ==>
 	guard
-		idx2 = 7, yIdx2 < picSizeInCu2[1]
+		idx2 = 7, yIdx2 < picSizeInCu2[1],
+		usefulPoc[lastIdx2] = false
 	var
 		uint(size=16) xPixIdx,
 		uint(size=16) yPixIdx
 	do
 		xPixIdx := (BORDER_SIZE + xIdx2*16)>>1;
 		yPixIdx := (BORDER_SIZE + yIdx2*16)>>1;
-		
 		copy_cu_dpb_chroma_cal(
           samp,
   	      pictureBuffer,
@@ -811,10 +816,12 @@ actor DecodingPictureBufferChroma ()
 		sendy2 = picSizeInCu2[1],
 		pocDone[currentPoc] = true
 	do
+		println("send2Done currentPoc = " + currentPoc);
 		sendx2 := 0;
 		sendy2 := 0;
 		pocDone[currentPoc] := false;
 		currentPoc := currentPoc + 1;
+		usefulPoc[lastIdx2] := false;
 	end
 	
 	action ==>
@@ -825,7 +832,8 @@ actor DecodingPictureBufferChroma ()
 		uint ySize := picSize2[1]
 	do
 	/* Fill in chroma border */
-		
+		println("fill2done lastidx2 = " + lastIdx2);
+		println("pocRef[lastIdx] = " + pocRef[lastIdx]);
 		fillBorder_chroma_cal(
 		  pictureBuffer,
 		  lastIdx2,
@@ -834,9 +842,10 @@ actor DecodingPictureBufferChroma ()
 		  BORDER_SIZE / 2);
 		  pocDone[pocRef[lastIdx2]] := true;
 		  pocToIndex[pocRef[lastIdx2]] := lastIdx2;
-		if pocRef[lastIdx2] < currentPoc then
-				currentPoc := 0;
-		end
+		  usefulPoc[lastIdx2] := true;
+//		if pocRef[lastIdx2] < currentPoc then
+//				currentPoc := 0;
+//		end
 		idx2 := 3;
 	end
 

@@ -99,6 +99,7 @@ actor DecodingPictureBufferLuma ()
 	bool          isRef[DPB_SIZE];
 	bool          isStillRef[DPB_SIZE];
 	bool pocDone[1000] := [false : for int i in 0 .. 16];
+	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
 	uint currentPoc := 0;	
 
@@ -319,7 +320,8 @@ actor DecodingPictureBufferLuma ()
 	 */
 	action Sample:[samp] repeat 16*16 ==>
 	guard
-		idx = 7, yIdx < picSizeInCu[1]
+		idx = 7, yIdx < picSizeInCu[1],
+		usefulPoc[lastIdx] = false
 	var
 		int xPixIdx,
 		int yPixIdx
@@ -376,7 +378,7 @@ actor DecodingPictureBufferLuma ()
 		sendy := 0;
 		pocDone[currentPoc] := false;
 		currentPoc := currentPoc + 1;
-		
+		usefulPoc[lastIdx] := false;
 	end
 	
 	action ==>
@@ -396,9 +398,10 @@ actor DecodingPictureBufferLuma ()
 			
 			pocDone[pocRef[lastIdx]] := true;
 			pocToIndex[pocRef[lastIdx]] := lastIdx;
-		if pocRef[lastIdx] < currentPoc then
-				currentPoc := 0;
-		end
+//		if pocRef[lastIdx] < currentPoc then
+//				currentPoc := 0;
+//		end
+		usefulPoc[lastIdx] := true;
 		idx := 3;
 	end
 
@@ -785,7 +788,8 @@ actor DecodingPictureBufferLuma ()
 	 */
 	action Sample2:[samp] repeat 16*16 ==>
 	guard
-		idx2 = 7, yIdx2 < picSizeInCu2[1]
+		idx2 = 7, yIdx2 < picSizeInCu2[1],
+		usefulPoc[lastIdx2] = false
 	var
 		int xPixIdx,
 		int yPixIdx
@@ -842,7 +846,7 @@ actor DecodingPictureBufferLuma ()
 		sendy2 := 0;
 		pocDone[currentPoc] := false;
 		currentPoc := currentPoc + 1;
-		
+		usefulPoc[lastIdx2] := false;
 	end
 	
 	action ==>
@@ -862,9 +866,10 @@ actor DecodingPictureBufferLuma ()
 			
 			pocDone[pocRef[lastIdx2]] := true;
 			pocToIndex[pocRef[lastIdx2]] := lastIdx2;
-		if pocRef[lastIdx2] < currentPoc then
-				currentPoc := 0;
-		end
+//		if pocRef[lastIdx2] < currentPoc then
+//				currentPoc := 0;
+//		end
+		usefulPoc[lastIdx2] := true;
 		idx2 := 3;
 	end
 
