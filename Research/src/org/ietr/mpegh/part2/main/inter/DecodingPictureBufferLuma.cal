@@ -977,7 +977,7 @@ actor DecodingPictureBufferLuma ()
 	action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[RefCu] repeat (16+7)*(16+7)
 	guard
-		idx = 8, numPocRef2 != 0 && predCuSize = 16
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 16
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
@@ -1067,7 +1067,7 @@ actor DecodingPictureBufferLuma ()
 	action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat (4+7)*(4+7)
 	guard
-		idx = 8, numPocRef2 != 0 && predCuSize = 4
+		idx2 = 8, numPocRef2 != 0 && predCuSize = 4
 	var
 		uint(size=3) idx := 0,
 		int (size=32) xOffset,
