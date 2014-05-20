@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="xdfDiagram" name="Top_mpegh_part2_main" snapToGrid="true" pictogramLinks="//@link //@children.0/@link //@children.0/@anchors.0/@link //@children.1/@link //@children.1/@anchors.0/@link //@children.1/@anchors.1/@link //@children.1/@anchors.2/@link //@children.2/@link //@connections.0/@link //@connections.1/@link //@connections.2/@link //@children.3/@link //@children.2/@anchors.0/@link //@children.2/@anchors.1/@link //@children.2/@anchors.2/@link //@children.2/@anchors.3/@link //@children.2/@anchors.4/@link //@children.2/@anchors.5/@link //@children.2/@anchors.6/@link //@children.2/@anchors.7/@link //@children.2/@anchors.8/@link //@children.2/@anchors.9/@link //@children.2/@anchors.10/@link //@children.2/@anchors.11/@link //@children.2/@anchors.12/@link //@children.2/@anchors.13/@link //@children.2/@anchors.14/@link //@children.2/@anchors.15/@link //@children.2/@anchors.16/@link //@children.2/@anchors.17/@link //@children.3/@anchors.0/@link //@children.3/@anchors.1/@link //@children.3/@anchors.2/@link //@children.3/@anchors.3/@link //@children.3/@anchors.4/@link //@children.3/@anchors.5/@link //@children.3/@anchors.6/@link //@children.3/@anchors.7/@link //@children.3/@anchors.8/@link //@children.3/@anchors.9/@link //@children.3/@anchors.10/@link //@children.3/@anchors.11/@link //@children.3/@anchors.12/@link //@children.3/@anchors.13/@link //@children.3/@anchors.14/@link //@children.3/@anchors.15/@link //@children.3/@anchors.16/@link //@children.3/@anchors.17/@link //@children.4/@link //@children.4/@anchors.0/@link //@children.4/@anchors.1/@link //@children.4/@anchors.2/@link //@children.4/@anchors.3/@link //@children.4/@anchors.4/@link //@children.4/@anchors.5/@link //@children.4/@anchors.6/@link //@children.4/@anchors.7/@link //@children.4/@anchors.8/@link //@children.4/@anchors.9/@link //@children.4/@anchors.10/@link //@children.4/@anchors.11/@link //@children.4/@anchors.12/@link //@children.4/@anchors.13/@link //@children.4/@anchors.14/@link //@children.4/@anchors.15/@link //@children.4/@anchors.16/@link //@children.4/@anchors.17/@link //@children.4/@anchors.18/@link //@children.4/@anchors.19/@link //@children.4/@anchors.20/@link //@children.4/@anchors.21/@link //@children.4/@anchors.22/@link //@children.4/@anchors.23/@link //@children.4/@anchors.24/@link //@children.4/@anchors.25/@link //@children.4/@anchors.26/@link //@children.4/@anchors.27/@link //@children.4/@anchors.28/@link //@children.4/@anchors.29/@link //@children.4/@anchors.30/@link //@children.5/@link //@children.5/@anchors.0/@link //@children.5/@anchors.1/@link //@children.5/@anchors.2/@link //@children.5/@anchors.3/@link //@connections.3/@link //@connections.4/@link //@connections.5/@link //@connections.6/@link //@connections.7/@link //@connections.8/@link //@connections.9/@link //@connections.10/@link //@connections.11/@link //@connections.12/@link //@connections.13/@link //@connections.14/@link //@connections.15/@link //@connections.16/@link //@connections.17/@link //@connections.18/@link //@connections.19/@link //@connections.20/@link //@connections.21/@link //@connections.22/@link //@connections.23/@link //@connections.24/@link //@connections.25/@link //@connections.26/@link //@connections.27/@link //@connections.28/@link //@connections.29/@link //@connections.30/@link //@connections.31/@link //@connections.32/@link //@connections.33/@link //@connections.34/@link //@connections.35/@link" version="0.10.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="xdfDiagram" name="Top_mpegh_part2_main" snapToGrid="true" pictogramLinks="//@link //@children.0/@link //@children.1/@link //@children.1/@anchors.0/@link //@children.1/@anchors.1/@link //@children.1/@anchors.2/@link //@children.2/@link //@connections.0/@link //@connections.1/@link //@children.3/@link //@children.2/@anchors.0/@link //@children.2/@anchors.1/@link //@children.2/@anchors.2/@link //@children.2/@anchors.3/@link //@children.2/@anchors.4/@link //@children.2/@anchors.5/@link //@children.2/@anchors.6/@link //@children.2/@anchors.7/@link //@children.2/@anchors.8/@link //@children.2/@anchors.9/@link //@children.2/@anchors.10/@link //@children.2/@anchors.11/@link //@children.2/@anchors.12/@link //@children.2/@anchors.13/@link //@children.2/@anchors.14/@link //@children.2/@anchors.15/@link //@children.2/@anchors.16/@link //@children.2/@anchors.17/@link //@children.3/@anchors.0/@link //@children.3/@anchors.1/@link //@children.3/@anchors.2/@link //@children.3/@anchors.3/@link //@children.3/@anchors.4/@link //@children.3/@anchors.5/@link //@children.3/@anchors.6/@link //@children.3/@anchors.7/@link //@children.3/@anchors.8/@link //@children.3/@anchors.9/@link //@children.3/@anchors.10/@link //@children.3/@anchors.11/@link //@children.3/@anchors.12/@link //@children.3/@anchors.13/@link //@children.3/@anchors.14/@link //@children.3/@anchors.15/@link //@children.3/@anchors.16/@link //@children.3/@anchors.17/@link //@children.4/@link //@children.4/@anchors.0/@link //@children.4/@anchors.1/@link //@children.4/@anchors.2/@link //@children.4/@anchors.3/@link //@children.4/@anchors.4/@link //@children.4/@anchors.5/@link //@children.4/@anchors.6/@link //@children.4/@anchors.7/@link //@children.4/@anchors.8/@link //@children.4/@anchors.9/@link //@children.4/@anchors.10/@link //@children.4/@anchors.11/@link //@children.4/@anchors.12/@link //@children.4/@anchors.13/@link //@children.4/@anchors.14/@link //@children.4/@anchors.15/@link //@children.4/@anchors.16/@link //@children.4/@anchors.17/@link //@children.4/@anchors.18/@link //@children.4/@anchors.19/@link //@children.4/@anchors.20/@link //@children.4/@anchors.21/@link //@children.4/@anchors.22/@link //@children.4/@anchors.23/@link //@children.4/@anchors.24/@link //@children.4/@anchors.25/@link //@children.4/@anchors.26/@link //@children.4/@anchors.27/@link //@children.4/@anchors.28/@link //@children.4/@anchors.29/@link //@children.4/@anchors.30/@link //@children.5/@link //@children.5/@anchors.0/@link //@children.5/@anchors.1/@link //@children.5/@anchors.2/@link //@children.5/@anchors.3/@link //@connections.2/@link //@connections.3/@link //@connections.4/@link //@connections.5/@link //@connections.6/@link //@connections.7/@link //@connections.8/@link //@connections.9/@link //@connections.10/@link //@connections.11/@link //@connections.12/@link //@connections.13/@link //@connections.14/@link //@connections.15/@link //@connections.16/@link //@connections.17/@link //@connections.18/@link //@connections.19/@link //@connections.20/@link //@connections.21/@link //@connections.22/@link //@connections.23/@link //@connections.24/@link //@connections.25/@link //@connections.26/@link //@connections.27/@link //@connections.28/@link //@connections.29/@link //@connections.30/@link //@connections.31/@link //@connections.32/@link //@connections.33/@link //@children.0/@anchors.0/@link //@children.0/@anchors.1/@link //@connections.34/@link //@connections.35/@link" version="0.10.0">
   <properties key="xdf_diagram_version" value="1"/>
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
@@ -7,8 +7,8 @@
   </link>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
-    <properties key="refinement" value="/RVC/bin/org/sc29/wg11/common/SourceTest.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="80" x="12" y="516" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+    <properties key="refinement" value="/Research/bin/org/ietr/mpegh/part2/common/SourceFrame.ir"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="80" x="12" y="501" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="120" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Source">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -17,7 +17,11 @@
         <points y="40"/>
         <points x="120" y="40"/>
       </graphicsAlgorithmChildren>
-      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="92" height="13" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="O">
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="92" height="12" x="14" y="43" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="O1">
+        <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
+        <properties key="SHAPE_DIRECTION" value="output"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="92" height="12" x="14" y="57" style="//@styles.1/@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="O2">
         <properties key="XDF_ID" value="INSTANCE_PORT_TEXT"/>
         <properties key="SHAPE_DIRECTION" value="output"/>
       </graphicsAlgorithmChildren>
@@ -25,21 +29,31 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.Source"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.0 //@connections.34" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.34" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
-      <properties key="REF_PORT_NAME" value="O"/>
+      <properties key="REF_PORT_NAME" value="O1"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
       <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="13" height="12" x="-12" y="-6" style="//@styles.0/@styles.1"/>
       <link>
-        <businessObjects href="../../../../../../RVC/bin/org/sc29/wg11/common/SourceTest.ir#//@outputs.0"/>
+        <businessObjects href="../../../../../bin/org/ietr/mpegh/part2/common/SourceFrame.ir#//@outputs.0"/>
       </link>
-      <location x="120" y="48"/>
+      <location x="120" y="49"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.35" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="XDF_ID" value="INSTANCE_PORT"/>
+      <properties key="REF_PORT_NAME" value="O2"/>
+      <properties key="SHAPE_DIRECTION" value="output"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="13" height="12" x="-12" y="-6" style="//@styles.0/@styles.1"/>
+      <link>
+        <businessObjects href="../../../../../bin/org/ietr/mpegh/part2/common/SourceFrame.ir#//@outputs.1"/>
+      </link>
+      <location x="120" y="63"/>
     </anchors>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/RVC/bin/org/sc29/wg11/common/DisplayYUVWithCrop.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="90" x="1119" y="137" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="90" x="1119" y="122" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="120" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="display">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -64,7 +78,7 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.display"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.35" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.33" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Byte"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -74,7 +88,7 @@
       </link>
       <location y="48"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.0" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="DispCoord"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -84,7 +98,7 @@
       </link>
       <location y="63"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PicSizeInMb"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -98,7 +112,7 @@
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/src/org/ietr/mpegh/part2/HEVCDecoderInter.xdf"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="156" height="269" x="208" y="167" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="156" height="269" x="193" y="152" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="156" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="HevcDecoder">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -183,7 +197,7 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.HevcDecoder"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.0" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.34" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="BYTE"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -193,7 +207,7 @@
       </link>
       <location y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.28" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.27" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_y"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -203,7 +217,7 @@
       </link>
       <location y="66"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.30" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.29" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_v"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -213,7 +227,7 @@
       </link>
       <location y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.29" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.28" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_u"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -223,7 +237,7 @@
       </link>
       <location y="98"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="SIZE"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -233,7 +247,7 @@
       </link>
       <location x="156" y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.0" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="DispCoord"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -253,7 +267,7 @@
       </link>
       <location x="156" y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_y"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -263,7 +277,7 @@
       </link>
       <location x="156" y="98"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_u"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -273,7 +287,7 @@
       </link>
       <location x="156" y="114"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_v"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -283,7 +297,7 @@
       </link>
       <location x="156" y="130"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsBiPredOrLx"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -293,7 +307,7 @@
       </link>
       <location x="156" y="146"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsReadOrNewSlice"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -303,7 +317,7 @@
       </link>
       <location x="156" y="162"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Mv"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -313,7 +327,7 @@
       </link>
       <location x="156" y="178"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.9" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PictSize"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -323,7 +337,7 @@
       </link>
       <location x="156" y="194"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.10" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.9" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Poc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -333,7 +347,7 @@
       </link>
       <location x="156" y="210"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.11" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.10" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefPoc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -343,7 +357,7 @@
       </link>
       <location x="156" y="226"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.12" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.11" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PredCuSize"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -353,7 +367,7 @@
       </link>
       <location x="156" y="242"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.13" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.12" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RpsPoc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -367,7 +381,7 @@
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/src/org/ietr/mpegh/part2/HEVCDecoderInter.xdf"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="156" height="269" x="208" y="514" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="156" height="269" x="193" y="514" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="156" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="HevcDecoder_2">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -452,7 +466,7 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.HevcDecoder_2"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.34" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.35" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="BYTE"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -462,7 +476,7 @@
       </link>
       <location y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.33" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.32" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_y"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -472,7 +486,7 @@
       </link>
       <location y="66"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.31" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.30" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_v"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -482,7 +496,7 @@
       </link>
       <location y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.32" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.31" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_u"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -522,7 +536,7 @@
       </link>
       <location x="156" y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.14" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.13" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_y"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -532,7 +546,7 @@
       </link>
       <location x="156" y="98"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.15" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.14" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_u"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -542,7 +556,7 @@
       </link>
       <location x="156" y="114"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.16" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.15" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_v"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -552,7 +566,7 @@
       </link>
       <location x="156" y="130"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.17" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.16" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsBiPredOrLx"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -562,7 +576,7 @@
       </link>
       <location x="156" y="146"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.18" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.17" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsReadOrNewSlice"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -572,7 +586,7 @@
       </link>
       <location x="156" y="162"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.19" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.18" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Mv"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -582,7 +596,7 @@
       </link>
       <location x="156" y="178"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.20" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.19" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PictSize"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -592,7 +606,7 @@
       </link>
       <location x="156" y="194"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.21" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.20" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Poc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -602,7 +616,7 @@
       </link>
       <location x="156" y="210"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.22" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.21" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefPoc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -612,7 +626,7 @@
       </link>
       <location x="156" y="226"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.23" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.22" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PredCuSize"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -622,7 +636,7 @@
       </link>
       <location x="156" y="242"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.24" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.23" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RpsPoc"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -636,7 +650,7 @@
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/src/org/ietr/mpegh/part2/main/inter/DecodingPictureBuffer_yuv.xdf"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="197" height="397" x="695" y="87" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="197" height="397" x="680" y="72" style="//@styles.0/@styles.3" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="197" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="DPB_FrameBase">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -773,7 +787,7 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.DPB_FrameBase"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_y"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -783,7 +797,7 @@
       </link>
       <location y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsBiPredOrLx"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -793,7 +807,7 @@
       </link>
       <location y="66"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsReadOrNewSlice"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -803,7 +817,7 @@
       </link>
       <location y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Mv"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -813,7 +827,7 @@
       </link>
       <location y="98"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.9" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PictSize"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -823,7 +837,7 @@
       </link>
       <location y="114"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.10" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.9" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Poc"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -833,7 +847,7 @@
       </link>
       <location y="130"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.11" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.10" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PocRef"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -843,7 +857,7 @@
       </link>
       <location y="146"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.12" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.11" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PredCuSize"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -853,7 +867,7 @@
       </link>
       <location y="162"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.13" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.12" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RpsPoc"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -863,7 +877,7 @@
       </link>
       <location y="178"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_u"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -873,7 +887,7 @@
       </link>
       <location y="194"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_v"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -883,7 +897,7 @@
       </link>
       <location y="210"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.17" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.16" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsBiPredOrLx2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -893,7 +907,7 @@
       </link>
       <location y="226"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.18" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.17" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="IsReadOrNewSlice2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -903,7 +917,7 @@
       </link>
       <location y="242"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.19" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.18" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Mv2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -913,7 +927,7 @@
       </link>
       <location y="258"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.20" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.19" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PicSize2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -923,7 +937,7 @@
       </link>
       <location y="274"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.21" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.20" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Poc2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -933,7 +947,7 @@
       </link>
       <location y="290"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.22" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.21" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PocRef2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -943,7 +957,7 @@
       </link>
       <location y="306"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.23" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.22" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="PredCuSize2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -953,7 +967,7 @@
       </link>
       <location y="322"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.24" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.23" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RpsPoc2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -963,7 +977,7 @@
       </link>
       <location y="338"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.16" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.15" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_v2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -973,7 +987,7 @@
       </link>
       <location y="354"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.14" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.13" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_y2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -983,7 +997,7 @@
       </link>
       <location y="370"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.15" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.14" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Sample_u2"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -993,7 +1007,7 @@
       </link>
       <location y="386"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.28" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.27" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_y"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1003,7 +1017,7 @@
       </link>
       <location x="197" y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.29" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.28" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_u"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1013,7 +1027,7 @@
       </link>
       <location x="197" y="66"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.30" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.29" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_v"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1023,7 +1037,7 @@
       </link>
       <location x="197" y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.25" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.24" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="vid_y"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1033,7 +1047,7 @@
       </link>
       <location x="197" y="98"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.26" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.25" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="vid_u"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1043,7 +1057,7 @@
       </link>
       <location x="197" y="114"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.27" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.26" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="vid_v"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1053,7 +1067,7 @@
       </link>
       <location x="197" y="130"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.31" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.30" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_v2"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1063,7 +1077,7 @@
       </link>
       <location x="197" y="146"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.32" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.31" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_u2"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1073,7 +1087,7 @@
       </link>
       <location x="197" y="162"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.33" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.32" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="RefSample_y2"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1087,7 +1101,7 @@
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="XDF_ID" value="INSTANCE"/>
     <properties key="refinement" value="/Research/bin/org/ietr/mpegh/part2/common/MergeYUV.ir"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="93" x="953" y="135" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="120" height="93" x="953" y="120" style="//@styles.0/@styles.2" cornerHeight="5" cornerWidth="5">
       <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="120" height="40" style="//@styles.1/@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Merger">
         <properties key="XDF_ID" value="INSTANCE_LABEL"/>
       </graphicsAlgorithmChildren>
@@ -1116,7 +1130,7 @@
     <link>
       <businessObjects href="Top_mpegh_part2_main.xdf#//@instances.Merger"/>
     </link>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.25" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.24" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="Y"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -1126,7 +1140,7 @@
       </link>
       <location y="50"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.26" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.25" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="U"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -1136,7 +1150,7 @@
       </link>
       <location y="66"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.27" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.26" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="V"/>
       <properties key="SHAPE_DIRECTION" value="input"/>
@@ -1146,7 +1160,7 @@
       </link>
       <location y="82"/>
     </anchors>
-    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.35" useAnchorLocationAsConnectionEndpoint="true">
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.33" useAnchorLocationAsConnectionEndpoint="true">
       <properties key="XDF_ID" value="INSTANCE_PORT"/>
       <properties key="REF_PORT_NAME" value="YUV"/>
       <properties key="SHAPE_DIRECTION" value="output"/>
@@ -1253,21 +1267,6 @@
     <styles lineStyle="UNSPECIFIED" filled="false" id="INSTANCE_TEXT" font="//@fonts.1" verticalAlignment="ALIGNMENT_MIDDLE"/>
     <styles foreground="//@colors.2" lineStyle="UNSPECIFIED" filled="false" id="INSTANCE_PORT_TEXT" horizontalAlignment="UNSPECIFIED" verticalAlignment="ALIGNMENT_MIDDLE"/>
   </styles>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.2/@anchors.0">
-    <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
-    <link>
-      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Source.O-HevcDecoder.BYTE"/>
-    </link>
-    <connectionDecorators visible="true" locationRelative="true" location="1.0">
-      <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.4">
-        <points/>
-        <points x="-12" y="5"/>
-        <points x="-12" y="-5"/>
-      </graphicsAlgorithm>
-    </connectionDecorators>
-    <bendpoints x="148" y="564"/>
-    <bendpoints x="148" y="217"/>
-  </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.5" end="//@children.1/@anchors.1">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
     <link>
@@ -1280,10 +1279,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="395" y="233"/>
-    <bendpoints x="395" y="72"/>
-    <bendpoints x="1089" y="72"/>
-    <bendpoints x="1089" y="200"/>
+    <bendpoints x="380" y="218"/>
+    <bendpoints x="380" y="57"/>
+    <bendpoints x="1089" y="57"/>
+    <bendpoints x="1089" y="185"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.4" end="//@children.1/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1297,10 +1296,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="380" y="217"/>
-    <bendpoints x="380" y="57"/>
-    <bendpoints x="1104" y="57"/>
-    <bendpoints x="1104" y="215"/>
+    <bendpoints x="365" y="202"/>
+    <bendpoints x="365" y="42"/>
+    <bendpoints x="1104" y="42"/>
+    <bendpoints x="1104" y="200"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.7" end="//@children.4/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1314,8 +1313,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="410" y="265"/>
-    <bendpoints x="410" y="137"/>
+    <bendpoints x="395" y="250"/>
+    <bendpoints x="395" y="122"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.8" end="//@children.4/@anchors.9">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1355,8 +1354,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="425" y="313"/>
-    <bendpoints x="425" y="153"/>
+    <bendpoints x="410" y="298"/>
+    <bendpoints x="410" y="138"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.11" end="//@children.4/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1370,8 +1369,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="440" y="329"/>
-    <bendpoints x="440" y="169"/>
+    <bendpoints x="425" y="314"/>
+    <bendpoints x="425" y="154"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.12" end="//@children.4/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1385,8 +1384,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="455" y="345"/>
-    <bendpoints x="455" y="185"/>
+    <bendpoints x="440" y="330"/>
+    <bendpoints x="440" y="170"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.13" end="//@children.4/@anchors.4">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1400,8 +1399,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="470" y="361"/>
-    <bendpoints x="470" y="201"/>
+    <bendpoints x="455" y="346"/>
+    <bendpoints x="455" y="186"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.14" end="//@children.4/@anchors.5">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1415,8 +1414,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="485" y="377"/>
-    <bendpoints x="485" y="217"/>
+    <bendpoints x="470" y="362"/>
+    <bendpoints x="470" y="202"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.15" end="//@children.4/@anchors.6">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1430,8 +1429,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="500" y="393"/>
-    <bendpoints x="500" y="233"/>
+    <bendpoints x="485" y="378"/>
+    <bendpoints x="485" y="218"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.16" end="//@children.4/@anchors.7">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1445,8 +1444,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="515" y="409"/>
-    <bendpoints x="515" y="249"/>
+    <bendpoints x="500" y="394"/>
+    <bendpoints x="500" y="234"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@anchors.17" end="//@children.4/@anchors.8">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1460,8 +1459,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="530" y="425"/>
-    <bendpoints x="530" y="265"/>
+    <bendpoints x="515" y="410"/>
+    <bendpoints x="515" y="250"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.7" end="//@children.4/@anchors.20">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1475,8 +1474,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="680" y="612"/>
-    <bendpoints x="680" y="457"/>
+    <bendpoints x="665" y="612"/>
+    <bendpoints x="665" y="442"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.8" end="//@children.4/@anchors.21">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1490,9 +1489,9 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="680" y="628"/>
-    <bendpoints x="680" y="773"/>
-    <bendpoints x="701" y="773"/>
+    <bendpoints x="665" y="628"/>
+    <bendpoints x="665" y="773"/>
+    <bendpoints x="686" y="773"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.9" end="//@children.4/@anchors.19">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1506,8 +1505,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="665" y="644"/>
-    <bendpoints x="665" y="441"/>
+    <bendpoints x="650" y="644"/>
+    <bendpoints x="650" y="426"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.10" end="//@children.4/@anchors.11">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1521,8 +1520,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="545" y="660"/>
-    <bendpoints x="545" y="313"/>
+    <bendpoints x="530" y="660"/>
+    <bendpoints x="530" y="298"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.11" end="//@children.4/@anchors.12">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1536,8 +1535,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="560" y="676"/>
-    <bendpoints x="560" y="329"/>
+    <bendpoints x="545" y="676"/>
+    <bendpoints x="545" y="314"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.12" end="//@children.4/@anchors.13">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1551,8 +1550,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="575" y="692"/>
-    <bendpoints x="575" y="345"/>
+    <bendpoints x="560" y="692"/>
+    <bendpoints x="560" y="330"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.13" end="//@children.4/@anchors.14">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1566,8 +1565,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="590" y="708"/>
-    <bendpoints x="590" y="361"/>
+    <bendpoints x="575" y="708"/>
+    <bendpoints x="575" y="346"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.14" end="//@children.4/@anchors.15">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1581,8 +1580,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="605" y="724"/>
-    <bendpoints x="605" y="377"/>
+    <bendpoints x="590" y="724"/>
+    <bendpoints x="590" y="362"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.15" end="//@children.4/@anchors.16">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1596,8 +1595,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="620" y="740"/>
-    <bendpoints x="620" y="393"/>
+    <bendpoints x="605" y="740"/>
+    <bendpoints x="605" y="378"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.16" end="//@children.4/@anchors.17">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1611,8 +1610,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="635" y="756"/>
-    <bendpoints x="635" y="409"/>
+    <bendpoints x="620" y="756"/>
+    <bendpoints x="620" y="394"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.17" end="//@children.4/@anchors.18">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1626,8 +1625,8 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="650" y="772"/>
-    <bendpoints x="650" y="425"/>
+    <bendpoints x="635" y="772"/>
+    <bendpoints x="635" y="410"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.25" end="//@children.5/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1680,10 +1679,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="908" y="137"/>
-    <bendpoints x="908" y="42"/>
-    <bendpoints x="193" y="42"/>
-    <bendpoints x="193" y="233"/>
+    <bendpoints x="908" y="122"/>
+    <bendpoints x="908" y="12"/>
+    <bendpoints x="163" y="12"/>
+    <bendpoints x="163" y="218"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.23" end="//@children.2/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1697,10 +1696,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="923" y="153"/>
-    <bendpoints x="923" y="27"/>
-    <bendpoints x="163" y="27"/>
-    <bendpoints x="163" y="265"/>
+    <bendpoints x="893" y="138"/>
+    <bendpoints x="893" y="27"/>
+    <bendpoints x="178" y="27"/>
+    <bendpoints x="178" y="250"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.24" end="//@children.2/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1714,10 +1713,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="938" y="169"/>
-    <bendpoints x="938" y="12"/>
-    <bendpoints x="178" y="12"/>
-    <bendpoints x="178" y="249"/>
+    <bendpoints x="938" y="154"/>
+    <bendpoints x="938" y="484"/>
+    <bendpoints x="163" y="484"/>
+    <bendpoints x="163" y="234"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.28" end="//@children.3/@anchors.2">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1731,10 +1730,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="938" y="233"/>
-    <bendpoints x="938" y="499"/>
-    <bendpoints x="193" y="499"/>
-    <bendpoints x="193" y="596"/>
+    <bendpoints x="923" y="218"/>
+    <bendpoints x="923" y="813"/>
+    <bendpoints x="148" y="813"/>
+    <bendpoints x="148" y="596"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.29" end="//@children.3/@anchors.3">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1748,10 +1747,10 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="923" y="249"/>
-    <bendpoints x="923" y="798"/>
-    <bendpoints x="193" y="798"/>
-    <bendpoints x="193" y="612"/>
+    <bendpoints x="908" y="234"/>
+    <bendpoints x="908" y="798"/>
+    <bendpoints x="178" y="798"/>
+    <bendpoints x="178" y="612"/>
   </connections>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.30" end="//@children.3/@anchors.1">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
@@ -1765,15 +1764,15 @@
         <points x="-12" y="-5"/>
       </graphicsAlgorithm>
     </connectionDecorators>
-    <bendpoints x="908" y="265"/>
-    <bendpoints x="908" y="813"/>
-    <bendpoints x="148" y="813"/>
-    <bendpoints x="148" y="580"/>
+    <bendpoints x="893" y="250"/>
+    <bendpoints x="893" y="499"/>
+    <bendpoints x="178" y="499"/>
+    <bendpoints x="178" y="580"/>
   </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.3/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.5/@anchors.3" end="//@children.1/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
     <link>
-      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Source.O-HevcDecoder_2.BYTE"/>
+      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Merger.YUV-display.Byte"/>
     </link>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.4">
@@ -1783,10 +1782,25 @@
       </graphicsAlgorithm>
     </connectionDecorators>
   </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.5/@anchors.3" end="//@children.1/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.2/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
     <link>
-      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Merger.YUV-display.Byte"/>
+      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Source.O1-HevcDecoder.BYTE"/>
+    </link>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.4">
+        <points/>
+        <points x="-12" y="5"/>
+        <points x="-12" y="-5"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <bendpoints x="148" y="550"/>
+    <bendpoints x="148" y="202"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.1" end="//@children.3/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0" style="//@styles.0/@styles.4"/>
+    <link>
+      <businessObjects href="Top_mpegh_part2_main.xdf#//@connections:Source.O2-HevcDecoder_2.BYTE"/>
     </link>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" lineVisible="false" transparency="0.0" style="//@styles.0/@styles.4">

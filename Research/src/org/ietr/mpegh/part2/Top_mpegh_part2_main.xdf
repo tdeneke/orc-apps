@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XDF name="Top_mpegh_part2_main">
     <Instance id="Source">
-        <Class name="org.sc29.wg11.common.SourceTest"/>
+        <Class name="org.ietr.mpegh.part2.common.SourceFrame"/>
     </Instance>
     <Instance id="display">
         <Class name="org.sc29.wg11.common.DisplayYUVWithCrop"/>
@@ -33,7 +33,6 @@
     <Instance id="Merger">
         <Class name="org.ietr.mpegh.part2.common.MergeYUV"/>
     </Instance>
-    <Connection dst="HevcDecoder" dst-port="BYTE" src="Source" src-port="O"/>
     <Connection dst="display" dst-port="DispCoord" src="HevcDecoder" src-port="DispCoord"/>
     <Connection dst="display" dst-port="PicSizeInMb" src="HevcDecoder" src-port="SIZE"/>
     <Connection dst="DPB_FrameBase" dst-port="Sample_y"
@@ -89,6 +88,7 @@
         src="DPB_FrameBase" src-port="RefSample_u2"/>
     <Connection dst="HevcDecoder_2" dst-port="RefSample_y"
         src="DPB_FrameBase" src-port="RefSample_y2"/>
-    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Source" src-port="O"/>
     <Connection dst="display" dst-port="Byte" src="Merger" src-port="YUV"/>
+    <Connection dst="HevcDecoder" dst-port="BYTE" src="Source" src-port="O1"/>
+    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Source" src-port="O2"/>
 </XDF>
