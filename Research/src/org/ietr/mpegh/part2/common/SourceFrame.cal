@@ -39,8 +39,8 @@ actor SourceFrame () ==> uint(size=8) O1, uint(size=8) O2 :
 	int NB_OUTPUTS = 2;
 
 	uint(size=8) framesBuffer[NB_OUTPUTS][MAX_FRAME_SIZE];
-	int framesSize[NB_OUTPUTS][1];
-	int nbByteSent[NB_OUTPUTS];
+	int framesSize[NB_OUTPUTS][1] := [[0],[0]];
+	int nbByteSent[NB_OUTPUTS]:=[0,0];
 	
 	initialize ==>
 	do
@@ -70,7 +70,7 @@ actor SourceFrame () ==> uint(size=8) O1, uint(size=8) O2 :
 		nbByteSent[1] = framesSize[1][0]
 	do
 		ffmpeg_readFrame(framesBuffer, framesSize, 1);
-		nbByteSent[0] := 0;
+		nbByteSent[1] := 0;
 	end
 
 		
