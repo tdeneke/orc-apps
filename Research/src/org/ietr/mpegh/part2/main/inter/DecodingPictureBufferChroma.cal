@@ -103,7 +103,17 @@ actor DecodingPictureBufferChroma ()
 	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
 	bool pocDone[1000] := [false : for int i in 0 .. 16];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
-	uint currentPoc := 0;	
+	uint currentPoc := 0;
+	
+	int (size=16) pocRef2[DPB_SIZE];
+	bool          isRef2[DPB_SIZE];
+	bool          isStillRef2[DPB_SIZE];
+	bool usefulPoc2[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
+	bool pocDone2[1000] := [false : for int i in 0 .. 16];
+	uint pocToIndex2[1000] := [0 : for int i in 0 .. 16];
+	uint currentPoc2 := 0;
+	
+	uint currentPocDisplay := 0;	
 
 	int (size=4)  currIdx := -1;
 	int (size=4)  lastIdx := -1;
@@ -200,6 +210,8 @@ actor DecodingPictureBufferChroma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
+		currentPoc := poc;
+		println("poc11 = " + poc);
 	end
 	
 	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
@@ -224,6 +236,7 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
+		currentPoc := poc;
 		isNewPicture    := true;
 		nbList          := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
@@ -233,6 +246,7 @@ actor DecodingPictureBufferChroma ()
 		else
 			idx := 4;
 		end
+		println("poc12 = " + poc);
 	end
 
 	/** We get all the references from the 5 lists of the Rps
@@ -335,13 +349,14 @@ actor DecodingPictureBufferChroma ()
 	guard
 		idx = 3,
 		sendy < picSizeInCu[1],
-		pocDone[currentPoc] = true
+		pocDone[currentPocDisplay] = true
 	var
 		uint (size=8) CU[8*8]
 	do
+		//println("send1");
 		foreach int i in 0 .. 7 do	
 			foreach int j in 0 .. 7 do
-				CU[i*8 + j] := pictureBuffer[pocToIndex[currentPoc]][((BORDER_SIZE + sendy * 16) >> 1 )+ i][((BORDER_SIZE + sendx * 16) >> 1 ) + j];
+				CU[i*8 + j] := pictureBuffer[pocToIndex[currentPocDisplay]][((BORDER_SIZE + sendy * 16) >> 1 )+ i][((BORDER_SIZE + sendx * 16) >> 1 ) + j];
 			end
 		end
 			
@@ -356,13 +371,13 @@ actor DecodingPictureBufferChroma ()
 	guard
 		idx = 3,
 		sendy = picSizeInCu[1],
-		pocDone[currentPoc] = true
+		pocDone[currentPocDisplay] = true
 	do
-		println("send1Done currentPoc = " + currentPoc);
+		println("send1Done currentPocdisplay = " + currentPocDisplay);
 		sendx := 0;
 		sendy := 0;
-		pocDone[currentPoc] := false;
-		currentPoc := currentPoc + 1;
+		pocDone[currentPocDisplay] := false;
+		currentPocDisplay := currentPocDisplay + 1;
 		usefulPoc[lastIdx] := false;
 	end
 	
@@ -382,7 +397,8 @@ actor DecodingPictureBufferChroma ()
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone[pocRef[lastIdx]] := true;
+		  pocDone[currentPoc] := true;
+		  println("currentPoc = " + currentPoc);
 		  pocToIndex[pocRef[lastIdx]] := lastIdx;
 		  usefulPoc[lastIdx] := true;
 //		if pocRef[lastIdx] < currentPoc then
@@ -652,18 +668,20 @@ actor DecodingPictureBufferChroma ()
 		picHeightInPix], Poc2:[poc] ==>
 	guard
 		/* Fix me : We should know when there is a new picture */
-		idx2 = 3, isRead = 0 and if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end
+		idx2 = 3, isRead = 0 and if(currIdx2 = -1) then false else poc = pocRef2[currIdx2]end
 	do
 		isNewPicture2 := false;
 		nbList2 := 0;
-		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
+		currentPoc2 := poc;
+		println("poc21 = " + poc);
 	end
 	
 	action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
 		picHeightInPix], Poc2:[poc] ==>
 	guard
-		(idx2 = 0 or idx2 = 3),isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)
+		(idx2 = 0 or idx2 = 3),isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef2[currIdx2]end)
 	do
 //		println("Dpb ; Pict num "+pictNum);
 		pictNum2 := pictNum2 + 1;
@@ -676,21 +694,23 @@ actor DecodingPictureBufferChroma ()
 		lastIdx2 := currIdx2;
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(not isRef[i]) then
+			if(not isRef2[i]) then
 				currIdx2 := i;
 			end
 		end
-		isRef[currIdx2]  := true;
-		pocRef[currIdx2] := poc;
+		isRef2[currIdx2]  := true;
+		pocRef2[currIdx2] := poc;
+		currentPoc2 := poc;
 		isNewPicture2    := true;
 		nbList2          := 0;
-		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
+		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 		
 		if idx2 = 0 then
 			idx2 := 1;
 		else
 			idx2 := 4;
 		end
+		println("poc22 = " + poc);
 	end
 
 	/** We get all the references from the 5 lists of the Rps
@@ -718,9 +738,9 @@ actor DecodingPictureBufferChroma ()
 		 */
 		foreach int i in 0 .. DPB_SIZE - 1
 		do
-			isRef[i] := isRef[i] and isStillRef[i];
+			isRef2[i] := isRef2[i] and isStillRef2[i];
 		end
-		isRef[currIdx2] := true;
+		isRef2[currIdx2] := true;
 		
 		if idx2 = 1 then
 			idx2 := 3;
@@ -739,8 +759,8 @@ actor DecodingPictureBufferChroma ()
 		sizeOfList2 := sizeOfList2 - 1;
 		foreach int i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = pocVal)then
-				isStillRef[i] := true;
+			if(pocRef2[i] = pocVal)then
+				isStillRef2[i] := true;
 			end
 		end
 	end
@@ -764,7 +784,7 @@ actor DecodingPictureBufferChroma ()
 	action Sample2:[samp] repeat 8*8 ==>
 	guard
 		idx2 = 7, yIdx2 < picSizeInCu2[1],
-		usefulPoc[lastIdx2] = false
+		usefulPoc2[lastIdx2] = false
 	var
 		uint(size=16) xPixIdx,
 		uint(size=16) yPixIdx
@@ -793,13 +813,14 @@ actor DecodingPictureBufferChroma ()
 	guard
 		idx2 = 3,
 		sendy2 < picSizeInCu2[1],
-		pocDone[currentPoc] = true
+		pocDone2[currentPocDisplay] = true
 	var
 		uint (size=8) CU[8*8]
 	do
+		//println("send2");
 		foreach int i in 0 .. 7 do	
 			foreach int j in 0 .. 7 do
-				CU[i*8 + j] := pictureBuffer[pocToIndex[currentPoc]][((BORDER_SIZE + sendy2 * 16) >> 1 )+ i][((BORDER_SIZE + sendx2 * 16) >> 1 ) + j];
+				CU[i*8 + j] := pictureBuffer[pocToIndex2[currentPocDisplay]][((BORDER_SIZE + sendy2 * 16) >> 1 )+ i][((BORDER_SIZE + sendx2 * 16) >> 1 ) + j];
 			end
 		end
 			
@@ -814,14 +835,14 @@ actor DecodingPictureBufferChroma ()
 	guard
 		idx2 = 3,
 		sendy2 = picSizeInCu2[1],
-		pocDone[currentPoc] = true
+		pocDone2[currentPocDisplay] = true
 	do
-		println("send2Done currentPoc = " + currentPoc);
+		println("send2Done currentPocdisplay2 = " + currentPocDisplay);
 		sendx2 := 0;
 		sendy2 := 0;
-		pocDone[currentPoc] := false;
-		currentPoc := currentPoc + 1;
-		usefulPoc[lastIdx2] := false;
+		pocDone2[currentPocDisplay] := false;
+		currentPocDisplay := currentPocDisplay + 1;
+		usefulPoc2[lastIdx2] := false;
 	end
 	
 	action ==>
@@ -833,16 +854,17 @@ actor DecodingPictureBufferChroma ()
 	do
 	/* Fill in chroma border */
 		println("fill2done lastidx2 = " + lastIdx2);
-		println("pocRef[lastIdx] = " + pocRef[lastIdx]);
+		println("pocRef[lastIdx] = " + pocRef2[lastIdx2]);
 		fillBorder_chroma_cal(
 		  pictureBuffer,
 		  lastIdx2,
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone[pocRef[lastIdx2]] := true;
-		  pocToIndex[pocRef[lastIdx2]] := lastIdx2;
-		  usefulPoc[lastIdx2] := true;
+		  pocDone2[currentPoc2] := true;
+		  println("currentPoc2 = " + currentPoc2);
+		  pocToIndex2[pocRef2[lastIdx2]] := lastIdx2;
+		  usefulPoc2[lastIdx2] := true;
 //		if pocRef[lastIdx2] < currentPoc then
 //				currentPoc := 0;
 //		end
@@ -878,7 +900,7 @@ actor DecodingPictureBufferChroma ()
 	do
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = poc and isRef[i]) then
+			if(pocRef2[i] = poc and isRef2[i]) then
 				idx := i;
 			end
 		end
@@ -921,7 +943,7 @@ actor DecodingPictureBufferChroma ()
 	do
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = poc and isRef[i]) then
+			if(pocRef2[i] = poc and isRef2[i]) then
 				idx := i;
 			end
 		end
@@ -964,7 +986,7 @@ actor DecodingPictureBufferChroma ()
 	do
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = poc and isRef[i]) then
+			if(pocRef2[i] = poc and isRef2[i]) then
 				idx := i;
 			end
 		end
@@ -1007,7 +1029,7 @@ actor DecodingPictureBufferChroma ()
 	do
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = poc and isRef[i]) then
+			if(pocRef2[i] = poc and isRef2[i]) then
 				idx := i;
 			end
 		end
@@ -1050,7 +1072,7 @@ actor DecodingPictureBufferChroma ()
 	do
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
-			if(pocRef[i] = poc and isRef[i]) then
+			if(pocRef2[i] = poc and isRef2[i]) then
 				idx := i;
 			end
 		end
