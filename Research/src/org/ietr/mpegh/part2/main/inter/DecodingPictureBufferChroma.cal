@@ -101,17 +101,21 @@ actor DecodingPictureBufferChroma ()
 	bool          isRef[DPB_SIZE];
 	bool          isStillRef[DPB_SIZE];
 	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
-	bool pocDone[1000] := [false : for int i in 0 .. 16];
-	uint pocToIndex[1000] := [0 : for int i in 0 .. 16];
-	uint currentPoc := 0;
+	bool pocDone[1000] := [false : for int i in 0 .. 999];
+	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
+	uint currentPoc[1000] := [0 : for int i in 0 .. 999];
+	uint pocCounterRead :=0;
+	uint currentPocCounter := 0;
 	
 	int (size=16) pocRef2[DPB_SIZE];
 	bool          isRef2[DPB_SIZE];
 	bool          isStillRef2[DPB_SIZE];
 	bool usefulPoc2[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
-	bool pocDone2[1000] := [false : for int i in 0 .. 16];
-	uint pocToIndex2[1000] := [0 : for int i in 0 .. 16];
-	uint currentPoc2 := 0;
+	bool pocDone2[1000] := [false : for int i in 0 .. 999];
+	uint pocToIndex2[1000] := [0 : for int i in 0 .. 999];
+	uint currentPoc2[1000] := [0 : for int i in 0 .. 999];
+	uint pocCounterRead2 :=0;
+	uint currentPocCounter2 := 0;
 	
 	uint currentPocDisplay := 0;	
 
@@ -210,7 +214,8 @@ actor DecodingPictureBufferChroma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
-		currentPoc := poc;
+		currentPoc[pocCounterRead] := poc;
+		pocCounterRead := pocCounterRead + 1;
 		println("poc11 = " + poc);
 	end
 	
@@ -236,7 +241,8 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
-		currentPoc := poc;
+		currentPoc[pocCounterRead] := poc;
+		pocCounterRead := pocCounterRead + 1;
 		isNewPicture    := true;
 		nbList          := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
@@ -325,6 +331,7 @@ actor DecodingPictureBufferChroma ()
 		uint(size=16) xPixIdx,
 		uint(size=16) yPixIdx
 	do
+		//println("read1");
 		xPixIdx := (BORDER_SIZE + xIdx*16)>>1;
 		yPixIdx := (BORDER_SIZE + yIdx*16)>>1;
 		copy_cu_dpb_chroma_cal(
@@ -397,8 +404,7 @@ actor DecodingPictureBufferChroma ()
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone[currentPoc] := true;
-		  println("currentPoc = " + currentPoc);
+		  pocDone[currentPoc[currentPocCounter]] := true;
 		  pocToIndex[pocRef[lastIdx]] := lastIdx;
 		  usefulPoc[lastIdx] := true;
 //		if pocRef[lastIdx] < currentPoc then
@@ -674,7 +680,8 @@ actor DecodingPictureBufferChroma ()
 		nbList2 := 0;
 		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
-		currentPoc2 := poc;
+		currentPoc2[pocCounterRead2] := poc;
+		pocCounterRead2 := pocCounterRead2 + 1;
 		println("poc21 = " + poc);
 	end
 	
@@ -700,7 +707,8 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef2[currIdx2]  := true;
 		pocRef2[currIdx2] := poc;
-		currentPoc2 := poc;
+		currentPoc2[pocCounterRead2] := poc;
+		pocCounterRead2 := pocCounterRead2 + 1;
 		isNewPicture2    := true;
 		nbList2          := 0;
 		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
@@ -789,6 +797,7 @@ actor DecodingPictureBufferChroma ()
 		uint(size=16) xPixIdx,
 		uint(size=16) yPixIdx
 	do
+		//println("read2");
 		xPixIdx := (BORDER_SIZE + xIdx2*16)>>1;
 		yPixIdx := (BORDER_SIZE + yIdx2*16)>>1;
 		copy_cu_dpb_chroma_cal(
@@ -861,8 +870,7 @@ actor DecodingPictureBufferChroma ()
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone2[currentPoc2] := true;
-		  println("currentPoc2 = " + currentPoc2);
+		  pocDone2[currentPoc2[currentPocCounter2]] := true;
 		  pocToIndex2[pocRef2[lastIdx2]] := lastIdx2;
 		  usefulPoc2[lastIdx2] := true;
 //		if pocRef[lastIdx2] < currentPoc then
