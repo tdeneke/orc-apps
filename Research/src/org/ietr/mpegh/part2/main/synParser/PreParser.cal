@@ -16,7 +16,8 @@ actor PreParser ()
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
 				uint(size= 8) byte,
-				int			  PocStreamOrder	 
+				int			  PocStreamOrder,
+				bool 	 	  IsNewHead	 
 				==>
 				uint(size= 8) HeaderData,
 				uint(size=16) Poc,
@@ -30,8 +31,9 @@ actor PreParser ()
 	uint(size=10) sps_id;
 	uint(size=10) pps_id;
 	//uint(size=8) curr_Tile := TilesInfo[1];
-
-
+	int headerSize := 0;
+	uint(size= 8) headerBuffer [4096];
+	bool readFlag := false;
 	/**************************************************************************
 	 **************************************************************************
 	 ********        Bitstream Reader                     *********************
@@ -41,14 +43,20 @@ actor PreParser ()
 	/**************************************************************************
 	 * search_start_code or getByte
 	 *************************************************************************/
-	uint counterByte := 0;
-	action byte:[ b ] ==>
+	action byte:[ b ], IsNewHead:[isNewHead] ==>
 	guard
 		not isFifoFull(fifo)
 	var
 		uint(size=4) fifo_idx  =  fifo[FIFO_IDX]
 	do
-			counterByte := counterByte + 1; //localizeAEB := localizeAEB >> 1;
+		if isNewHead then
+			headerSize := 0;
+			readFlag := true;
+		end
+		if readFlag then
+			headerBuffer[headerSize] := b;
+			headerSize := headerSize + 1;
+		end
 		if b != EPR_VALUE or zeroByte != 3 then
 			if b = START_CODE_VALUE and zeroByte = 3 then
 				fifo[fifo_idx]      := b + START_CODE_FLAG;
@@ -111,8 +119,9 @@ actor PreParser ()
 	 * read_nal_unit_header
 	 *************************************************************************/
 	uint(size= 6) nal_unit_type;
+	int currentPso := 0;
 
-	read_nal_unit_header : action ==>
+	read_nal_unit_header : action PocStreamOrder:[pso] ==>
 	guard
 		isFifoFull(fifo)
 	var
@@ -137,6 +146,7 @@ actor PreParser ()
 			vld_u(  3, fifo, res);
 		end
 		se_idx := 1;
+		currentPso := pso;
 	end
 	/**************************************************************************
 	 * look_for.VPS_header
@@ -152,14 +162,14 @@ actor PreParser ()
 	/**************************************************************************
 	 * look_for.SEI_header
 	 *************************************************************************/
-	look_for.SEI_header: action ==>
-	guard
-		nal_unit_type = NAL_SEI_PREFIX or nal_unit_type = NAL_SEI_SUFFIX
-	do
-		if DEBUG_PARSER then
-			println("=========== SEI message ===========");
-		end
-	end
+//	look_for.SEI_header: action ==>
+//	guard
+//		nal_unit_type = NAL_SEI_PREFIX or nal_unit_type = NAL_SEI_SUFFIX
+//	do
+//		if DEBUG_PARSER then
+//			println("=========== SEI message ===========");
+//		end
+//	end
 	/**************************************************************************
 	 * look_for.SPS_header
 	 *************************************************************************/
@@ -1177,7 +1187,6 @@ actor PreParser ()
 	 * read_SPS_Header.se_idx_8
 	 *************************************************************************/
 	
-	bool          sps_strong_intra_smoothing_enable_flag[NB_MAX_SPS];
 	uint(size= 6) sps_num_long_term_ref_pics_sps[NB_MAX_SPS];
 
 	read_SPS_Header.se_idx_8 : action ==>
@@ -1204,7 +1213,6 @@ actor PreParser ()
 			"sps_temporal_mvp_enable_flag            ");
 			vld_u_name(1, fifo, res,
 			"sps_strong_intra_smoothing_enable_flag  ");
-		sps_strong_intra_smoothing_enable_flag[sps_id] := res[0] = 1;
 			vld_u_name(1, fifo, res,
 			"vui_parameters_present_flag             ");
 		if res[0] = 1 then
@@ -1260,7 +1268,6 @@ actor PreParser ()
 	uint(size= 1) pps_dependent_slice_segments_enabled_flag[NB_MAX_PPS];
 	uint(size= 1) pps_output_flag_present_flag[NB_MAX_PPS];
 	uint(size= 3) pps_num_extra_slice_header_bits[NB_MAX_PPS];
-	bool          pps_constrained_intra_pred_flag[NB_MAX_PPS];
 	uint(size= 8) pps_num_tile_columns_minus1[NB_MAX_PPS];
 	uint(size= 8) pps_num_tile_rows_minus1[NB_MAX_PPS];
 	uint(size= 1) pps_uniform_spacing_flag[NB_MAX_PPS];
@@ -1283,7 +1290,6 @@ actor PreParser ()
 		vld_ue_name(    fifo, res, "num_ref_idx_l1_default_active_minus1    ");
 		vld_se_name(    fifo, res, "init_qp_minus26                         ");
 		vld_u_name(  1, fifo, res, "constrained_intra_pred_flag             ");
-		pps_constrained_intra_pred_flag[pps_id] := res[0] != 0;
 		vld_u_name(  1, fifo, res, "transform_skip_enabled_flag             ");
 		vld_u_name(  1, fifo, res, "cu_qp_delta_enabled_flag                ");
 		if res[0] = 1 then
@@ -1329,6 +1335,7 @@ actor PreParser ()
 		end
 		cnt_i := cnt_i + 1;
 	end
+	
 	read_PPS_Header.se_idx_3.loopEnd : action ==>
 	guard
 		se_idx = 3,
@@ -1571,6 +1578,9 @@ actor PreParser ()
 	read_PPS_Header_done : action ==>
 	guard
 		se_idx = 6
+	do
+		readFlag := false;
+		headerSize := 0;
 	end
 
 	/**************************************************************************
@@ -1589,7 +1599,6 @@ actor PreParser ()
 	uint(size=16) PicSizeInCtbsY;
 
 	int(size=32) poc;
-	uint(size= 3) slice_type;
 
 	procedure compute_POC(int pic_order_cnt_lsb)
 	var
@@ -1633,8 +1642,7 @@ actor PreParser ()
 	guard
 			se_idx = 1 and idx = 0 and isFifoFull(fifo)
 	var
-		uint(size=32) res[1],
-		uint(size= 4) part_mode
+		uint(size=32) res[1]
 	do
 
 		Log2MinCbSize     := sps_log2_min_coding_block_size[sps_id] ;
@@ -1665,57 +1673,50 @@ actor PreParser ()
 				slice_idx := slice_idx + 1;
 			end
 		end
-		if first_slice_segment_in_pic_flag = 1 then
-			part_mode := PART_MODE_PICT;
-		elsif dependent_slice_segment_flag = 0 then
-			part_mode := PART_MODE_SLICE_INDEP;
-		else
-			part_mode := PART_MODE_SLICE_DEP;
-		end
 		if dependent_slice_segment_flag = 0 then
 				se_idx := 200;
 			else
-				se_idx := 6;
+				se_idx := 100;
 			end
 		end
 
-		read_SliceHeader.se_idx_11 : action ==> Poc:[poc]
-		guard
-				se_idx = 200 and isFifoFull(fifo)
-		var
-			uint(size=32) res[1]
-		do
-			foreach int i in 0 .. pps_num_extra_slice_header_bits[pps_id] - 1 do
-				vld_u_name(  1, fifo, res, "slice_reserved_undetermined_flag[i]     ");
-			end
-			vld_ue_name(    fifo, res, "slice_type                              ");
-			slice_type := res[0];
-			idx := 0;
-			if(pps_output_flag_present_flag[pps_id] = 1) then
-				vld_u_name(  1, fifo, res, "pic_output_flag                         ");
-			end
-			if sps_separate_colour_plane_flag[sps_id] = 1 then
-				vld_u_name(  2, fifo, res, "colour_plane_id                         ");
-			end
-
-			if nal_unit_type = NAL_IDR_W_DLP or nal_unit_type = NAL_IDR_N_LP then
-				poc := 0;
-				//sps_num_short_term_ref_pic_sets[sps_id] := 0;
-			else
-				vld_u_name( sps_log2_max_pic_order_cnt_lsb_minus4[sps_id] + 4, fifo, res, "pic_order_cnt_lsb                       ");
-				//compute the number of POC
-				compute_POC(res[0]);
-			end
-		end
-				
-		read_SliceHeader_done : action ==>
-		
+	read_SliceHeader.se_idx_11 : action ==>
 	guard
-		se_idx = 100
+			se_idx = 200 and isFifoFull(fifo)
+	var
+		uint(size=32) res[1]
+	do
+		foreach int i in 0 .. pps_num_extra_slice_header_bits[pps_id] - 1 do
+			vld_u_name(  1, fifo, res, "slice_reserved_undetermined_flag[i]     ");
+		end
+		vld_ue_name(    fifo, res, "slice_type                              ");
+		idx := 0;
+		if(pps_output_flag_present_flag[pps_id] = 1) then
+			vld_u_name(  1, fifo, res, "pic_output_flag                         ");
+		end
+		if sps_separate_colour_plane_flag[sps_id] = 1 then
+			vld_u_name(  2, fifo, res, "colour_plane_id                         ");
+		end
+
+		if nal_unit_type = NAL_IDR_W_DLP or nal_unit_type = NAL_IDR_N_LP then
+			poc := 0;
+			//sps_num_short_term_ref_pic_sets[sps_id] := 0;
+		else
+			vld_u_name( sps_log2_max_pic_order_cnt_lsb_minus4[sps_id] + 4, fifo, res, "pic_order_cnt_lsb                       ");
+			//compute the number of POC
+			compute_POC(res[0]);
+		end
+		se_idx := 100;
+	end
+				
+	read_SliceHeader_done : action ==> Poc:[poc], PocId:[currentPso], HeaderData:[headerBuffer] repeat 4096
+	guard
+		se_idx = 100, currentPso = 0
 	do
 		if DEBUG_CABAC or CHECK_CABAC then
 			println("\tPOC: "+poc);
 		end
+		currentPso := currentPso + 1;
 	end
 		
 	/**************************************************************************
