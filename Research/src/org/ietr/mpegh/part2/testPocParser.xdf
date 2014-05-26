@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XDF name="testPocParser">
+    <Instance id="instance_1">
+        <Class name="org.ietr.mpegh.part2.main.synParser.PreParser"/>
+    </Instance>
+    <Instance id="instance_2">
+        <Class name="org.ietr.mpegh.part2.common.SourceFrame"/>
+    </Instance>
+    <Connection dst="instance_1" dst-port="PocStreamOrder"
+        src="instance_2" src-port="PocId"/>
+    <Connection dst="instance_1" dst-port="byte" src="instance_2" src-port="O"/>
+    <Connection dst="instance_1" dst-port="IsNewHead" src="instance_2" src-port="IsNewHeader"/>
+</XDF>

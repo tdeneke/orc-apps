@@ -34,28 +34,31 @@
 package org.ietr.mpegh.part2.common;
 import std.video.FFmpegUtil.*;
 
-actor SourceFrame () ==> uint(size=8) O1, uint(size=8) O2 :
+actor SourceFrame () ==> uint(size=8) O, uint(size=8) O1, uint(size=8) O2, 
+						 bool IsNewHeader, int PocId, int PocId1, int PocId2 :
 
 	int NB_OUTPUTS = 2;
 
 	uint(size=8) framesBuffer[NB_OUTPUTS][MAX_FRAME_SIZE];
 	int framesSize[NB_OUTPUTS][1] := [[0],[0]];
 	int nbByteSent[NB_OUTPUTS]:=[0,0];
+	int  pocCounter := -1;
 	
 	initialize ==>
 	do
 		ffmpeg_initSource();
 	end
 	
-	o1.readFrame: action ==>
+	o1.readFrame: action ==> IsNewHeader:[true], PocId:[pocCounter], PocId1:[pocCounter]
 	guard
 		nbByteSent[0] = framesSize[0][0]
 	do
 		ffmpeg_readFrame(framesBuffer, framesSize, 0);
 		nbByteSent[0] := 0;
+		pocCounter := pocCounter + 1;
 	end
 	
-	o1.sendData: action ==> O1:[ Out ]
+	o1.sendData: action ==> O1:[ Out ], O:[ Out ]
 	guard
 		nbByteSent[0] < framesSize[0][0]
 	var
@@ -65,16 +68,17 @@ actor SourceFrame () ==> uint(size=8) O1, uint(size=8) O2 :
 		nbByteSent[0] := nbByteSent[0] + 1;
 	end
 	
-	o2.readFrame: action ==>
+	o2.readFrame: action ==> IsNewHeader:[true], PocId:[pocCounter], PocId2:[pocCounter]
 	guard
 		nbByteSent[1] = framesSize[1][0]
 	do
 		ffmpeg_readFrame(framesBuffer, framesSize, 1);
 		nbByteSent[1] := 0;
+		pocCounter := pocCounter + 1;
 	end
 
 		
-	o2.sendData: action ==> O2:[ Out ]
+	o2.sendData: action ==> O2:[ Out ], O:[ Out ]
 	guard
 		nbByteSent[1] < framesSize[1][0]
 	var
