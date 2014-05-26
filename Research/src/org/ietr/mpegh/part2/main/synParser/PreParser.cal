@@ -1674,15 +1674,15 @@ actor PreParser ()
 			end
 		end
 		if dependent_slice_segment_flag = 0 then
-				se_idx := 200;
+				se_idx := 2;
 			else
-				se_idx := 100;
+				se_idx := 3;
 			end
 		end
 
 	read_SliceHeader.se_idx_11 : action ==>
 	guard
-			se_idx = 200 and isFifoFull(fifo)
+			se_idx = 2 and isFifoFull(fifo)
 	var
 		uint(size=32) res[1]
 	do
@@ -1706,17 +1706,16 @@ actor PreParser ()
 			//compute the number of POC
 			compute_POC(res[0]);
 		end
-		se_idx := 100;
+		se_idx := 3;
 	end
 				
 	read_SliceHeader_done : action ==> Poc:[poc], PocId:[currentPso], HeaderData:[headerBuffer] repeat 4096
 	guard
-		se_idx = 100, currentPso = 0
+		se_idx = 3
 	do
 		if DEBUG_CABAC or CHECK_CABAC then
 			println("\tPOC: "+poc);
 		end
-		currentPso := currentPso + 1;
 	end
 		
 	/**************************************************************************

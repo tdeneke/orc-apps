@@ -1,0 +1,33 @@
+package org.ietr.mpegh.part2.main.synParser;
+
+import  std.util.Math.*;
+import  std.stdio.Source.*;
+
+import  org.sc29.wg11.common.BitstreamReadUtils.*;
+import  org.sc29.wg11.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.main.synParser.Algo_ParserUtils.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
+
+actor ParserSink ()
+// TilesInfo[0]: number of tiles to decode
+// TilesInfo[i>0]: increasing indexes of tiles
+				uint(size= 8) HeaderData,
+				uint(size=16) Poc,
+				int 		  PocId,
+				int 		  HeaderSize
+				==>
+				
+:
+	action HeaderData:[header] ==>
+	end
+	action Poc:[poc] ==>
+	end
+	action PocId:[pocId] ==>
+	end
+	action HeaderSize:[headerSize] ==>
+	end
+end

@@ -1,0 +1,37 @@
+package org.ietr.mpegh.part2.main.synParser;
+
+import  std.util.Math.*;
+import  std.stdio.Source.*;
+
+import  org.sc29.wg11.common.BitstreamReadUtils.*;
+import  org.sc29.wg11.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.main.synParser.Algo_ParserUtils.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
+
+actor SourceSink ()
+// TilesInfo[0]: number of tiles to decode
+// TilesInfo[i>0]: increasing indexes of tiles
+				uint(size=8) O, uint(size=8) O1, uint(size=8) O2, 
+						 bool IsNewHeader, int PocId, int PocId1, int PocId2 
+				==>
+				
+:
+	action O:[o] ==>
+	end
+	action O1:[o1] ==>
+	end
+	action O2:[o2] ==>
+	end
+	action IsNewHeader:[isNewHeader] ==>
+	end
+	action PocId:[pocId] ==>
+	end
+	action PocId1:[pocId2] ==>
+	end
+	action PocId2:[pocId2] ==>
+	end
+end
