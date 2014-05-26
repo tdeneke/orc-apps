@@ -64,6 +64,7 @@ import devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
 import org.ietr.mpegh.part2.main.inter.DecodingPictureBufferFunctions.*;
 
 actor DecodingPictureBufferChroma ()
+
 	uint(size=2)  IsBiPredOrLx,
 	uint(size=1)  IsReadOrNewSlc,
 	int (size=32) Mv,
@@ -83,7 +84,9 @@ actor DecodingPictureBufferChroma ()
 	uint(size=7)  PredCuSize2,
 	int (size=16) RpsPoc2,
 	uint(size=8)  Sample2
+	
 		==>
+		
 	uint(size=8)  RefSample,
 	uint(size=8)  VID,
 	
@@ -103,19 +106,19 @@ actor DecodingPictureBufferChroma ()
 	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
 	bool pocDone[1000] := [false : for int i in 0 .. 999];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
-	uint currentPoc[1000] := [0 : for int i in 0 .. 999];
-	uint pocCounterRead :=0;
+//	uint currentPoc[1000] := [0 : for int i in 0 .. 999];
+//	uint pocCounterRead :=0;
 	uint currentPocCounter := 0;
 	
 	int (size=16) pocRef2[DPB_SIZE];
 	bool          isRef2[DPB_SIZE];
 	bool          isStillRef2[DPB_SIZE];
 	bool usefulPoc2[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
-	bool pocDone2[1000] := [false : for int i in 0 .. 999];
+	//bool pocDone[1000] := [false : for int i in 0 .. 999];
 	uint pocToIndex2[1000] := [0 : for int i in 0 .. 999];
-	uint currentPoc2[1000] := [0 : for int i in 0 .. 999];
-	uint pocCounterRead2 :=0;
-	uint currentPocCounter2 := 0;
+//	uint currentPoc2[1000] := [0 : for int i in 0 .. 999];
+//	uint pocCounterRead2 :=0;
+//	uint currentPocCounter2 := 0;
 	
 	uint currentPocDisplay := 0;	
 
@@ -204,7 +207,7 @@ actor DecodingPictureBufferChroma ()
     end
 	
 	/** Getting informations from new slice/picture. Updating these informations **/
-	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
+	isNewSlice: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
 		/* Fix me : We should know when there is a new picture */
@@ -214,12 +217,12 @@ actor DecodingPictureBufferChroma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
-		currentPoc[pocCounterRead] := poc;
-		pocCounterRead := pocCounterRead + 1;
+//		currentPoc[pocCounterRead] := poc;
+//		pocCounterRead := pocCounterRead + 1;
 		println("poc11 = " + poc);
 	end
 	
-	action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
+	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
 		(idx = 0 or idx = 3),isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
@@ -241,8 +244,8 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
-		currentPoc[pocCounterRead] := poc;
-		pocCounterRead := pocCounterRead + 1;
+//		currentPoc[pocCounterRead] := poc;
+//		pocCounterRead := pocCounterRead + 1;
 		isNewPicture    := true;
 		nbList          := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
@@ -258,7 +261,7 @@ actor DecodingPictureBufferChroma ()
 	/** We get all the references from the 5 lists of the Rps
 	 * (StCurrentBefore, StCurrentAfter, StFollowing, LtCurrent, LtFollowing)
 	 **/
-	action RpsPoc:[numPic]==>
+	getRps_launch: action RpsPoc:[numPic]==>
 	guard
 		(idx = 1 or idx = 4),nbList < 5
 	do
@@ -271,7 +274,7 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 
-	action ==>
+	getRps_done: action ==>
 	guard
 		(idx = 1 or idx = 4), nbList = 5
 	do
@@ -294,7 +297,7 @@ actor DecodingPictureBufferChroma ()
 	/** For each we check the index of the reference poc
 	 * (in order to not remove them from the Dpb).
 	 **/
-	action RpsPoc:[pocVal] ==>
+	getRpsPoc_launch: action RpsPoc:[pocVal] ==>
 	guard
 		(idx = 2 or idx = 5), sizeOfList > 0
 	do
@@ -307,7 +310,7 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 
-	action ==>
+	getRpsPoc_done: action ==>
 	guard
 		(idx = 2 or idx = 5), sizeOfList = 0
 	do
@@ -323,7 +326,7 @@ actor DecodingPictureBufferChroma ()
 	/* We get the whole Cu decoded (luma and chroma components) and we save
 	 * it in the Dpb (pictureBuffer).
 	 */
-	action Sample:[samp] repeat 8*8 ==>
+	getCuPix_launch: action Sample:[samp] repeat 8*8 ==>
 	guard
 		idx = 7, yIdx < picSizeInCu[1],
 		usefulPoc[lastIdx] = false
@@ -352,7 +355,7 @@ actor DecodingPictureBufferChroma ()
 	 * reference pixels which can be outside of the picture).
 	 */
 	
-	action ==> VID:[CU] repeat 8*8
+	sendData: action ==> VID:[CU] repeat 8*8
 	guard
 		idx = 3,
 		sendy < picSizeInCu[1],
@@ -374,7 +377,7 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 	
-	action ==>
+	sendDataDone: action ==>
 	guard
 		idx = 3,
 		sendy = picSizeInCu[1],
@@ -388,7 +391,7 @@ actor DecodingPictureBufferChroma ()
 		usefulPoc[lastIdx] := false;
 	end
 	
-	action ==>
+	getCuPix_done: action ==>
 	guard
 		idx = 7, yIdx = picSizeInCu[1]
 	var
@@ -404,16 +407,17 @@ actor DecodingPictureBufferChroma ()
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone[currentPoc[currentPocCounter]] := true;
+		  pocDone[currentPocCounter] := true;
 		  pocToIndex[pocRef[lastIdx]] := lastIdx;
 		  usefulPoc[lastIdx] := true;
+		  currentPocCounter := currentPocCounter + 1;
 //		if pocRef[lastIdx] < currentPoc then
 //				currentPoc := 0;
 //		end
 		idx := 3;
 	end
 
-	action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
+	getReadAddr: action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
 	guard
 		idx = 3, isRead = 1
 	do
@@ -429,7 +433,7 @@ actor DecodingPictureBufferChroma ()
 	/* We get all the informations needed for sending the reference Cu. We save
 	 * these samples in refCu, it will be sent with the actions sendCu.isYxY
 	 */
-	action PocRef:[poc], PredCuSize:[predCuSize],
+	getMvInfo_launch_is64: action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat(32+3)*(32+3)
 	guard
 		idx = 8, numPocRef != 0 && predCuSize = 64
@@ -472,7 +476,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	action PocRef:[poc], PredCuSize:[predCuSize],
+	getMvInfo_launch_is32: action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat(16+3)*(16+3)
 	guard
 		idx = 8, numPocRef != 0 && predCuSize = 32
@@ -515,7 +519,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	action PocRef:[poc], PredCuSize:[predCuSize],
+	getMvInfo_launch_is16: action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat(8+3)*(8+3)
 	guard
 		idx = 8, numPocRef != 0 && predCuSize = 16
@@ -558,7 +562,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	action PocRef:[poc], PredCuSize:[predCuSize],
+	getMvInfo_launch_is8: action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat(4+3)*(4+3)
 	guard
 		idx = 8, numPocRef != 0 && predCuSize = 8
@@ -601,7 +605,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef := numPocRef - 1;
 	end
 	
-	action PocRef:[poc], PredCuSize:[predCuSize],
+	getMvInfo_launch_is4: action PocRef:[poc], PredCuSize:[predCuSize],
 		Mv:[mvX, mvY] ==> RefSample:[refCu] repeat(2+3)*(2+3)
 	guard
 		idx = 8, numPocRef != 0 && predCuSize = 4
@@ -645,7 +649,7 @@ actor DecodingPictureBufferChroma ()
 	end
 	
 	
-	action ==>
+	getMvInfo_done: action ==>
 	guard
 		idx = 8,
 		numPocRef = 0
@@ -653,14 +657,14 @@ actor DecodingPictureBufferChroma ()
 		idx := 3;
 	end
 
-	action ==>
+	checkIsNewPict_isTrue: action ==>
 	guard
 		idx = 6, isNewPicture
 	do
 		idx := 7;
 	end
 
-	action ==>
+	checkIsNewPict_isFalse: action ==>
 	guard
 		idx = 6, not isNewPicture
 	do
@@ -670,7 +674,7 @@ actor DecodingPictureBufferChroma ()
 ///////////////////////////////////////////////////////////// Second frame /////////////////////////////////////////////////////////////
 
 /** Getting informations from new slice/picture. Updating these informations **/
-	action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
+	isNewSlice2: action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
 		picHeightInPix], Poc2:[poc] ==>
 	guard
 		/* Fix me : We should know when there is a new picture */
@@ -680,12 +684,12 @@ actor DecodingPictureBufferChroma ()
 		nbList2 := 0;
 		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
-		currentPoc2[pocCounterRead2] := poc;
-		pocCounterRead2 := pocCounterRead2 + 1;
+//		currentPoc2[pocCounterRead2] := poc;
+//		pocCounterRead2 := pocCounterRead2 + 1;
 		println("poc21 = " + poc);
 	end
 	
-	action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
+	isNewPict2: action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
 		picHeightInPix], Poc2:[poc] ==>
 	guard
 		(idx2 = 0 or idx2 = 3),isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef2[currIdx2]end)
@@ -707,8 +711,8 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef2[currIdx2]  := true;
 		pocRef2[currIdx2] := poc;
-		currentPoc2[pocCounterRead2] := poc;
-		pocCounterRead2 := pocCounterRead2 + 1;
+//		currentPoc2[pocCounterRead2] := poc;
+//		pocCounterRead2 := pocCounterRead2 + 1;
 		isNewPicture2    := true;
 		nbList2          := 0;
 		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
@@ -724,7 +728,7 @@ actor DecodingPictureBufferChroma ()
 	/** We get all the references from the 5 lists of the Rps
 	 * (StCurrentBefore, StCurrentAfter, StFollowing, LtCurrent, LtFollowing)
 	 **/
-	action RpsPoc2:[numPic]==>
+	getRps_launch2: action RpsPoc2:[numPic]==>
 	guard
 		(idx2 = 1 or idx2 = 4),nbList2 < 5
 	do
@@ -737,7 +741,7 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 
-	action ==>
+	getRps_done2: action ==>
 	guard
 		(idx2 = 1 or idx2 = 4), nbList2 = 5
 	do
@@ -760,7 +764,7 @@ actor DecodingPictureBufferChroma ()
 	/** For each we check the index of the reference poc
 	 * (in order to not remove them from the Dpb).
 	 **/
-	action RpsPoc2:[pocVal] ==>
+	getRpsPoc_launch2: action RpsPoc2:[pocVal] ==>
 	guard
 		(idx2 = 2 or idx2 = 5), sizeOfList2 > 0
 	do
@@ -773,7 +777,7 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 
-	action ==>
+	getRpsPoc_end2: action ==>
 	guard
 		(idx2 = 2 or idx2 = 5), sizeOfList2 = 0
 	do
@@ -789,7 +793,7 @@ actor DecodingPictureBufferChroma ()
 	/* We get the whole Cu decoded (luma and chroma components) and we save
 	 * it in the Dpb (pictureBuffer).
 	 */
-	action Sample2:[samp] repeat 8*8 ==>
+	getCuPix_launch2: action Sample2:[samp] repeat 8*8 ==>
 	guard
 		idx2 = 7, yIdx2 < picSizeInCu2[1],
 		usefulPoc2[lastIdx2] = false
@@ -818,11 +822,11 @@ actor DecodingPictureBufferChroma ()
 	 * reference pixels which can be outside of the picture).
 	 */
 	
-	action ==> VID:[CU] repeat 8*8
+	sendData2: action ==> VID:[CU] repeat 8*8
 	guard
 		idx2 = 3,
 		sendy2 < picSizeInCu2[1],
-		pocDone2[currentPocDisplay] = true
+		pocDone[currentPocDisplay] = true
 	var
 		uint (size=8) CU[8*8]
 	do
@@ -840,21 +844,21 @@ actor DecodingPictureBufferChroma ()
 		end
 	end
 	
-	action ==>
+	sendDataDone2: action ==>
 	guard
 		idx2 = 3,
 		sendy2 = picSizeInCu2[1],
-		pocDone2[currentPocDisplay] = true
+		pocDone[currentPocDisplay] = true
 	do
 		println("send2Done currentPocdisplay2 = " + currentPocDisplay);
 		sendx2 := 0;
 		sendy2 := 0;
-		pocDone2[currentPocDisplay] := false;
+		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
 		usefulPoc2[lastIdx2] := false;
 	end
 	
-	action ==>
+	getCuPix_done2: action ==>
 	guard
 		idx2 = 7, yIdx2 = picSizeInCu2[1]
 	var
@@ -870,16 +874,17 @@ actor DecodingPictureBufferChroma ()
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
-		  pocDone2[currentPoc2[currentPocCounter2]] := true;
+		  pocDone[currentPocCounter] := true;
 		  pocToIndex2[pocRef2[lastIdx2]] := lastIdx2;
 		  usefulPoc2[lastIdx2] := true;
+		  currentPocCounter := currentPocCounter + 1;
 //		if pocRef[lastIdx2] < currentPoc then
 //				currentPoc := 0;
 //		end
 		idx2 := 3;
 	end
 
-	action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
+	getReadAddr2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
 	guard
 		idx2 = 3, isRead = 1
 	do
@@ -895,7 +900,7 @@ actor DecodingPictureBufferChroma ()
 	/* We get all the informations needed for sending the reference Cu. We save
 	 * these samples in refCu, it will be sent with the actions sendCu.isYxY
 	 */
-	action PocRef2:[poc], PredCuSize2:[predCuSize],
+	getMvInfo_launch_is64_2: action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(32+3)*(32+3)
 	guard
 		idx2 = 8, numPocRef2 != 0 && predCuSize = 64
@@ -938,7 +943,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef2 := numPocRef2 - 1;
 	end
 	
-	action PocRef2:[poc], PredCuSize2:[predCuSize],
+	getMvInfo_launch_is32_2: action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(16+3)*(16+3)
 	guard
 		idx2 = 8, numPocRef2 != 0 && predCuSize = 32
@@ -981,7 +986,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef2 := numPocRef2 - 1;
 	end
 	
-	action PocRef2:[poc], PredCuSize2:[predCuSize],
+	getMvInfo_launch_is16_2: action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(8+3)*(8+3)
 	guard
 		idx2 = 8, numPocRef2 != 0 && predCuSize = 16
@@ -1024,7 +1029,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef2 := numPocRef2 - 1;
 	end
 	
-	action PocRef2:[poc], PredCuSize2:[predCuSize],
+	getMvInfo_launch_is8_2: action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(4+3)*(4+3)
 	guard
 		idx2 = 8, numPocRef2 != 0 && predCuSize = 8
@@ -1067,7 +1072,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef2 := numPocRef2 - 1;
 	end
 	
-	action PocRef2:[poc], PredCuSize2:[predCuSize],
+	getMvInfo_launch_is4_2: action PocRef2:[poc], PredCuSize2:[predCuSize],
 		Mv2:[mvX, mvY] ==> RefSample2:[refCu] repeat(2+3)*(2+3)
 	guard
 		idx2 = 8, numPocRef2 != 0 && predCuSize = 4
@@ -1110,7 +1115,7 @@ actor DecodingPictureBufferChroma ()
 		numPocRef2 := numPocRef2 - 1;
 	end
 	
-	action ==>
+	getMvInfo_done2: action ==>
 	guard
 		idx2 = 8,
 		numPocRef2 = 0
@@ -1118,14 +1123,14 @@ actor DecodingPictureBufferChroma ()
 		idx2 := 3;
 	end
 
-	action ==>
+	checkIsNewPict_isTrue2: action ==>
 	guard
 		idx2 = 6, isNewPicture2
 	do
 		idx2 := 7;
 	end
 
-	action ==>
+	checkIsNewPict_isFalse2: action ==>
 	guard
 		idx2 = 6, not isNewPicture2
 	do
