@@ -2732,7 +2732,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	uint(size= 8) slice_segment_header_extension_length;
 	uint num_entry_offsets := 0;
 
-		read_SliceHeader.se_idx_6 : action ==>
+	read_SliceHeader.se_idx_6 : action ==>
 	guard
 		se_idx = 6 and isFifoFull(fifo)
 	var
