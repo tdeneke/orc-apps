@@ -16,7 +16,7 @@ actor PreParser ()
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
 				uint(size= 8) byte,
-				int			  PocStreamOrder,
+				int			  NALidx,
 				bool 	 	  IsNewHead	 
 				==>
 				uint(size= 8) HeaderData,
@@ -24,16 +24,15 @@ actor PreParser ()
 				int 		  PocId,
 				int 		  HeaderSize
 :
-	uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL];
-	uint(size= 2) zeroByte := 0;
-	uint(size= 8) se_idx;
+	
+	uint(size=FIFO_DEPTH) fifoHeader[FIFO_SIZE_ALL];
+	uint(size= 2) zeroByteHeader := 0;
+	uint(size=8) headerTab[4][128];
+	uint(size=8) headerTabIdx := 0;
+	bool headerFlag[4] := [false, false, false, false];
 	uint(size=32) cnt_i;
-	uint(size=10) sps_id;
-	uint(size=10) pps_id;
-	//uint(size=8) curr_Tile := TilesInfo[1];
-	int headerSize := 0;
-	uint(size= 8) headerBuffer [4096];
-	bool readFlag := false;
+	bool GoRead := true;
+	
 	/**************************************************************************
 	 **************************************************************************
 	 ********        Bitstream Reader                     *********************
@@ -43,37 +42,29 @@ actor PreParser ()
 	/**************************************************************************
 	 * search_start_code or getByte
 	 *************************************************************************/
-	action byte:[ b ], IsNewHead:[isNewHead] ==>
+	action byte:[ b ]==>
 	guard
-		not isFifoFull(fifo)
+		not isFifoFull(fifoHeader), GoRead
 	var
-		uint(size=4) fifo_idx  =  fifo[FIFO_IDX]
+		uint(size=4) fifo_idx  =  fifoHeader[FIFO_IDX]
 	do
-		if isNewHead then
-			headerSize := 0;
-			readFlag := true;
-		end
-		if readFlag then
-			headerBuffer[headerSize] := b;
-			headerSize := headerSize + 1;
-		end
-		if b != EPR_VALUE or zeroByte != 3 then
+		//if b != EPR_VALUE or zeroByte != 3 then
 			if b = START_CODE_VALUE and zeroByte = 3 then
-				fifo[fifo_idx]      := b + START_CODE_FLAG;
+				fifoHeader[fifo_idx]      := b + START_CODE_FLAG;
 			else
-				fifo[fifo_idx]      := b;
+				fifoHeader[fifo_idx]      := b;
 			end
-			fifo[FIFO_CPT_BITS] := fifo[FIFO_CPT_BITS] + 8;
+			fifoHeader[FIFO_CPT_BITS] := fifoHeader[FIFO_CPT_BITS] + 8;
 			if DEBUG_BITSTREAM then
 				println("fifo["+fifo_idx+"] := "+b);
 			end
-			fifo[FIFO_IDX]      := (fifo_idx+1) & (FIFO_SIZE-1);
-		else
-				if b = EPR_VALUE then //println("AntiEmulationByte");
-				//localizeAEB := localizeAEB + 128;
-				//println("localize AEB = " + localizeAEB);
-			end
-		end
+			fifoHeader[FIFO_IDX]      := (fifo_idx+1) & (FIFO_SIZE-1);
+//		else
+//				if b = EPR_VALUE then //println("AntiEmulationByte");
+//				//localizeAEB := localizeAEB + 128;
+//				//println("localize AEB = " + localizeAEB);
+//			end
+		//end
 		if b = 0 then
 			zeroByte := ((zeroByte << 1) + 1) & 0x3;
 		else
@@ -85,15 +76,311 @@ actor PreParser ()
 	 ********        NAL UNIT                             *********************
 	 **************************************************************************
 	 *************************************************************************/
+
 	/**************************************************************************
-	 * byte_align_a
+	 * search_start_code
 	 *************************************************************************/
-	byte_align_a : action ==>
+	action ==>
 	guard
-		isFifoFull(fifo)
+		not IsStartCode(fifoHeader) and isFifoFull(fifoHeader), headerTabIdx = 0
 	do
-			byte_align(fifo); //localizeAEB := localizeAEB >> 1;
+		flushBits( 8, fifoHeader );
+		if DEBUG_BITSTREAM then
+			println("start_code.search");
+		end
 	end
+	action ==>
+	guard
+		IsStartCode(fifoHeader) and isFifoFull(fifoHeader), headerTabIdx = 0
+	do
+		flushBits( 8, fifoHeader);
+		if DEBUG_BITSTREAM then
+			println("start_code.done");
+		end
+		headerTabIdx := 1;
+	end
+	/**************************************************************************
+	 * read_nal_unit_header
+	 *************************************************************************/
+	uint(size= 6) nal_unit_type_h;
+	uint(size= 6) nuh_layer_id_h;
+	uint(size= 3) temporal_id_h := 0;
+
+	action ==>
+	guard
+		isFifoFull(fifoHeader), headerTabIdx = 1
+	var
+		uint(size=32) res[1]
+	do
+		if DEBUG_BITSTREAM then
+			println("=========== NAL_UNIT ===========");
+			flushBits_name(1, fifoHeader,
+			"forbidden_zero_bit                      ");
+			vld_u_name(6, fifoHeader, res,
+			"nal_unit_type                           ");
+			nal_unit_type_h := res[0];
+			vld_u_name(6, fifoHeader, res,
+			"nuh_layer_id                            ");
+			nuh_layer_id_h := res[0];
+			vld_u_name(3, fifoHeader, res,
+			"nuh_temporal_id_plus1                   ");
+			temporal_id_h := res[0];	
+		else
+			flushBits( 1, fifoHeader );
+			vld_u(  6, fifoHeader, res);
+			nal_unit_type_h := res[0];
+			vld_u(  6, fifoHeader, res);
+			nuh_layer_id_h := res[0];
+			vld_u(  3, fifoHeader, res);
+			temporal_id_h := res[0];
+		end
+		headerTabIdx := 2;
+		cnt_i := 0;
+	end
+	/**************************************************************************
+	 * look_for.VPS_header
+	 *************************************************************************/
+	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	guard
+		nal_unit_type_h = NAL_VPS, headerTabIdx = 2
+	var
+		uint(size=8) nal_info1 = NAL_VPS<<1 + (nuh_layer_id_h>>5),
+		uint(size=8) nal_info2 = ((nuh_layer_id_h<<3)&0xf8) + temporal_id_h
+	do
+		if DEBUG_PARSER then
+			println("=========== Video Parameter Set ID:   ===========");
+		end
+		headerTabIdx := 3;
+		headerFlag[0] := true;
+	end
+	action ==> HeaderData:[byte]
+	guard
+		headerTabIdx = 3 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
+	var
+		uint(size=32) res[1],
+		uint(size= 8) byte
+	do
+		vld_u(  8, fifoHeader, res);
+		headerTab[0][cnt_i] := res[0];
+		cnt_i := cnt_i + 1;
+		byte := res[0];
+	end
+	action ==>
+	guard
+		headerTabIdx = 3 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
+	do
+		headerTabIdx := 0; 
+	end
+	
+	/**************************************************************************
+	 * look_for.SPS_header
+	 *************************************************************************/
+	
+	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	guard
+		nal_unit_type_h = NAL_SPS, headerTabIdx = 2
+	var
+		uint(size=8) nal_info1 = NAL_VPS<<1 + (nuh_layer_id_h>>5),
+		uint(size=8) nal_info2 = ((nuh_layer_id_h<<3)&0xf8) + temporal_id_h
+	do
+		if DEBUG_PARSER then
+			println("=========== Sequence Parameter Set ID:   ===========");
+		end
+		headerTabIdx := 4;
+		headerFlag[1] := true;
+	end
+	
+	action ==> HeaderData:[byte]
+	guard
+		headerTabIdx = 4 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
+	var
+		uint(size=32) res[1],
+		uint(size= 8) byte
+	do
+		vld_u(  8, fifoHeader, res);
+		headerTab[1][cnt_i] := res[0];
+		cnt_i := cnt_i + 1;
+		byte := res[0];
+	end
+	
+	action ==>
+	guard
+		headerTabIdx = 4 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
+	do
+		headerTabIdx := 0; 
+	end
+	/**************************************************************************
+	 * look_for.PPS_header
+	 *************************************************************************/
+	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	guard
+		nal_unit_type_h = NAL_PPS, headerTabIdx = 2
+	var
+		uint(size=8) nal_info1 = NAL_VPS<<1 + (nuh_layer_id_h>>5),
+		uint(size=8) nal_info2 = ((nuh_layer_id_h<<3)&0xf8) + temporal_id_h
+	do
+		if DEBUG_PARSER then
+			println("=========== Picture Parameter Set ID:   ===========");
+		end
+		headerTabIdx := 5;
+		headerFlag[2] := true;
+	end
+	
+	action ==> HeaderData:[byte]
+	guard
+		headerTabIdx = 5 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
+	var
+		uint(size=32) res[1],
+		uint(size= 8) byte
+	do
+		vld_u(  8, fifoHeader, res);
+		headerTab[2][cnt_i] := res[0];
+		cnt_i := cnt_i + 1;
+		byte := res[0];
+	end
+	action ==>
+	guard
+		headerTabIdx = 5 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
+	do
+		headerTabIdx := 0; 
+	end
+	/**************************************************************************
+	 * look_for.Slice_header
+	 *************************************************************************/
+	action ==>
+	guard
+		(nal_unit_type_h = NAL_TRAIL_R    or
+		 nal_unit_type_h = NAL_TSA_N      or
+		 nal_unit_type_h = NAL_TSA_R      or
+		 nal_unit_type_h = NAL_TRAIL_N    or
+		 nal_unit_type_h = NAL_STSA_N		or
+		 nal_unit_type_h = NAL_STSA_R		or
+		 nal_unit_type_h = NAL_RADL_N		or
+		 nal_unit_type_h = NAL_RADL_R		or
+		 nal_unit_type_h = NAL_RASL_N		or
+		 nal_unit_type_h = NAL_RASL_R		or
+		 nal_unit_type_h = NAL_IDR_N_LP	or
+		 nal_unit_type_h = NAL_BLA_W_LP   or
+		 nal_unit_type_h = NAL_BLA_W_RADL or
+		 nal_unit_type_h = NAL_BLA_N_LP   or
+		 nal_unit_type_h = NAL_IDR_W_DLP  or
+		 nal_unit_type_h = NAL_CRA_NUT    or
+		 nal_unit_type_h = NAL_RASL_R)
+	do
+		if DEBUG_PARSER then
+			println("=========== Slice ===========");
+		end
+		headerTabIdx := 6;
+		headerFlag[3] := true;
+	end
+	action ==> HeaderData:[byte]
+	guard
+		headerTabIdx = 6 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
+	var
+		uint(size=32) res[1],
+		uint(size= 8) byte
+	do
+		vld_u(  8, fifoHeader, res);
+		headerTab[3][cnt_i] := res[0];
+		cnt_i := cnt_i + 1;
+		byte := res[0];
+	end
+	action ==>
+	guard
+		headerTabIdx = 6 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
+	do
+		headerTabIdx := 0;
+		GoRead := false;
+		flushFifo(fifo);
+	end
+	/**************************************************************************
+	 * look_for_other_header
+	 *************************************************************************/
+	action ==>
+	guard
+		headerTabIdx = 2 and not (
+			 nal_unit_type_h = NAL_VPS 		or
+			 nal_unit_type_h = NAL_SPS 		or
+			 nal_unit_type_h = NAL_PPS 		or
+			 nal_unit_type_h = NAL_TRAIL_R    or
+			 nal_unit_type_h = NAL_TSA_N      or
+			 nal_unit_type_h = NAL_TSA_R      or
+			 nal_unit_type_h = NAL_TRAIL_N    or
+			 nal_unit_type_h = NAL_STSA_N		or
+			 nal_unit_type_h = NAL_STSA_R		or
+			 nal_unit_type_h = NAL_RADL_N		or
+			 nal_unit_type_h = NAL_RADL_R		or
+			 nal_unit_type_h = NAL_RASL_N		or
+			 nal_unit_type_h = NAL_RASL_R		or
+			 nal_unit_type_h = NAL_IDR_N_LP	or
+			 nal_unit_type_h = NAL_BLA_W_LP   or
+			 nal_unit_type_h = NAL_BLA_W_RADL or
+			 nal_unit_type_h = NAL_BLA_N_LP   or
+			 nal_unit_type_h = NAL_IDR_W_DLP  or
+			 nal_unit_type_h = NAL_CRA_NUT    or
+			 nal_unit_type_h = NAL_RASL_R
+		)
+	do
+		headerTabIdx := 0;
+	end
+	
+	
+	/**************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 **************************************************************************
+	 *************************************************************************/
+	uint(size=8)  headerIdx := 0;
+	uint headerCnt := 0;
+	uint(size= 8) se_idx;
+	uint(size=10) sps_id;
+	uint(size=10) pps_id;
+	uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL];
+	uint(size= 2) zeroByte := 0;
+	
+	action ==>
+	guard
+		not isFifoFull(fifo), not GoRead, headerFlag[headerIdx]
+	var
+		uint(size=4) fifo_idx  =  fifo[FIFO_IDX],
+		uint(size=8) b = headerTab[headerIdx][headerCnt]
+	do
+		if b != EPR_VALUE or zeroByteHeader != 3 then
+			if b = START_CODE_VALUE and zeroByteHeader = 3 then
+				fifo[fifo_idx]      := b + START_CODE_FLAG;
+			else
+				fifo[fifo_idx]      := b;
+			end
+			fifo[FIFO_CPT_BITS] := fifo[FIFO_CPT_BITS] + 8;
+			if DEBUG_BITSTREAM then
+				println("fifo["+fifo_idx+"] := "+b);
+			end
+			fifo[FIFO_IDX]      := (fifo_idx+1) & (FIFO_SIZE-1);
+		end
+		if b = 0 then
+			zeroByteHeader := ((zeroByteHeader << 1) + 1) & 0x3;
+		else
+			zeroByteHeader := 0;
+		end
+		headerCnt := headerCnt + 1;
+	end
+	
+	action ==>
+	guard
+		not GoRead, not headerFlag[headerIdx]
+	do
+		headerIdx := headerIdx + 1;
+		flushFifo(fifo);
+	end
+	
 	/**************************************************************************
 	 * search_start_code
 	 *************************************************************************/
@@ -115,13 +402,12 @@ actor PreParser ()
 			println("start_code.done");
 		end
 	end
-	/**************************************************************************
+		/**************************************************************************
 	 * read_nal_unit_header
 	 *************************************************************************/
 	uint(size= 6) nal_unit_type;
-	int currentPso := 0;
 
-	read_nal_unit_header : action PocStreamOrder:[pso] ==>
+	read_nal_unit_header : action NALidx:[pso] ==>
 	guard
 		isFifoFull(fifo)
 	var
@@ -129,29 +415,35 @@ actor PreParser ()
 	do
 		if DEBUG_BITSTREAM then
 			println("=========== NAL_UNIT ===========");
-				flushBits_name(1, fifo,
-				"forbidden_zero_bit                      ");
-				vld_u_name(6, fifo, res,
-				"nal_unit_type                           ");
+			flushBits_name(1, fifo,
+			"forbidden_zero_bit                      ");
+			vld_u_name(6, fifo, res,
+			"nal_unit_type                           ");
 			nal_unit_type := res[0];
-				flushBits_name(6, fifo,
-				"nuh_reserved_zero_6bits                 ");
-				vld_u_name(3, fifo, res,
-				"nuh_temporal_id_plus1                   ");
+			vld_u_name(6, fifo, res,
+			"nuh_layer_id                            ");
+			vld_u_name(3, fifo, res,
+			"nuh_temporal_id_plus1                   ");
 		else
 			flushBits( 1, fifo );
 			vld_u(  6, fifo, res);
 			nal_unit_type := res[0];
-			flushBits( 6, fifo  );
+			vld_u(  6, fifo, res);
 			vld_u(  3, fifo, res);
 		end
 		se_idx := 1;
-		currentPso := pso;
 	end
+	
+	/**************************************************************************
+	 **************************************************************************
+	 ********        Video Parameter Set HEADER           *********************
+	 **************************************************************************
+	 *************************************************************************/
+	 
 	/**************************************************************************
 	 * look_for.VPS_header
 	 *************************************************************************/
-	look_for.VPS_header: action ==>
+	look_for.VPS_header: action ==> 
 	guard
 		nal_unit_type = NAL_VPS
 	do
@@ -159,17 +451,7 @@ actor PreParser ()
 			println("=========== Video Parameter Set ID:   ===========");
 		end
 	end
-	/**************************************************************************
-	 * look_for.SEI_header
-	 *************************************************************************/
-//	look_for.SEI_header: action ==>
-//	guard
-//		nal_unit_type = NAL_SEI_PREFIX or nal_unit_type = NAL_SEI_SUFFIX
-//	do
-//		if DEBUG_PARSER then
-//			println("=========== SEI message ===========");
-//		end
-//	end
+
 	/**************************************************************************
 	 * look_for.SPS_header
 	 *************************************************************************/
@@ -224,6 +506,7 @@ actor PreParser ()
 	 *************************************************************************/
 	look_for_other_header: action ==>
 	end
+	
 	/**************************************************************************
 	 **************************************************************************
 	 ********        Video Parameter Set HEADER           *********************
@@ -1246,7 +1529,6 @@ actor PreParser ()
 	 * read_PPS_Header.se_idx_1
 	 *************************************************************************/
 	uint(size= 8) pps_sps_id[NB_MAX_PPS];
-	uint(size= 2) pps_tiles_enabled_flag[NB_MAX_PPS];
 
 	read_PPS_Header.se_idx_1 : action ==>
 	guard
@@ -1268,9 +1550,6 @@ actor PreParser ()
 	uint(size= 1) pps_dependent_slice_segments_enabled_flag[NB_MAX_PPS];
 	uint(size= 1) pps_output_flag_present_flag[NB_MAX_PPS];
 	uint(size= 3) pps_num_extra_slice_header_bits[NB_MAX_PPS];
-	uint(size= 8) pps_num_tile_columns_minus1[NB_MAX_PPS];
-	uint(size= 8) pps_num_tile_rows_minus1[NB_MAX_PPS];
-	uint(size= 1) pps_uniform_spacing_flag[NB_MAX_PPS];
 
 	read_PPS_Header.se_idx_2 : action ==>
 	guard
@@ -1284,303 +1563,15 @@ actor PreParser ()
 		pps_output_flag_present_flag[pps_id]:=res[0];
 		vld_u_name(  3, fifo, res, "num_extra_slice_header_bits             ");
 		pps_num_extra_slice_header_bits[pps_id] := res[0];
-		vld_u_name(  1, fifo, res, "sign_data_hiding_flag                   ");
-		vld_u_name(  1, fifo, res, "cabac_init_present_flag                 ");
-		vld_ue_name(    fifo, res, "num_ref_idx_l0_default_active_minus1    ");
-		vld_ue_name(    fifo, res, "num_ref_idx_l1_default_active_minus1    ");
-		vld_se_name(    fifo, res, "init_qp_minus26                         ");
-		vld_u_name(  1, fifo, res, "constrained_intra_pred_flag             ");
-		vld_u_name(  1, fifo, res, "transform_skip_enabled_flag             ");
-		vld_u_name(  1, fifo, res, "cu_qp_delta_enabled_flag                ");
-		if res[0] = 1 then
-			vld_ue_name(    fifo, res, "diff_cu_qp_delta_depth                  ");
-		end
-		vld_se_name(    fifo, res, "pps_cb_qp_offset                        ");
-		vld_se_name(    fifo, res, "pps_cr_qp_offset                        ");
-		vld_u_name(  1, fifo, res, "pps_slice_chroma_qp_offsets_present_flag");
-		vld_u_name(  1, fifo, res, "weighted_pred_flag                      ");
-		vld_u_name(  1, fifo, res, "weighted_bipred_flag                    ");
-		vld_u_name(  1, fifo, res, "transquant_bypass_enable_flag           ");
-		vld_u_name(  1, fifo, res, "tiles_enabled_flag                      ");
-		pps_tiles_enabled_flag[pps_id] := res[0];
-		vld_u_name(  1, fifo, res, "entropy_coding_sync_enabled_flag        ");
-		pps_num_tile_columns_minus1[pps_id] := 0;
-		pps_num_tile_rows_minus1[pps_id]    := 0;
-		pps_uniform_spacing_flag[pps_id]    := 1;
-		if pps_tiles_enabled_flag[pps_id] = 1 then
-			vld_ue_name(    fifo, res, "num_tile_columns_minus1                 ");
-			pps_num_tile_columns_minus1[pps_id] := res[0];
-			vld_ue_name(    fifo, res, "num_tile_rows_minus1                    ");
-			pps_num_tile_rows_minus1[pps_id] := res[0];
-			vld_u_name ( 1, fifo, res, "uniform_spacing_flag                    ");
-			pps_uniform_spacing_flag[pps_id] :=res[0];
-		end
-		se_idx := se_idx + 1;
-		cnt_i  := 0;
+		se_idx := 3;
 	end
-	/**************************************************************************
-	 * read_PPS_Header.se_idx_3
-	 *************************************************************************/
-
-	read_PPS_Header.se_idx_3.loop : action ==>
-	guard
-		se_idx = 3  and isFifoFull(fifo),
-		pps_uniform_spacing_flag[pps_id] = 0 and cnt_i <= pps_num_tile_columns_minus1[pps_id] - 1
-	var
-		uint(size=32) res[1]
-	do
-		vld_ue_name(    fifo, res, "column_width[ ]                         ");
-		if cnt_i >= (PICT_WIDTH / MIN_CTB_SIZE_Y) then
-			println("Error read_PPS_Header.se_idx_3.loop : "+cnt_i+" >= "+(PICT_WIDTH / MIN_CTB_SIZE_Y));
-		end
-		cnt_i := cnt_i + 1;
-	end
-	
-	read_PPS_Header.se_idx_3.loopEnd : action ==>
-	guard
-		se_idx = 3,
-		pps_uniform_spacing_flag[pps_id] = 0 and cnt_i > pps_num_tile_columns_minus1[pps_id] - 1
-	do
-		se_idx := se_idx + 1;
-		cnt_i  := 0;
-	end
-	read_PPS_Header.se_idx_3.noLoop : action ==>
-	guard
-		se_idx = 3,
-		pps_uniform_spacing_flag[pps_id] = 1
-	do
-		se_idx := se_idx + 2;
-	end
-	/**************************************************************************
-	 * read_PPS_Header.se_idx4
-	 *************************************************************************/
-	uint(size= 1) pps_scaling_list_data_present_flag[NB_MAX_PPS];
-
-	read_PPS_Header.se_idx_4.loop : action ==>
-	guard
-		se_idx = 4 and isFifoFull(fifo),
-		pps_uniform_spacing_flag[pps_id] = 0 and cnt_i <= pps_num_tile_rows_minus1[pps_id] - 1
-	var
-		uint(size=32) res[1]
-	do
-		vld_ue_name(    fifo, res, "row_height[ ]                           ");
-		if cnt_i >= (PICT_HEIGHT / MIN_CTB_SIZE_Y) then
-			println("Error read_PPS_Header.se_idx_4.loop : "+cnt_i+" >= "+(PICT_HEIGHT / MIN_CTB_SIZE_Y));
-		end
-		cnt_i := cnt_i + 1;
-	end
-	read_PPS_Header.se_idx_4.loopEnd : action ==>
-	guard
-		se_idx = 4,
-		pps_uniform_spacing_flag[pps_id] = 0 and cnt_i > pps_num_tile_rows_minus1[pps_id] - 1
-	do
-		cnt_i  := 0;
-		se_idx := 5;
-	end
-
-	read_PPS_Header.se_idx_5 : action ==>
-	guard
-		se_idx = 5 and isFifoFull(fifo)
-	var
-		uint(size=32) res[1]
-	do
-		if (pps_tiles_enabled_flag[pps_id] = 1) then
-			vld_u_name(  1, fifo, res, "loop_filter_across_tiles_enabled_flag   ");
-			//pps_loop_filter_across_tile_enabled_flag[pps_id] := res[0];
-		end
-		vld_u_name(  1, fifo, res, "loop_filter_across_slices_enabled_flag  ");
-		vld_u_name(  1, fifo, res, "deblocking_filter_control_present_flag  ");
-		pps_deblocking_filter_control_present_flag[pps_id] := res[0];
-		if pps_deblocking_filter_control_present_flag[pps_id] = 1 then
-			vld_u_name(  1, fifo, res, "deblocking_filter_override_enabled_flag ");
-			vld_u_name(  1, fifo, res, "pps_disable_deblocking_filter_flag      ");
-			if res[0] = 0 then
-				vld_se_name(    fifo, res, "pps_beta_offset_div2                    ");
-				vld_se_name(    fifo, res, "pps_tc_offset_div2                      ");
-			end
-		end
-		vld_u_name(  1, fifo, res, "pps_scaling_list_data_present_flag      ");
-		pps_scaling_list_data_present_flag[pps_id] := res[0];
-		if pps_scaling_list_data_present_flag[pps_id] = 0 then
-			se_idx := 52;
-		else
-			se_idx := 50;
-		end
-	end
-
-	/**************************************************************************
-	 * read_PPS_Header.se_idx5
-	 *************************************************************************/
-	uint(size= 1) pps_deblocking_filter_control_present_flag[NB_MAX_PPS];
-	
-	uint(size= 8) pps_sl[NB_MAX_PPS][4][6][64];
-	uint(size= 8) pps_sl_dc[NB_MAX_PPS][2][6];
-	int pps_matrix_id :=0;
-	int pps_size_id := 0;
-	int pps_next_coef;
-	int pps_coef_num;
-	int pps_scaling_list_delta_coef;
-	int pps_pos;
-	int pps_size_id_matrixCase;
-
-	read_PPS_Header.se_idx_51 : action ==>
-	guard
-		se_idx = 52 and isFifoFull(fifo)
-	var
-		uint(size=32) res[1]
-	do
-		vld_u_name(  1, fifo, res, "lists_modification_present_flag         ");
-		vld_ue_name(    fifo, res, "log2_parallel_merge_level_minus2        ");
-		vld_u_name(  1, fifo, res, "slice_segment_header_extension_present_flag");
-		vld_u_name(  1, fifo, res, "pps_extension_flag                      ");
-		if res[0] = 1 then
-			println("not support for pps_extension_flag != 0");
-		end
-		se_idx := 6;
-	end
-
-	read_PPS_Header.se_idx_50 : action ==>
-	guard
-		se_idx = 50 and isFifoFull(fifo)
-	do
-		foreach int matrixId in 0 .. 5 do
-			// 4x4 default is 16
-			foreach int i in 0 .. 15 do
-				pps_sl[pps_id][0][matrixId][i] := 16;
-			end
-			pps_sl_dc[pps_id][0][matrixId] := 16; // default for 16x16
-			pps_sl_dc[pps_id][1][matrixId] := 16; // default for 32x32
-		end
-		foreach int i in 0 .. 63 do
-			pps_sl[pps_id][1][0][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][1][1][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][1][2][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][1][3][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][1][4][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][1][5][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][2][0][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][2][1][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][2][2][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][2][3][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][2][4][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][2][5][i] := default_scaling_list_inter[i];
-			pps_sl[pps_id][3][0][i] := default_scaling_list_intra[i];
-			pps_sl[pps_id][3][1][i] := default_scaling_list_inter[i];
-		end
-		se_idx := 51;
-	end
-
-	read_PPS_Header.se_idx_51_loopSize_id : action ==>
-	guard
-		se_idx = 51 and isFifoFull(fifo) , pps_size_id < 4
-	do
-		if pps_size_id = 3 then pps_size_id_matrixCase := 2; else pps_size_id_matrixCase := 6; end
-		se_idx := 53;
-	end
-
-	read_PPS_Header.se_idx_53_loopMatrix_id: action ==>
-	guard
-		se_idx = 53 and isFifoFull(fifo) , pps_matrix_id < pps_size_id_matrixCase
-	var
-		uint(size=32) res[1],
-		int delta,
-		int size_id_memcpyCase,
-		uint(size= 8) pps_scaling_list_pred_mode_flag[4][6],
-		uint(size= 32) pps_scaling_list_dc_coef[2][6]
-	do
-		vld_u_name(  1, fifo, res, "scaling_list_pred_mode_flag             ");
-		pps_scaling_list_pred_mode_flag[pps_size_id][pps_matrix_id] := res[0];
-		if pps_scaling_list_pred_mode_flag[pps_size_id][pps_matrix_id] = 0 then
-			vld_ue_name(    fifo, res, "delta                                   ");
-				delta := res[0]; // Only need to handle non-zero delta. Zero means default, which should already be in the arrays.
-				if delta != 0 then // Copy from previous array.
-				if (pps_matrix_id - delta < 0) then
-					println("Invalid delta in scaling list data");
-				end
-					if pps_size_id > 0 then
-						size_id_memcpyCase := 64;
-					else
-						size_id_memcpyCase := 16;
-					end
-				foreach int k in 0 .. size_id_memcpyCase do
-						pps_sl[pps_id][pps_size_id][pps_matrix_id][k] :=
-						pps_sl[pps_id][pps_size_id][pps_matrix_id - delta][k];
-				end
-				if (pps_size_id > 1) then
-						pps_sl_dc[pps_id][pps_size_id - 2][pps_matrix_id] :=
-						pps_sl_dc[pps_id][pps_size_id - 2][pps_matrix_id - delta];
-				end
-			end
-			pps_matrix_id := pps_matrix_id + 1;
-		else
-			pps_next_coef := 8;
-			pps_coef_num := min(64, (1  <<  (4 + (pps_size_id  <<  1))));
-			if (pps_size_id > 1) then
-				vld_se_name(    fifo, res, "scaling_list_dc_coef                    ");
-				pps_scaling_list_dc_coef[pps_size_id - 2][pps_matrix_id] := res[0] + 8;
-					pps_next_coef := pps_scaling_list_dc_coef[pps_size_id -
-					2][pps_matrix_id];
-				pps_sl_dc[pps_id][pps_size_id - 2][pps_matrix_id] := pps_next_coef;
-			end
-			se_idx := 54;
-			cnt_i := 0;
-		end
-	end
-
-	read_PPS_Header.se_idx_54_loopNumCoef : action ==>
-	guard
-		se_idx = 54 and isFifoFull(fifo), cnt_i < pps_coef_num
-	var
-		uint(size=32) res[1]
-	do
-		if (pps_size_id = 0) then
-			pps_pos := 4 * hevc_diag_scan4x4_y[cnt_i] + hevc_diag_scan4x4_x[cnt_i];
-		else
-			pps_pos := 8 * hevc_diag_scan8x8_y[cnt_i] + hevc_diag_scan8x8_x[cnt_i];
-		end
-		vld_se_name(    fifo, res, "scaling_list_delta_coef                 ");
-		pps_scaling_list_delta_coef := res[0];
-		pps_next_coef := (pps_next_coef + pps_scaling_list_delta_coef + 256) & 255;
-		pps_sl[pps_id][pps_size_id][pps_matrix_id][pps_pos] := pps_next_coef;
-		cnt_i := cnt_i + 1;
-	end
-
-	read_PPS_Header.se_idx_54_loopNumCoefEnd : action ==>
-	guard
-		se_idx = 54 and isFifoFull(fifo), cnt_i = pps_coef_num
-	do
-		cnt_i := 0;
-		pps_matrix_id := pps_matrix_id + 1;
-		se_idx := 53;
-	end
-
-
-	read_PPS_Header.se_idx_53_loopMatrix_id_End : action ==>
-	guard
-		se_idx = 53 and isFifoFull(fifo) , pps_matrix_id = pps_size_id_matrixCase
-	do
-		pps_size_id := pps_size_id + 1;
-		pps_matrix_id := 0;
-		se_idx := 51;
-	end
-
-	read_PPS_Header.se_idx_51_loopSize_id_End : action ==>
-	guard
-		se_idx = 51 and isFifoFull(fifo) , pps_size_id = 4
-	do
-		pps_size_id := 0;
-		se_idx := 52;
-	end
-
+		
 	/**************************************************************************
 	 * read_PPS_Header_done
 	 *************************************************************************/
 	read_PPS_Header_done : action ==>
 	guard
-		se_idx = 6
-	do
-		readFlag := false;
-		headerSize := 0;
+		se_idx = 4
 	end
 
 	/**************************************************************************
@@ -1709,13 +1700,15 @@ actor PreParser ()
 		se_idx := 3;
 	end
 				
-	read_SliceHeader_done : action ==> Poc:[poc], PocId:[currentPso], HeaderData:[headerBuffer] repeat 4096
+	read_SliceHeader_done : action ==> 
 	guard
 		se_idx = 3
 	do
 		if DEBUG_CABAC or CHECK_CABAC then
 			println("\tPOC: "+poc);
 		end
+		GoRead := true;
+		headerFlag := [ false,  false ,  false , false ];
 	end
 		
 	/**************************************************************************
@@ -1725,7 +1718,7 @@ actor PreParser ()
 	 *************************************************************************/
 	schedule fsm start_code:
 		// byte align
-		byte_align          			( byte_align_a						) --> start_code;
+		//byte_align          			( byte_align_a						) --> start_code;
 		// search start code
 		start_code          			( start_code.search					) --> start_code;
 		start_code			            ( start_code.done					) --> read_Nal_unit_header;
@@ -1738,21 +1731,21 @@ actor PreParser ()
 		find_header	  					( look_for.Slice_header	  			) --> read_SliceHeader;
 		// read VPS header
 		read_VPS_Header	  				( read_VPS_Header	    			) --> read_VPS_Header;
-		read_VPS_Header	  				( read_VPS_Header_done    			) --> byte_align;
+		read_VPS_Header	  				( read_VPS_Header_done    			) --> start_code;
 		// read SEI header
 //		read_SEI_Header	  				( read_SEI_Header	    			) --> read_SEI_Header;
 //		read_SEI_Header	  				( read_SEI_Header_done    			) --> byte_align;
 		// read SPS header
 		read_SPS_Header	  				( read_SPS_Header	    			) --> read_SPS_Header;
-		read_SPS_Header	  				( read_SPS_Header_done    			) --> byte_align;
+		read_SPS_Header	  				( read_SPS_Header_done    			) --> start_code;
 		// read PPS header
 		read_PPS_Header 				( read_PPS_Header   				) --> read_PPS_Header;
-		read_PPS_Header	  				( read_PPS_Header_done    			) --> byte_align;
+		read_PPS_Header	  				( read_PPS_Header_done    			) --> start_code;
 		// read_SliceHeader
 		read_SliceHeader				( read_SliceHeader					) --> read_SliceHeader;
-		read_SliceHeader				( read_SliceHeader_done				) --> byte_align;
+		read_SliceHeader				( read_SliceHeader_done				) --> start_code;
 		
-		find_header                     ( look_for_other_header             ) --> byte_align;
+		find_header                     ( look_for_other_header             ) --> start_code;
 	end
 
 	/**************************************************************************
