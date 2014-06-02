@@ -12,6 +12,7 @@ import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
 
+//@DEBUG
 actor PreParser ()
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
@@ -20,7 +21,8 @@ actor PreParser ()
 				uint(size= 8) HeaderData,
 				int			  Poc,
 				int 		  PocId,
-				int 		  HeaderId
+				int 		  HeaderId,
+				int 		  HeaderSize
 				:
 	
 	uint(size=FIFO_DEPTH) fifoHeader[FIFO_SIZE_ALL];
@@ -33,6 +35,7 @@ actor PreParser ()
 	
 	int pocId := 0;
 	int headerId := -1;
+	int headerSize := 0;
 	bool isSameNal := false;
 	
 	/**************************************************************************
@@ -142,7 +145,7 @@ actor PreParser ()
 	/**************************************************************************
 	 * look_for.VPS_header
 	 *************************************************************************/
-	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_VPS, headerTabIdx = 2
 	var
@@ -154,6 +157,7 @@ actor PreParser ()
 		end
 		headerTabIdx := 3;
 		headerFlag[0] := true;
+		headerSize := headerSize + 5;
 	end
 	action ==> HeaderData:[byte]
 	guard
@@ -166,6 +170,7 @@ actor PreParser ()
 		headerTab[0][cnt_i] := res[0];
 		cnt_i := cnt_i + 1;
 		byte := res[0];
+		headerSize := headerSize + 1;
 	end
 	action ==>
 	guard
@@ -178,7 +183,7 @@ actor PreParser ()
 	 * look_for.SPS_header
 	 *************************************************************************/
 	
-	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_SPS, headerTabIdx = 2
 	var
@@ -190,6 +195,7 @@ actor PreParser ()
 		end
 		headerTabIdx := 4;
 		headerFlag[1] := true;
+		headerSize := headerSize + 5;
 	end
 	
 	action ==> HeaderData:[byte]
@@ -203,6 +209,7 @@ actor PreParser ()
 		headerTab[1][cnt_i] := res[0];
 		cnt_i := cnt_i + 1;
 		byte := res[0];
+		headerSize := headerSize + 1;
 	end
 	
 	action ==>
@@ -214,7 +221,7 @@ actor PreParser ()
 	/**************************************************************************
 	 * look_for.PPS_header
 	 *************************************************************************/
-	action ==> HeaderData:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_PPS, headerTabIdx = 2
 	var
@@ -226,6 +233,7 @@ actor PreParser ()
 		end
 		headerTabIdx := 5;
 		headerFlag[2] := true;
+		headerSize := headerSize + 5;
 	end
 	
 	action ==> HeaderData:[byte]
@@ -239,6 +247,7 @@ actor PreParser ()
 		headerTab[2][cnt_i] := res[0];
 		cnt_i := cnt_i + 1;
 		byte := res[0];
+		headerSize := headerSize + 1;
 	end
 	action ==>
 	guard
@@ -249,7 +258,7 @@ actor PreParser ()
 	/**************************************************************************
 	 * look_for.Slice_header
 	 *************************************************************************/
-	action ==>
+	action ==> HeaderSize:[headerSize]
 	guard
 		(nal_unit_type_h = NAL_TRAIL_R    or
 		 nal_unit_type_h = NAL_TSA_N      or
@@ -268,12 +277,13 @@ actor PreParser ()
 		 nal_unit_type_h = NAL_IDR_W_DLP  or
 		 nal_unit_type_h = NAL_CRA_NUT    or
 		 nal_unit_type_h = NAL_RASL_R)
+		 , headerTabIdx = 2
 	do
 		if DEBUG_PARSER then
 			println("=========== Slice ===========");
 		end
 		headerTabIdx := 6;
-		headerFlag[3] := true;
+		headerFlag[3] := true;	
 	end
 	action ==> //HeaderData:[byte]
 	guard
@@ -282,6 +292,7 @@ actor PreParser ()
 		uint(size=32) res[1],
 		uint(size= 8) byte
 	do
+		headerSize := 0;
 		vld_u(  8, fifoHeader, res);
 		headerTab[3][cnt_i] := res[0];
 		cnt_i := cnt_i + 1;
