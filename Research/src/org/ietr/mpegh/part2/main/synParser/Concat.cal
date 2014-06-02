@@ -1,0 +1,213 @@
+package org.ietr.mpegh.part2.main.synParser;
+
+import  std.util.Math.*;
+import  std.stdio.Source.*;
+import  org.sc29.wg11.common.BitstreamReadUtils.*;
+import  org.sc29.wg11.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.main.synParser.Algo_ParserUtils.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacDecodeBinFunction.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
+import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
+
+actor Concat () int HeaderId, int ParserPocId, int ParserPoc, uint(size=8) HeaderData,
+				int SourcePocId, uint(size=8) SourceData ==> int Poc, uint(size=8) Byte:
+				
+	bool isPoc := false;
+	int sizeOfHeader;
+	int countHeaderBytes;
+
+	checkPoc.isTrue : action SourcePocId:[sourcePocId], ParserPocId:[parserPocId], HeaderId:[headerId], ParserPoc:[parserPoc] ==> Poc :[parserPoc]
+	guard
+		sourcePocId = parserPocId
+	do
+		// send SliceData&headerData
+		isPoc := true;
+	end
+	
+	checkPoc.isFalse : action SourcePocId:[sourcePocId], ParserPocId:[parserPocId], ParserPoc:[parserPoc], HeaderId:[headerId] ==>
+	guard
+		sourcePocId != parserPocId
+	do
+		// send headerData only
+		isPoc := false;
+	end
+	
+	
+	sendHeader : action HeaderData:[h] ==> Byte:[h]
+	guard
+		countHeaderBytes < sizeOfHeader
+	end
+		
+	sendHeaderDoneNoConcat : action  ==> 
+	guard
+		countHeaderBytes = sizeOfHeader, isPoc = false
+	do
+		countHeaderBytes := 0;
+	end
+	
+	sendHeaderDoneConcat : action  ==> 
+	guard
+		countHeaderBytes = sizeOfHeader, isPoc = true
+	do
+		countHeaderBytes := 0;
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	int cnt_i := 0;
+	uint(size= 6) nal_unit_type_h;
+	uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL];
+	
+	start_code_search: action ==>
+	guard
+		not IsStartCode(fifo) and isFifoFull(fifo)
+	do
+		flushBits( 8, fifo );
+		if DEBUG_BITSTREAM then
+			println("start_code.search");
+		end
+	end
+	start_code_done :action ==>
+	guard
+		IsStartCode(fifo) and isFifoFull(fifo)
+	do
+		flushBits( 8, fifo);
+		if DEBUG_BITSTREAM then
+			println("start_code.done");
+		end
+	end
+	/**************************************************************************
+	 * read_nal_unit_header
+	 *************************************************************************/
+	uint(size= 6) nuh_layer_id_h;
+	uint(size= 3) temporal_id_h := 0;
+
+	read_nal_unit_header: action ==>
+	guard
+		isFifoFull(fifo)
+	var
+		uint(size=32) res[1]
+	do
+		if DEBUG_BITSTREAM then
+			println("=========== NAL_UNIT ===========");
+			flushBits_name(1, fifo,
+			"forbidden_zero_bit                      ");
+			vld_u_name(6, fifo, res,
+			"nal_unit_type                           ");
+			nal_unit_type_h := res[0];
+			vld_u_name(6, fifo, res,
+			"nuh_layer_id                            ");
+			nuh_layer_id_h := res[0];
+			vld_u_name(3, fifo, res,
+			"nuh_temporal_id_plus1                   ");
+			temporal_id_h := res[0];	
+		else
+			flushBits( 1, fifo );
+			vld_u(  6, fifo, res);
+			nal_unit_type_h := res[0];
+			vld_u(  6, fifo, res);
+			nuh_layer_id_h := res[0];
+			vld_u(  3, fifo, res);
+			temporal_id_h := res[0];
+		end
+		cnt_i := 0;
+	end
+	
+	
+	look_for_Slice_header: action ==> Byte:[0x00, 0x00, 0x01, nal_info1, nal_info2]
+	guard
+		(nal_unit_type_h = NAL_TRAIL_R    or
+		 nal_unit_type_h = NAL_TSA_N      or
+		 nal_unit_type_h = NAL_TSA_R      or
+		 nal_unit_type_h = NAL_TRAIL_N    or
+		 nal_unit_type_h = NAL_STSA_N	  or
+		 nal_unit_type_h = NAL_STSA_R	  or
+		 nal_unit_type_h = NAL_RADL_N	  or
+		 nal_unit_type_h = NAL_RADL_R	  or
+		 nal_unit_type_h = NAL_RASL_N	  or
+		 nal_unit_type_h = NAL_RASL_R	  or
+		 nal_unit_type_h = NAL_IDR_N_LP	  or
+		 nal_unit_type_h = NAL_BLA_W_LP   or
+		 nal_unit_type_h = NAL_BLA_W_RADL or
+		 nal_unit_type_h = NAL_BLA_N_LP   or
+		 nal_unit_type_h = NAL_IDR_W_DLP  or
+		 nal_unit_type_h = NAL_CRA_NUT    or
+		 nal_unit_type_h = NAL_RASL_R)
+	var
+		uint(size=8) nal_info1 = NAL_VPS<<1 + (nuh_layer_id_h>>5),
+		uint(size=8) nal_info2 = ((nuh_layer_id_h<<3)&0xf8) + temporal_id_h
+	do
+		if DEBUG_PARSER then
+			println("=========== Slice ===========");
+		end
+		
+	end
+	sendSlice: action ==> Byte:[byte]
+	guard
+		isFifoFull(fifo) and not IsStartCode(fifo)
+	var
+		uint(size=32) res[1],
+		uint(size= 8) byte
+	do
+		vld_u(  8, fifo, res);
+		cnt_i := cnt_i + 1;
+		byte := res[0];
+	end
+	sendSliceDone: action ==>
+	guard
+		isFifoFull(fifo) and IsStartCode(fifo)
+	do
+		flushFifo(fifo);
+	end
+	/**************************************************************************
+	 * look_for_other_header
+	 *************************************************************************/
+	look_for_other_header: action ==>
+	guard
+		 not (
+//			 nal_unit_type_h = NAL_VPS 		or
+//			 nal_unit_type_h = NAL_SPS 		or
+//			 nal_unit_type_h = NAL_PPS 		or
+			 nal_unit_type_h = NAL_TRAIL_R    or
+			 nal_unit_type_h = NAL_TSA_N      or
+			 nal_unit_type_h = NAL_TSA_R      or
+			 nal_unit_type_h = NAL_TRAIL_N    or
+			 nal_unit_type_h = NAL_STSA_N		or
+			 nal_unit_type_h = NAL_STSA_R		or
+			 nal_unit_type_h = NAL_RADL_N		or
+			 nal_unit_type_h = NAL_RADL_R		or
+			 nal_unit_type_h = NAL_RASL_N		or
+			 nal_unit_type_h = NAL_RASL_R		or
+			 nal_unit_type_h = NAL_IDR_N_LP	or
+			 nal_unit_type_h = NAL_BLA_W_LP   or
+			 nal_unit_type_h = NAL_BLA_W_RADL or
+			 nal_unit_type_h = NAL_BLA_N_LP   or
+			 nal_unit_type_h = NAL_IDR_W_DLP  or
+			 nal_unit_type_h = NAL_CRA_NUT    or
+			 nal_unit_type_h = NAL_RASL_R
+		)
+	end
+	
+	schedule fsm checkPoc:
+		checkPoc 		(checkPoc) 					--> sendHeader;
+		sendHeader 		(sendHeader) 				--> sendHeader;
+		sendHeader 		(sendHeaderDoneNoConcat) 	--> checkPoc;
+		sendHeader 		(sendHeaderDoneConcat)	 	--> start_code;
+		start_code		(start_code_search)			--> start_code;
+		start_code		(start_code_done)			--> readNal;
+		readNal			(read_nal_unit_header)		--> lookForSlice;
+		lookForSlice	(look_for_other_header)		--> start_code;
+		lookForSlice	(look_for_Slice_header)		--> sendSlice;
+		sendSlice		(sendSlice)					--> sendSlice;
+		sendSlice		(sendSliceDone)				--> checkPoc;
+	end
+end
