@@ -115,4 +115,6 @@
     <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Concat2" src-port="Byte"/>
     <Connection dst="DPB_FrameBase" dst-port="Poc" src="Concat1" src-port="Poc"/>
     <Connection dst="DPB_FrameBase" dst-port="Poc2" src="Concat2" src-port="Poc"/>
+    <Connection dst="Concat2" dst-port="HeaderSize" src="HeaderSplitter" src-port="HeaderSize"/>
+    <Connection dst="Concat1" dst-port="HeaderSize" src="HeaderSplitter" src-port="HeaderSize"/>
 </XDF>
