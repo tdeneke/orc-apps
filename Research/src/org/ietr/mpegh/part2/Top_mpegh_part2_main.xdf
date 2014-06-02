@@ -33,6 +33,15 @@
     <Instance id="Merger">
         <Class name="org.ietr.mpegh.part2.common.MergeYUV"/>
     </Instance>
+    <Instance id="HeaderSplitter">
+        <Class name="org.ietr.mpegh.part2.main.synParser.PreParser"/>
+    </Instance>
+    <Instance id="Concat1">
+        <Class name="org.ietr.mpegh.part2.main.synParser.Concat"/>
+    </Instance>
+    <Instance id="Concat2">
+        <Class name="org.ietr.mpegh.part2.main.synParser.Concat"/>
+    </Instance>
     <Connection dst="display" dst-port="DispCoord" src="HevcDecoder" src-port="DispCoord"/>
     <Connection dst="display" dst-port="PicSizeInMb" src="HevcDecoder" src-port="SIZE"/>
     <Connection dst="DPB_FrameBase" dst-port="Sample_y"
@@ -48,7 +57,6 @@
     <Connection dst="DPB_FrameBase" dst-port="Mv" src="HevcDecoder" src-port="Mv"/>
     <Connection dst="DPB_FrameBase" dst-port="PictSize"
         src="HevcDecoder" src-port="PictSize"/>
-    <Connection dst="DPB_FrameBase" dst-port="Poc" src="HevcDecoder" src-port="Poc"/>
     <Connection dst="DPB_FrameBase" dst-port="PocRef" src="HevcDecoder" src-port="RefPoc"/>
     <Connection dst="DPB_FrameBase" dst-port="PredCuSize"
         src="HevcDecoder" src-port="PredCuSize"/>
@@ -66,7 +74,6 @@
     <Connection dst="DPB_FrameBase" dst-port="Mv2" src="HevcDecoder_2" src-port="Mv"/>
     <Connection dst="DPB_FrameBase" dst-port="PicSize2"
         src="HevcDecoder_2" src-port="PictSize"/>
-    <Connection dst="DPB_FrameBase" dst-port="Poc2" src="HevcDecoder_2" src-port="Poc"/>
     <Connection dst="DPB_FrameBase" dst-port="PocRef2"
         src="HevcDecoder_2" src-port="RefPoc"/>
     <Connection dst="DPB_FrameBase" dst-port="PredCuSize2"
@@ -89,6 +96,23 @@
     <Connection dst="HevcDecoder_2" dst-port="RefSample_y"
         src="DPB_FrameBase" src-port="RefSample_y2"/>
     <Connection dst="display" dst-port="Byte" src="Merger" src-port="YUV"/>
-    <Connection dst="HevcDecoder" dst-port="BYTE" src="Source" src-port="O1"/>
-    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Source" src-port="O2"/>
+    <Connection dst="HeaderSplitter" dst-port="byte" src="Source" src-port="O"/>
+    <Connection dst="Concat1" dst-port="SourcePocId" src="Source" src-port="PocId_1"/>
+    <Connection dst="Concat2" dst-port="SourcePocId" src="Source" src-port="PocId_2"/>
+    <Connection dst="Concat1" dst-port="SourceData" src="Source" src-port="O1"/>
+    <Connection dst="Concat2" dst-port="SourceData" src="Source" src-port="O2"/>
+    <Connection dst="Concat1" dst-port="HeaderData" src="HeaderSplitter" src-port="HeaderData"/>
+    <Connection dst="Concat1" dst-port="ParserPoc" src="HeaderSplitter" src-port="Poc"/>
+    <Connection dst="Concat1" dst-port="ParserPocId"
+        src="HeaderSplitter" src-port="PocId"/>
+    <Connection dst="Concat1" dst-port="HeaderId" src="HeaderSplitter" src-port="HeaderId"/>
+    <Connection dst="Concat2" dst-port="HeaderData" src="HeaderSplitter" src-port="HeaderData"/>
+    <Connection dst="Concat2" dst-port="ParserPoc" src="HeaderSplitter" src-port="Poc"/>
+    <Connection dst="Concat2" dst-port="ParserPocId"
+        src="HeaderSplitter" src-port="PocId"/>
+    <Connection dst="Concat2" dst-port="HeaderId" src="HeaderSplitter" src-port="HeaderId"/>
+    <Connection dst="HevcDecoder" dst-port="BYTE" src="Concat1" src-port="Byte"/>
+    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Concat2" src-port="Byte"/>
+    <Connection dst="DPB_FrameBase" dst-port="Poc" src="Concat1" src-port="Poc"/>
+    <Connection dst="DPB_FrameBase" dst-port="Poc2" src="Concat2" src-port="Poc"/>
 </XDF>
