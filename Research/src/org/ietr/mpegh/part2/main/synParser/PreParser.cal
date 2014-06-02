@@ -57,7 +57,7 @@ actor PreParser ()
 			if b = START_CODE_VALUE and zeroByte = 3 then
 				fifoHeader[fifo_idx]      := b + START_CODE_FLAG;
 			else
-				fifoHeader[fifo_idx]      := b;
+				fifoHeader[fifo_idx]      := b ;
 			end
 			fifoHeader[FIFO_CPT_BITS] := fifoHeader[FIFO_CPT_BITS] + 8;
 			if DEBUG_BITSTREAM then
@@ -94,7 +94,7 @@ actor PreParser ()
 			println("start_code.search");
 		end
 	end
-	action ==>
+	action ==> HeaderData:[0, 0, 0, 1]
 	guard
 		IsStartCode(fifoHeader) and isFifoFull(fifoHeader), headerTabIdx = 0
 	do
@@ -141,11 +141,12 @@ actor PreParser ()
 		end
 		headerTabIdx := 2;
 		cnt_i := 0;
+		flushBits( 8, fifoHeader);
 	end
 	/**************************************************************************
 	 * look_for.VPS_header
 	 *************************************************************************/
-	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
+	action ==> HeaderData:[nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_VPS, headerTabIdx = 2
 	var
@@ -157,33 +158,48 @@ actor PreParser ()
 		end
 		headerTabIdx := 3;
 		headerFlag[0] := true;
-		headerSize := headerSize + 5;
+		headerSize := headerSize + 2;
+		println("headerSizeVPS5 = " + headerSize + "  " + nal_info1 + "  " + nal_info2);
 	end
-	action ==> HeaderData:[byte]
+	action ==> HeaderData:[fifoHeader[fifoHeader[FIFO_IDX]]]
 	guard
 		headerTabIdx = 3 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
 	var
 		uint(size=32) res[1],
+		int result[1],
 		uint(size= 8) byte
 	do
+//		println("fifo [0]" + fifoHeader[0]);
+//		println("fifo [1]" + fifoHeader[1]);
+//		println("fifo [2]" + fifoHeader[2]);
+//		println("fifo [3]" + fifoHeader[3]);
+//		println("fifo [4]" + fifoHeader[4]);
+//		println("fifo [5]" + fifoHeader[5]);
+//		println("fifo [6]" + fifoHeader[6]);
+//		println("fifo [7]" + fifoHeader[7]);
+//		println("fifo [8]" + fifoHeader[8]);
+//		println("fifo [9]" + fifoHeader[9]);
 		vld_u(  8, fifoHeader, res);
-		headerTab[0][cnt_i] := res[0];
+		headerTab[0][cnt_i] := fifoHeader[fifoHeader[FIFO_IDX]];
 		cnt_i := cnt_i + 1;
 		byte := res[0];
-		headerSize := headerSize + 1;
+		headerSize := headerSize + 1;		
 	end
-	action ==>
+	action ==> HeaderData:[0 , fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7], fifoHeader[(fifoHeader[FIFO_IDX] + 2) & 7]]
 	guard
 		headerTabIdx = 3 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
 	do
-		headerTabIdx := 0; 
+		println("fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7] = "+ fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7]);
+		println("fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7] = "+ fifoHeader[(fifoHeader[FIFO_IDX] + 2) & 7]);
+		flushBits( 8, fifoHeader);
+		headerTabIdx := 1;
 	end
 	
 	/**************************************************************************
 	 * look_for.SPS_header
 	 *************************************************************************/
 	
-	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
+	action ==> HeaderData:[nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_SPS, headerTabIdx = 2
 	var
@@ -196,9 +212,10 @@ actor PreParser ()
 		headerTabIdx := 4;
 		headerFlag[1] := true;
 		headerSize := headerSize + 5;
+		println("headerSizeSPS5 = " + headerSize);
 	end
 	
-	action ==> HeaderData:[byte]
+	action ==> HeaderData:[fifoHeader[fifoHeader[FIFO_IDX]]]
 	guard
 		headerTabIdx = 4 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
 	var
@@ -210,18 +227,20 @@ actor PreParser ()
 		cnt_i := cnt_i + 1;
 		byte := res[0];
 		headerSize := headerSize + 1;
+		println("headerSizeSPS1 = " + headerSize + "res = " +  res[0]);
 	end
 	
-	action ==>
+	action ==> HeaderData:[0 , fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7], fifoHeader[(fifoHeader[FIFO_IDX] + 2) & 7]]
 	guard
 		headerTabIdx = 4 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
 	do
-		headerTabIdx := 0; 
+		flushBits( 8, fifoHeader);
+		headerTabIdx := 1; 
 	end
 	/**************************************************************************
 	 * look_for.PPS_header
 	 *************************************************************************/
-	action ==> HeaderData:[0, 0, 0, 1, nal_info1, nal_info2]
+	action ==> HeaderData:[nal_info1, nal_info2]
 	guard
 		nal_unit_type_h = NAL_PPS, headerTabIdx = 2
 	var
@@ -234,9 +253,10 @@ actor PreParser ()
 		headerTabIdx := 5;
 		headerFlag[2] := true;
 		headerSize := headerSize + 5;
+		println("headerSizePPS5 = " + headerSize);
 	end
 	
-	action ==> HeaderData:[byte]
+	action ==> HeaderData:[fifoHeader[fifoHeader[FIFO_IDX]]]
 	guard
 		headerTabIdx = 5 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
 	var
@@ -248,12 +268,15 @@ actor PreParser ()
 		cnt_i := cnt_i + 1;
 		byte := res[0];
 		headerSize := headerSize + 1;
+		println("headerSizePPS1 = " + headerSize + "res = " +  res[0]);
 	end
-	action ==>
+	
+	action ==> HeaderData:[0 , fifoHeader[(fifoHeader[FIFO_IDX] + 1) & 7], fifoHeader[(fifoHeader[FIFO_IDX] + 2) & 7]]
 	guard
 		headerTabIdx = 5 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
 	do
-		headerTabIdx := 0; 
+		flushBits( 8, fifoHeader);
+		headerTabIdx := 1; 
 	end
 	/**************************************************************************
 	 * look_for.Slice_header
@@ -298,11 +321,11 @@ actor PreParser ()
 		cnt_i := cnt_i + 1;
 		byte := res[0];
 	end
-	action ==>
+	action ==> HeaderData:[0, 0, 0, 1]
 	guard
 		headerTabIdx = 6 and isFifoFull(fifoHeader) and IsStartCode(fifoHeader)
 	do
-		headerTabIdx := 0;
+		headerTabIdx := 1;
 		GoRead := false;
 		flushFifo(fifo);
 	end
@@ -1627,9 +1650,9 @@ actor PreParser ()
 				iPOCmsb := iPrevPOCmsb;
 			end
 		end
-				if (nal_unit_type = NAL_BLA_W_LP   or
-				nal_unit_type = NAL_BLA_W_RADL or
-				nal_unit_type = NAL_BLA_N_LP)
+				if (nal_unit_type 	= NAL_BLA_W_LP   		or
+				nal_unit_type 		= NAL_BLA_W_RADL 		or
+				nal_unit_type 		= NAL_BLA_N_LP)
 		then
 				iPOCmsb := 0;
 		end
