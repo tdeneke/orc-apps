@@ -33,32 +33,39 @@
 
 package org.ietr.mpegh.part2.common;
 import std.video.FFmpegUtil.*;
+import  std.video.Display.*;
+import  org.sc29.wg11.common.DisplayYUVFunctions.*;
 
-actor SourceFrame () ==> uint(size=8) O, uint(size=8) O1, uint(size=8) O2, 
-						 bool IsNewHeader, int PocId, int PocId1, int PocId2 :
+actor SourceFrame () ==> uint(size=8) O1, uint(size=8) O2, uint(size=8) O,
+						 int PocId_1, int PocId_2:
 
 	int NB_OUTPUTS = 2;
-
 	uint(size=8) framesBuffer[NB_OUTPUTS][MAX_FRAME_SIZE];
-	int framesSize[NB_OUTPUTS][1] := [[0],[0]];
-	int nbByteSent[NB_OUTPUTS]:=[0,0];
-	int  pocCounter := -1;
+	int framesSize[NB_OUTPUTS][1];
+	int nbByteSent[NB_OUTPUTS];
+	int nbFrameDecoded := 0;
+	int pocId := -1;
 	
 	initialize ==>
 	do
 		ffmpeg_initSource();
 	end
 	
-	o1.readFrame: action ==> IsNewHeader:[true], PocId:[pocCounter], PocId1:[pocCounter]
+	o1_readFrame: action ==> PocId_1:[pocId]
 	guard
 		nbByteSent[0] = framesSize[0][0]
+		,nbFrameDecoded < displayYUV_getNbFrames()
 	do
+		
 		ffmpeg_readFrame(framesBuffer, framesSize, 0);
 		nbByteSent[0] := 0;
-		pocCounter := pocCounter + 1;
+		println("size = " + framesSize[0][0]);
+		println("pocId = " + pocId);
+		nbFrameDecoded := nbFrameDecoded + 1;
+		pocId := pocId + 1;
 	end
 	
-	o1.sendData: action ==> O1:[ Out ], O:[ Out ]
+	o1_sendData: action ==> O1:[ Out ],  O:[ Out ]
 	guard
 		nbByteSent[0] < framesSize[0][0]
 	var
@@ -66,19 +73,35 @@ actor SourceFrame () ==> uint(size=8) O, uint(size=8) O1, uint(size=8) O2,
 	do
 		Out := framesBuffer[0][nbByteSent[0]];
 		nbByteSent[0] := nbByteSent[0] + 1;
+		//println("sendBuffer = " + Out);
 	end
 	
-	o2.readFrame: action ==> IsNewHeader:[true], PocId:[pocCounter], PocId2:[pocCounter]
+	o1_sendDataDone: action ==> 
+	guard
+		nbByteSent[0] = framesSize[0][0]
+	var
+		uint(size=8) Out
+	do
+		nbByteSent[0] := 0;
+		//println("sendBuffer = " + Out);
+	end
+	
+	o2_readFrame: action ==> PocId_2:[pocId]
 	guard
 		nbByteSent[1] = framesSize[1][0]
+		,nbFrameDecoded < displayYUV_getNbFrames()
 	do
 		ffmpeg_readFrame(framesBuffer, framesSize, 1);
-		nbByteSent[1] := 0;
-		pocCounter := pocCounter + 1;
+		nbByteSent[0] := 0;
+		println("size2 = " + framesSize[1][0]);
+		println("pocId2 = " + pocId);
+		nbFrameDecoded := nbFrameDecoded + 1;
+		pocId := pocId + 1;
+		
 	end
 
 		
-	o2.sendData: action ==> O2:[ Out ], O:[ Out ]
+	o2_sendData: action ==> O2:[ Out ],  O:[ Out ]
 	guard
 		nbByteSent[1] < framesSize[1][0]
 	var
@@ -88,13 +111,22 @@ actor SourceFrame () ==> uint(size=8) O, uint(size=8) O1, uint(size=8) O2,
 		nbByteSent[1] := nbByteSent[1] + 1;
 	end
 	
-	schedule fsm o1 :
-		o1 (o1) --> o2;
-		o2 (o2) --> o1;
+	o2_sendDataDone: action ==>
+	guard
+		nbByteSent[1] = framesSize[1][0]
+	var
+		uint(size=8) Out
+	do
+		nbByteSent[1] := 0;
 	end
 	
-	priority
-		o1.sendData > o1.readFrame;
-		o2.sendData > o2.readFrame;
+	schedule fsm readO1 :
+		readO1 (o1_readFrame)		--> sendO1;
+		sendO1 (o1_sendData)  		--> sendO1;
+		sendO1 (o1_sendDataDone)  	--> readO2;
+		readO2 (o2_readFrame)		--> sendO2;
+		sendO2 (o2_sendData)  		--> sendO2;
+		sendO2 (o2_sendDataDone)  	--> readO1;
 	end
+	
 end
