@@ -15,15 +15,13 @@ import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
 actor PreParser ()
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
-				uint(size= 8) byte,
-				int			  NALidx,
-				bool 	 	  IsNewHead	 
+				uint(size= 8) byte
 				==>
 				uint(size= 8) HeaderData,
-				uint(size=16) Poc,
+				int			  Poc,
 				int 		  PocId,
-				int 		  HeaderSize
-:
+				int 		  HeaderId
+				:
 	
 	uint(size=FIFO_DEPTH) fifoHeader[FIFO_SIZE_ALL];
 	uint(size= 2) zeroByteHeader := 0;
@@ -32,6 +30,10 @@ actor PreParser ()
 	bool headerFlag[4] := [false, false, false, false];
 	uint(size=32) cnt_i;
 	bool GoRead := true;
+	
+	int pocId := 0;
+	int headerId := -1;
+	bool isSameNal := false;
 	
 	/**************************************************************************
 	 **************************************************************************
@@ -253,13 +255,13 @@ actor PreParser ()
 		 nal_unit_type_h = NAL_TSA_N      or
 		 nal_unit_type_h = NAL_TSA_R      or
 		 nal_unit_type_h = NAL_TRAIL_N    or
-		 nal_unit_type_h = NAL_STSA_N		or
-		 nal_unit_type_h = NAL_STSA_R		or
-		 nal_unit_type_h = NAL_RADL_N		or
-		 nal_unit_type_h = NAL_RADL_R		or
-		 nal_unit_type_h = NAL_RASL_N		or
-		 nal_unit_type_h = NAL_RASL_R		or
-		 nal_unit_type_h = NAL_IDR_N_LP	or
+		 nal_unit_type_h = NAL_STSA_N	  or
+		 nal_unit_type_h = NAL_STSA_R	  or
+		 nal_unit_type_h = NAL_RADL_N	  or
+		 nal_unit_type_h = NAL_RADL_R	  or
+		 nal_unit_type_h = NAL_RASL_N	  or
+		 nal_unit_type_h = NAL_RASL_R	  or
+		 nal_unit_type_h = NAL_IDR_N_LP	  or
 		 nal_unit_type_h = NAL_BLA_W_LP   or
 		 nal_unit_type_h = NAL_BLA_W_RADL or
 		 nal_unit_type_h = NAL_BLA_N_LP   or
@@ -273,7 +275,7 @@ actor PreParser ()
 		headerTabIdx := 6;
 		headerFlag[3] := true;
 	end
-	action ==> HeaderData:[byte]
+	action ==> //HeaderData:[byte]
 	guard
 		headerTabIdx = 6 and isFifoFull(fifoHeader) and not IsStartCode(fifoHeader)
 	var
@@ -407,7 +409,7 @@ actor PreParser ()
 	 *************************************************************************/
 	uint(size= 6) nal_unit_type;
 
-	read_nal_unit_header : action NALidx:[pso] ==>
+	read_nal_unit_header : action  ==>
 	guard
 		isFifoFull(fifo)
 	var
@@ -527,6 +529,7 @@ actor PreParser ()
 	var
 		uint(size=32) res[1]
 	do
+		isSameNal := false;
 		vld_u_name(  4, fifo, res, "vps_video_parameter_set_id              ");
 		vld_u_name(  2, fifo, res, "vps_reserved_three_2bits                ");
 		vld_u_name(  6, fifo, res, "vps_reserved_zero_6bits                 ");
@@ -976,6 +979,7 @@ actor PreParser ()
 	var
 		uint(size=32) res[1]
 	do
+			isSameNal := false;
 			vld_u_name(4, fifo, res,
 			"sps_video_parameter_set_id              ");
 			vld_u_name(3, fifo, res,
@@ -1536,6 +1540,7 @@ actor PreParser ()
 	var
 		uint(size=32) res[1]
 	do
+		isSameNal := false;
 		vld_ue_name(    fifo, res, "pps_pic_parameter_set_id                ");
 		pps_id := res[0];
 		vld_ue_name(    fifo, res, "pps_seq_parameter_set_id                ");
@@ -1628,7 +1633,7 @@ actor PreParser ()
 	
 	
 
-	read_SliceHeader.se_idx_1 : action ==> 
+	read_SliceHeader.se_idx_1 : action ==> HeaderId:[headerId]
 
 	guard
 			se_idx = 1 and idx = 0 and isFifoFull(fifo)
@@ -1665,13 +1670,17 @@ actor PreParser ()
 			end
 		end
 		if dependent_slice_segment_flag = 0 then
-				se_idx := 2;
-			else
-				se_idx := 3;
-			end
+			se_idx := 2;
+		else
+			se_idx := 3;
 		end
+		if not isSameNal then
+			headerId := headerId + 1;
+		end
+		isSameNal := true;
+	end
 
-	read_SliceHeader.se_idx_11 : action ==>
+	read_SliceHeader.se_idx_11 : action ==> Poc:[poc], PocId:[pocId]
 	guard
 			se_idx = 2 and isFifoFull(fifo)
 	var
@@ -1698,6 +1707,8 @@ actor PreParser ()
 			compute_POC(res[0]);
 		end
 		se_idx := 3;
+		
+		pocId := pocId + 1; // 
 	end
 				
 	read_SliceHeader_done : action ==> 
