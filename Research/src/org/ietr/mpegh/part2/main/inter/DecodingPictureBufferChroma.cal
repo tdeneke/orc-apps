@@ -132,7 +132,6 @@ actor DecodingPictureBufferChroma ()
 	uint(size=3)  nbList;
 	uint(size=3)  sizeOfList;
 	bool          isNewPicture;
-	uint pictNum;
 	int idx := 0;
 	uint sendx := 0;
 	uint sendy := 0;
@@ -147,11 +146,11 @@ actor DecodingPictureBufferChroma ()
 	uint(size=3)  nbList2;
 	uint(size=3)  sizeOfList2;
 	bool          isNewPicture2;
-	uint pictNum2;
 	int idx2 := 3;
-	uint sendx2 := 0;
-	uint sendy2 := 0;
-	
+	int currentPoc := 0;
+	int currentPoc2 := 0;
+	bool savedPoc [DPB_SIZE] := [false: for int k in 0 .. DPB_SIZE - 1];
+		
 	@optimize_c(condition="defined(SSE_ENABLE)", name="getmvinfo_dpb_64_chroma_orcc")
     procedure getmvinfo_dpb_64_chroma_cal(
   	      uint(size= 8) pictureBufferTmp[DPB_SIZE][PICT_HEIGHT / 2 + 2 * BORDER_SIZE][PICT_WIDTH / 2 + 2 * BORDER_SIZE],
@@ -217,6 +216,7 @@ actor DecodingPictureBufferChroma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
+		currentPoc := poc;
 //		currentPoc[pocCounterRead] := poc;
 //		pocCounterRead := pocCounterRead + 1;
 //		println("poc11 = " + poc);
@@ -228,7 +228,6 @@ actor DecodingPictureBufferChroma ()
 		(idx = 0 or idx = 3),isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
 	do
 //		println("Dpb ; Pict num "+pictNum);
-		pictNum := pictNum + 1;
 		picSizeInCu[0] := (picWidthInPix+15)/16;
 		picSizeInCu[1] := (picHeightInPix+15)/16;
 		picSize[0] := picWidthInPix;
@@ -244,6 +243,7 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
+		currentPoc := poc;
 //		currentPoc[pocCounterRead] := poc;
 //		pocCounterRead := pocCounterRead + 1;
 		isNewPicture    := true;
@@ -389,8 +389,8 @@ actor DecodingPictureBufferChroma ()
 		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
 		usefulPoc[lastIdx] := false;
-		idx2 := 3;
-		idx := 3;
+//		idx2 := 3;
+//		idx := 3;
 	end
 	
 	getCuPix_done: action ==>
@@ -419,6 +419,7 @@ actor DecodingPictureBufferChroma ()
 		xIdx := 0;
 		yIdx := 0;
 		idx := 3;
+		savedPoc[currentPoc] := true;
 	end
 
 	getReadAddr: action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
@@ -666,6 +667,7 @@ actor DecodingPictureBufferChroma ()
 		idx = 6, isNewPicture
 	do
 		idx := 7;
+		//idx2 := 7;
 	end
 
 	checkIsNewPict_isFalse: action ==>
@@ -688,6 +690,7 @@ actor DecodingPictureBufferChroma ()
 		nbList2 := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
+		currentPoc2 := poc;
 //		currentPoc2[pocCounterRead2] := poc;
 //		pocCounterRead2 := pocCounterRead2 + 1;
 //		println("poc21 = " + poc);
@@ -699,7 +702,6 @@ actor DecodingPictureBufferChroma ()
 		(idx2 = 0 or idx2 = 3),isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
 	do
 //		println("Dpb ; Pict num "+pictNum);
-		pictNum2 := pictNum2 + 1;
 		picSizeInCu2[0] := (picWidthInPix+15)/16;
 		picSizeInCu2[1] := (picHeightInPix+15)/16;
 		picSize2[0] := picWidthInPix;
@@ -715,6 +717,7 @@ actor DecodingPictureBufferChroma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
+		currentPoc2 := poc;
 //		currentPoc2[pocCounterRead2] := poc;
 //		pocCounterRead2 := pocCounterRead2 + 1;
 		isNewPicture2    := true;
@@ -888,11 +891,12 @@ actor DecodingPictureBufferChroma ()
 		xIdx := 0;
 		yIdx := 0;
 		idx2 := 3;
+		savedPoc[currentPoc2] := true;
 	end
 
 	getReadAddr2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
 	guard
-		idx2 = 3, isRead = 1
+		idx2 = 3, isRead = 1, savedPoc[currentPoc2 - 1] = true
 	do
 		numPocRef2 :=
 			if(isBiPredOrLx = BI_PRED) then
@@ -1129,12 +1133,20 @@ actor DecodingPictureBufferChroma ()
 		idx2 := 3;
 	end
 
+	bool switcher2 := false;
+	
 	checkIsNewPict_isTrue2: action ==>
 	guard
 		idx2 = 6, isNewPicture2
 	do
-		idx2 := 7;
-		idx := 7;
+		if not switcher2 then
+			idx2 	:= 3;
+		else
+			idx2	:= 7;
+		end	
+		switcher2 := not switcher2;	
+		idx 	:= 7;
+		
 	end
 
 	checkIsNewPict_isFalse2: action ==>

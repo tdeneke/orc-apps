@@ -98,7 +98,6 @@ actor DecodingPictureBufferLuma ()
 	int (size=16) pocRef[DPB_SIZE];
 	bool          isRef[DPB_SIZE];
 	bool          isStillRef[DPB_SIZE];
-	bool usefulPoc[DPB_SIZE]:= [false : for int i in 0 .. DPB_SIZE-1];
 	bool pocDone[1000] := [false : for int i in 0 .. 999];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
 //	uint currentPoc[1000] := [0 : for int i in 0 .. 999];
@@ -145,10 +144,10 @@ actor DecodingPictureBufferLuma ()
 	uint(size=3)  nbList2;
 	uint(size=3)  sizeOfList2;
 	bool          isNewPicture2;
-	uint pictNum2;
 	int idx2 := 3;
-	uint sendx2 := 0;
-	uint sendy2 := 0;
+	int currentPoc := 0;
+	int currentPoc2 := 0;
+	bool savedPoc [DPB_SIZE] := [false: for int k in 0 .. DPB_SIZE - 1];
 	
 	@optimize_c(condition="defined(SSE_ENABLE)", name="getmvinfo_dpb_64_luma_orcc")
     procedure getmvinfo_dpb_64_luma_cal(
@@ -233,6 +232,7 @@ actor DecodingPictureBufferLuma ()
 		nbList := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
+		currentPoc := poc;
 //		currentPoc[pocCounterRead] := poc;
 //		pocCounterRead := pocCounterRead + 1;
 	end
@@ -258,6 +258,7 @@ actor DecodingPictureBufferLuma ()
 				currIdx := i;
 			end
 		end
+		currentPoc := poc;
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
 //		currentPoc[pocCounterRead] := poc;
@@ -293,6 +294,7 @@ actor DecodingPictureBufferLuma ()
 	guard
 		(idx = 1 or idx = 4), nbList = 5
 	do
+		println("getRps_done");
 		/* We remove from the Dpb all the pictures who are not in the Rps of
 		 * the current picture
 		 */
@@ -401,14 +403,14 @@ actor DecodingPictureBufferLuma ()
 		sendy = picSizeInCu[1],
 		pocDone[currentPocDisplay] = true
 	do
+		println("pocToIndex[currentPocDisplay] = " + pocToIndex[currentPocDisplay]);
 		sendx := 0;
 		sendy := 0;
 		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
-		usefulPoc[lastIdx] := false;
 		println("idx2 = " + idx2);
-		idx2 := 3;
-		idx := 3;
+//		idx2 := 3;
+//		idx := 3;
 	end
 	
 	getCuPix_done: action ==>
@@ -419,6 +421,7 @@ actor DecodingPictureBufferLuma ()
 		int ySize := picSize[1]
 	do
 		/* Fill in luma border */
+		println("lastIdx = " + lastIdx);
 		fillBorder_luma_cal(
 			pictureBuffer,
 			lastIdx,
@@ -432,10 +435,10 @@ actor DecodingPictureBufferLuma ()
 //		if pocRef[lastIdx] < currentPoc then
 //				currentPoc := 0;
 //		end
-		usefulPoc[lastIdx] := true;
 		xIdx := 0;
 		yIdx := 0;
 		idx := 3;
+		savedPoc[currentPoc] := true;
 	end
 
 	getReadAddr: action IsReadOrNewSlc:[isRead], IsBiPredOrLx:[isBiPredOrLx] ==>
@@ -692,7 +695,9 @@ actor DecodingPictureBufferLuma ()
 	guard
 		idx = 6, isNewPicture
 	do
+		println("true1");
 		idx := 7;
+		//idx2 := 7;
 	end
 
 	checkIsNewPict_isFalse: action ==>
@@ -717,7 +722,7 @@ actor DecodingPictureBufferLuma ()
 		nbList2 := 0;
 		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
-		
+		currentPoc2 := poc;
 //		currentPoc2[pocCounterRead2] := poc;
 //		pocCounterRead2 := pocCounterRead2 + 1;
 	end
@@ -729,7 +734,6 @@ actor DecodingPictureBufferLuma ()
 	do
 		println("newpict2");
 //		println("Dpb ; Pict num "+pictNum);
-		pictNum2 := pictNum2 + 1;
 		picSizeInCu2[0] := (picWidthInPix+15)/16;
 		picSizeInCu2[1] := (picHeightInPix+15)/16;
 		picSize2[0] := picWidthInPix;
@@ -745,6 +749,7 @@ actor DecodingPictureBufferLuma ()
 		end
 		isRef[currIdx]  := true;
 		pocRef[currIdx] := poc;
+		currentPoc2 := poc;
 //		currentPoc2[pocCounterRead2] := poc;
 //		pocCounterRead2 := pocCounterRead2 + 1;
 		isNewPicture2    := true;
@@ -842,7 +847,9 @@ actor DecodingPictureBufferLuma ()
   	      xPixIdx,
   	      yPixIdx,
   	      lastIdx);
-  	    
+  	    println("sendx = " + xIdx2);
+		println("sendy = " + yIdx2);
+		println(" picSizeInCu[1] = " +  picSizeInCu2[1]);
 		xIdx2 := xIdx2 + 1;
 		if(xIdx2 = picSizeInCu2[0]) then
 			xIdx2 := 0;
@@ -896,6 +903,7 @@ actor DecodingPictureBufferLuma ()
 		int xSize := picSize2[0],
 		int ySize := picSize2[1]
 	do
+		println("lastIdx2 = " + lastIdx);
 		/* Fill in luma border */
 		fillBorder_luma_cal(
 			pictureBuffer,
@@ -910,15 +918,15 @@ actor DecodingPictureBufferLuma ()
 //		if pocRef[lastIdx2] < currentPoc then
 //				currentPoc := 0;
 //		end
-		usefulPoc[lastIdx] := true;
 		xIdx := 0;
 		yIdx := 0;
 		idx2 := 3;
+		savedPoc[currentPoc2] := true;
 	end
 
 	getReadAddr2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
 	guard
-		idx2 = 3, isRead = 1
+		idx2 = 3, isRead = 1, savedPoc[currentPoc2 - 1] = true
 	do
 		numPocRef2 :=
 			if(isBiPredOrLx = BI_PRED) then
@@ -1168,11 +1176,19 @@ actor DecodingPictureBufferLuma ()
 		idx2 := 3;
 	end
 
+	bool switcher2 := false;
+	
 	checkIsNewPict_isTrue2: action ==>
 	guard
 		idx2 = 6, isNewPicture2
 	do
-		idx2 	:= 7;
+		println("true");
+		if not switcher2 then
+			idx2 	:= 3;
+		else
+			idx2	:= 7;
+		end	
+		switcher2 := not switcher2;	
 		idx 	:= 7;
 	end
 
