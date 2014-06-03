@@ -12,10 +12,11 @@ import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
 
-actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
+actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE, int PARSER_ID)
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
-				uint(size= 8) byte
+				uint(size= 8) byte,
+				int Select
 				==>
 				uint(size=16) CUInfo,
 				uint(size= 6) IntraPredMode,
@@ -223,8 +224,35 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	/**************************************************************************
 	 * look_for.Slice_header
 	 *************************************************************************/
-	look_for.Slice_header: action ==>
+	look_for.Slice_header_decode: action Select:[select]==>
 	guard
+		select = PARSER_ID,
+		(nal_unit_type = NAL_TRAIL_R    or
+		 nal_unit_type = NAL_TSA_N      or
+		 nal_unit_type = NAL_TSA_R      or
+		 nal_unit_type = NAL_TRAIL_N    or
+		 nal_unit_type = NAL_STSA_N		or
+		 nal_unit_type = NAL_STSA_R		or
+		 nal_unit_type = NAL_RADL_N		or
+		 nal_unit_type = NAL_RADL_R		or
+		 nal_unit_type = NAL_RASL_N		or
+		 nal_unit_type = NAL_RASL_R		or
+		 nal_unit_type = NAL_IDR_N_LP	or
+		 nal_unit_type = NAL_BLA_W_LP   or
+		 nal_unit_type = NAL_BLA_W_RADL or
+		 nal_unit_type = NAL_BLA_N_LP   or
+		 nal_unit_type = NAL_IDR_W_DLP  or
+		 nal_unit_type = NAL_CRA_NUT    or
+		 nal_unit_type = NAL_RASL_R)
+	do
+		if DEBUG_PARSER then
+			println("=========== Slice ===========");
+		end
+	end
+	
+	look_for.Slice_header_bypass: action Select:[select]==>
+	guard
+		select != PARSER_ID,
 		(nal_unit_type = NAL_TRAIL_R    or
 		 nal_unit_type = NAL_TSA_N      or
 		 nal_unit_type = NAL_TSA_R      or
@@ -358,7 +386,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_VPS_Header.se_idx_4.insertedCond : action ==>
 	guard
-		se_idx = 40 and isFifoFull(fifo)
+		se_idx = 40 
 	do
 		if (vps_max_sub_layers_minus1 > 0) then
 			foreach int k in vps_max_sub_layers_minus1 .. 7 do
@@ -574,7 +602,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	 *************************************************************************/
 	read_SEI_Header.init : action ==>
 	guard
-		se_idx = 1 and isFifoFull(fifo)
+		se_idx = 1
 	do
 		sei_payloadType     := 0;
 		sei_payloadSize     := 0;
@@ -801,7 +829,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_22.loopEnd1 : action ==>
 	guard
-		se_idx = 22 and isFifoFull(fifo),
+		se_idx = 22,
 		cnt_i = sps_max_sub_layers_minus1[sps_id]
 	do
 		cnt_i := 0;
@@ -810,7 +838,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_22.indertedCond : action ==>
 	guard
-		se_idx = 221 and isFifoFull(fifo)
+		se_idx = 221
 	do
 		if sps_max_sub_layers_minus1[sps_id] > 0 then
 			foreach int i in sps_max_sub_layers_minus1[sps_id] .. 7 do
@@ -844,7 +872,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	end
 	read_SPS_Header.se_idx_22.loopEnd : action ==>
 	guard
-		se_idx = 222 and isFifoFull(fifo),
+		se_idx = 222,
 		cnt_i = sps_max_sub_layers_minus1[sps_id]
 	do
 		se_idx := 11;
@@ -1078,7 +1106,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_61_loopSize_id : action ==>
 	guard
-		se_idx = 61 and isFifoFull(fifo) , sps_size_id < 4
+		se_idx = 61, sps_size_id < 4
 	do
 		if sps_size_id = 3 then sps_size_id_matrixCase := 2; else sps_size_id_matrixCase := 6; end
 		se_idx := 62;
@@ -1153,7 +1181,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_63_loopNumCoefEnd : action ==>
 	guard
-		se_idx = 63 and isFifoFull(fifo), cnt_i = sps_coef_num
+		se_idx = 63, cnt_i = sps_coef_num
 	do
 		cnt_i := 0;
 		sps_matrix_id := sps_matrix_id + 1;
@@ -1163,7 +1191,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_62_loopMatrix_id_End : action ==>
 	guard
-		se_idx = 62 and isFifoFull(fifo) , sps_matrix_id = sps_size_id_matrixCase
+		se_idx = 62 , sps_matrix_id = sps_size_id_matrixCase
 	do
 		sps_size_id := sps_size_id + 1;
 		sps_matrix_id := 0;
@@ -1172,7 +1200,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_61_size_id_loopEnd : action ==>
 	guard
-		se_idx = 61 and isFifoFull(fifo) , sps_size_id = 4
+		se_idx = 61 , sps_size_id = 4
 	do
 		sps_size_id := 0;
 		se_idx := 6;
@@ -1224,7 +1252,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SPS_Header.se_idx_7.loop : action ==>
 	guard
-		se_idx = 7 and isFifoFull(fifo),
+		se_idx = 7,
 		cnt_i < sps_num_short_term_ref_pic_sets[sps_id]
 	do
 		parseShortTermRefPicSet(sps_id, cnt_i, sps_num_short_term_ref_pic_sets[sps_id], fifo, pcRPS);
@@ -1559,7 +1587,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_PPS_Header.se_idx_50 : action ==>
 	guard
-		se_idx = 50 and isFifoFull(fifo)
+		se_idx = 50
 	do
 		foreach int matrixId in 0 .. 5 do
 			// 4x4 default is 16
@@ -1590,7 +1618,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_PPS_Header.se_idx_51_loopSize_id : action ==>
 	guard
-		se_idx = 51 and isFifoFull(fifo) , pps_size_id < 4
+		se_idx = 51, pps_size_id < 4
 	do
 		if pps_size_id = 3 then pps_size_id_matrixCase := 2; else pps_size_id_matrixCase := 6; end
 		se_idx := 53;
@@ -1665,17 +1693,16 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_PPS_Header.se_idx_54_loopNumCoefEnd : action ==>
 	guard
-		se_idx = 54 and isFifoFull(fifo), cnt_i = pps_coef_num
+		se_idx = 54 , cnt_i = pps_coef_num
 	do
 		cnt_i := 0;
 		pps_matrix_id := pps_matrix_id + 1;
 		se_idx := 53;
 	end
 
-
 	read_PPS_Header.se_idx_53_loopMatrix_id_End : action ==>
 	guard
-		se_idx = 53 and isFifoFull(fifo) , pps_matrix_id = pps_size_id_matrixCase
+		se_idx = 53, pps_matrix_id = pps_size_id_matrixCase
 	do
 		pps_size_id := pps_size_id + 1;
 		pps_matrix_id := 0;
@@ -1830,7 +1857,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 			end
 		end
 
-		read_SliceHeader.se_idx_11 : action ==> LcuSizeMax:[Log2CtbSize], Poc:[poc], SliceType:[slice_type]
+		read_SliceHeader.se_idx_11 : action ==> LcuSizeMax:[Log2CtbSize], SliceType:[slice_type] , Poc:[poc] 
 		guard
 				se_idx = 200 and isFifoFull(fifo)
 		var
@@ -2258,7 +2285,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	guard
 		se_idx = 12
 	var
-				int(size=16) refPoc = pocTables[idxNumPic][idxRefPoc]
+		int(size=16) refPoc = pocTables[idxNumPic][idxRefPoc]
 	do
 		idxRefPoc := idxRefPoc + 1;
 		if idxRefPoc = numPic[idxNumPic] then
@@ -2375,7 +2402,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_42 : action ==>
 	guard
-		se_idx = 41 and isFifoFull(fifo),
+		se_idx = 41,
 		cnt_i = num_ref_idx_l0_active
 	do
 		cnt_i := 0;
@@ -2397,7 +2424,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_44 : action ==>
 	guard
-		se_idx = 43 and isFifoFull(fifo),
+		se_idx = 43,
 		cnt_i = num_ref_idx_l0_active
 	do
 		cnt_i := 0;
@@ -2407,7 +2434,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_45_skip_loop : action ==>
 	guard
-		se_idx = 45 and isFifoFull(fifo),
+		se_idx = 45,
 		luma_weight_l0_flag[cnt_i] = 0,
 		chroma_weight_l0_flag[cnt_i] = 0,
 		cnt_i < num_ref_idx_l0_active
@@ -2417,7 +2444,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_45_skip_loop_done : action ==>
 	guard
-		se_idx = 45 and isFifoFull(fifo),
+		se_idx = 45,
 		cnt_i = num_ref_idx_l0_active,
 		slice_type = B_SLICE
 	do
@@ -2427,7 +2454,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_45_skip_all : action ==>
 	guard
-		se_idx = 45 and isFifoFull(fifo),
+		se_idx = 45,
 		cnt_i = num_ref_idx_l0_active,
 		slice_type != B_SLICE
 	do
@@ -2452,7 +2479,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_45_skip : action ==>
 	guard
-		se_idx = 45 and isFifoFull(fifo),
+		se_idx = 45 ,
 		cnt_i < num_ref_idx_l0_active,
 		luma_weight_l0_flag[cnt_i] = 0
 	do
@@ -2461,7 +2488,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_46_skip : action ==>
 	guard
-		se_idx = 46 and isFifoFull(fifo),
+		se_idx = 46 ,
 		cnt_i < num_ref_idx_l0_active,
 		chroma_weight_l0_flag[cnt_i] = 0
 	do
@@ -2517,7 +2544,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_49 : action ==>
 	guard
-		se_idx = 48 and isFifoFull(fifo),
+		se_idx = 48 ,
 		slice_type = B_SLICE,
 		cnt_i = num_ref_idx_l1_active
 	do
@@ -2527,7 +2554,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_50_skip : action ==>
 	guard
-		se_idx = 50 and isFifoFull(fifo),
+		se_idx = 50 ,
 		sps_chroma_format_idc[sps_id] = 0
 	do
 		cnt_i := 0;
@@ -2549,7 +2576,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_51 : action ==>
 	guard
-		se_idx = 50 and isFifoFull(fifo),
+		se_idx = 50,
 		sps_chroma_format_idc[sps_id] != 0,
 		cnt_i = num_ref_idx_l1_active
 	do
@@ -2559,7 +2586,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_52_skip_loop : action ==>
 	guard
-		se_idx = 52 and isFifoFull(fifo),
+		se_idx = 52,
 		luma_weight_l1_flag[cnt_i] = 0,
 		chroma_weight_l1_flag[cnt_i] = 0,
 		cnt_i < num_ref_idx_l1_active
@@ -2569,7 +2596,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_52_skip_loop_done : action ==>
 	guard
-		se_idx = 52 and isFifoFull(fifo),
+		se_idx = 52 ,
 		cnt_i = num_ref_idx_l1_active
 	do
 		cnt_i := 0;
@@ -2593,7 +2620,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_52_skip : action ==>
 	guard
-		se_idx = 52 and isFifoFull(fifo),
+		se_idx = 52 ,
 		cnt_i < num_ref_idx_l1_active,
 		luma_weight_l1_flag[cnt_i] = 0
 	do
@@ -2602,7 +2629,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_53_skip : action ==>
 	guard
-		se_idx = 53 and isFifoFull(fifo),
+		se_idx = 53 ,
 		cnt_i < num_ref_idx_l1_active,
 		chroma_weight_l1_flag[cnt_i] = 0
 	do
@@ -2776,7 +2803,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_7_endLoop : action ==>
 	guard
-		se_idx = 7 and isFifoFull(fifo), cnt_i = num_entry_point_offsets
+		se_idx = 7 , cnt_i = num_entry_point_offsets
 	do
 		cnt_i := 0;
 		se_idx := 8;
@@ -2807,7 +2834,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_SliceHeader.se_idx_9_endLoop : action ==>
 	guard
-		se_idx = 9 and isFifoFull(fifo), cnt_i = slice_segment_header_extension_length
+		se_idx = 9 , cnt_i = slice_segment_header_extension_length
 	do
 		cnt_i := 0;
 		se_idx := 100;
@@ -2876,7 +2903,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 										PictSize:[pictSize] repeat 2 , TileSize:[pictOrTileSize] repeat 2, PicSizeInMb:[(pictSize[0] + 15)/16, (pictSize[1] + 15)/16],
 										DispCoord:[0, pictSize[0]-1, 0, pictSize[1]-1], TilesCoord:[num_entry_offsets], RealTilesCoord:[num_entry_offsets]
 	guard
-		sliceData_idx = 1 and isFifoFull(fifo),
+		sliceData_idx = 1,
 		first_slice_segment_in_pic_flag = 1 or prev_pps_id != pps_id
 	var
 		uint(size= 8) num_tile_columns_minus1		= pps_num_tile_columns_minus1[pps_id],
@@ -3124,7 +3151,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_CodingTree.byPassBeforeTileLoop: action ==>
 	guard
-		codingTree_idx = 0 and isFifoFull(fifo), cnt_i < totalByPass + TilesInfo[1]
+		codingTree_idx = 0 ,cnt_i < totalByPass + TilesInfo[1]
 	do
 		if (localizeAEB & 1) = 0 then
 			flushBits_name(8, fifo, "bypassed");
@@ -3137,7 +3164,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 
 	read_CodingTree.byPassBeforeTileEnd: action ==>
 	guard
-		codingTree_idx = 0 and isFifoFull(fifo), cnt_i = totalByPass + TilesInfo[1]
+		codingTree_idx = 0 and cnt_i = totalByPass + TilesInfo[1]
 	do
 		//println("totalByPass = " +totalByPass);
 		cnt_i := 0;
@@ -3216,7 +3243,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	 *************************************************************************/
 	read_CodingTree.start : action ==>
 		guard
-				codingTree_idx = 1
+				codingTree_idx = 1, isFifoFull(fifo)
 		var
 				uint(size=32) res[1],
 				uint(size=32) CtbSize = 1 << Log2CtbSize,
@@ -4229,7 +4256,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	 *************************************************************************/
 	read_CodingUnit.endFunction : action ==>
 	guard
-		cu_idx = 8
+		cu_idx = 8, isFifoFull(fifo)
 	var
 		uint(size=32) res[1] := [1]
 	do
@@ -4379,7 +4406,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	 *************************************************************************/
 	read_PredictionUnit.retMVDcoding_goto1 : action ==>
 	guard
-		pu_idx = 4
+		pu_idx = 4, isFifoFull(fifo)
 	var
 		uint(size=32) res[1]
 	do
@@ -4421,7 +4448,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 	 *************************************************************************/
 	read_PredictionUnit.retMVDcoding_goto2 : action ==>
 	guard
-		pu_idx = 6
+		pu_idx = 6, isFifoFull(fifo)
 	var
 		uint(size=32) res[1]
 	do
@@ -5402,7 +5429,8 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 		find_header	  					( look_for.SEI_header	  			) --> read_SEI_Header;
 		find_header	  					( look_for.SPS_header	  			) --> read_SPS_Header;
 		find_header	  					( look_for.PPS_header	  			) --> read_PPS_Header;
-		find_header	  					( look_for.Slice_header	  			) --> read_SliceHeader;
+		find_header	  					( look_for.Slice_header_decode		) --> read_SliceHeader;
+		find_header	  					( look_for.Slice_header_bypass		) --> byte_align;
 		// read VPS header
 		read_VPS_Header	  				( read_VPS_Header	    			) --> read_VPS_Header;
 		read_VPS_Header	  				( read_VPS_Header_done    			) --> byte_align;
