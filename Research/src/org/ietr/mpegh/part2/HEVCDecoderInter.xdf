@@ -28,6 +28,13 @@
             </Entry>
         </Type>
     </Port>
+    <Port kind="Input" name="ParserSelect">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Port>
     <Port kind="Output" name="SIZE">
         <Type name="int">
             <Entry kind="Expr" name="size">
@@ -140,6 +147,13 @@
             </Entry>
         </Type>
     </Decl>
+    <Decl kind="Param" name="PARSER_ID">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Decl>
     <Instance id="Algo_Parser">
         <Class name="org.ietr.mpegh.part2.main.synParser.Algo_Parser"/>
         <Parameter name="TILE_SPLIT_ENABLE">
@@ -147,6 +161,9 @@
         </Parameter>
         <Parameter name="TILE_INDEX">
             <Expr kind="Var" name="TILE_INDEX"/>
+        </Parameter>
+        <Parameter name="PARSER_ID">
+            <Expr kind="Var" name="PARSER_ID"/>
         </Parameter>
     </Instance>
     <Instance id="xIT">
@@ -287,4 +304,5 @@
     <Connection dst="Select" dst-port="Residual_y" src="xIT" src-port="Block_y"/>
     <Connection dst="Select" dst-port="Residual_u" src="xIT" src-port="Block_u"/>
     <Connection dst="Select" dst-port="Residual_v" src="xIT" src-port="Block_v"/>
+    <Connection dst="Algo_Parser" dst-port="Select" src="" src-port="ParserSelect"/>
 </XDF>
