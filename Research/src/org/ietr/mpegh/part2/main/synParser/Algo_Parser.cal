@@ -250,7 +250,7 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE, int PARSER_ID)
 		end
 	end
 	
-	look_for.Slice_header_bypass: action Select:[select]==>
+	look_for.Slice_header_bypass: action Select:[select]==> PicSizeInMb:[(pictSize[0] + 15)/16, (pictSize[1] + 15)/16], DispCoord:[0, pictSize[0]-1, 0, pictSize[1]-1]
 	guard
 		select != PARSER_ID,
 		(nal_unit_type = NAL_TRAIL_R    or

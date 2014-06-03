@@ -389,8 +389,12 @@ actor DecodingPictureBufferChroma ()
 		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
 		usefulPoc[lastIdx] := false;
-//		idx2 := 3;
-//		idx := 3;
+//		if idx2 = 3 then
+//			idx2 := 7;
+//		end
+//		if idx = 3 then
+//			idx := 6;
+//		end
 	end
 	
 	getCuPix_done: action ==>
@@ -890,7 +894,7 @@ actor DecodingPictureBufferChroma ()
 //		end
 		xIdx := 0;
 		yIdx := 0;
-		idx2 := 3;
+		idx2 := 6;
 		savedPoc[currentPoc2] := true;
 	end
 

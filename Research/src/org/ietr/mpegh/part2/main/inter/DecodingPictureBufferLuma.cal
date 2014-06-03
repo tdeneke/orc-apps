@@ -385,7 +385,7 @@ actor DecodingPictureBufferLuma ()
 				CU[i*16 + j] := pictureBuffer[pocToIndex[currentPocDisplay]][BORDER_SIZE + sendy * 16 + i ][BORDER_SIZE + sendx * 16 + j];
 			end
 		end
-				
+		//println("sendataIdx = " + pocToIndex[currentPocDisplay]);		
 		sendx := sendx + 1;
 		if(sendx = picSizeInCu[0]) then
 			sendx := 0;
@@ -409,8 +409,12 @@ actor DecodingPictureBufferLuma ()
 		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
 		println("idx2 = " + idx2);
-//		idx2 := 3;
-//		idx := 3;
+//		if idx2 = 3 then
+//			idx2 := 7;
+//		end
+//		if idx = 3 then
+//			idx := 6;
+//		end
 	end
 	
 	getCuPix_done: action ==>
@@ -847,9 +851,9 @@ actor DecodingPictureBufferLuma ()
   	      xPixIdx,
   	      yPixIdx,
   	      lastIdx);
-  	    println("sendx = " + xIdx2);
-		println("sendy = " + yIdx2);
-		println(" picSizeInCu[1] = " +  picSizeInCu2[1]);
+//  	    println("sendx = " + xIdx2);
+//		println("sendy = " + yIdx2);
+//		println(" picSizeInCu[1] = " +  picSizeInCu2[1]);
 		xIdx2 := xIdx2 + 1;
 		if(xIdx2 = picSizeInCu2[0]) then
 			xIdx2 := 0;
@@ -920,7 +924,7 @@ actor DecodingPictureBufferLuma ()
 //		end
 		xIdx := 0;
 		yIdx := 0;
-		idx2 := 3;
+		idx2 := 6;
 		savedPoc[currentPoc2] := true;
 	end
 
@@ -1166,6 +1170,7 @@ actor DecodingPictureBufferLuma ()
 	end
 	
 	int mvCounter := 0;
+	
 	getMvInfo_done2: action ==>
 	guard
 		idx2 = 8,
