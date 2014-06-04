@@ -62,7 +62,7 @@ import std.util.Math.*;
 import devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
 
 import org.ietr.mpegh.part2.main.inter.DecodingPictureBufferFunctions.*;
-@DEBUG
+//@DEBUG
 actor DecodingPictureBufferLuma ()
 	uint(size=2)  IsBiPredOrLx,
 	uint(size=1)  IsReadOrNewSlc,
@@ -409,6 +409,7 @@ actor DecodingPictureBufferLuma ()
 		pocDone[currentPocDisplay] := false;
 		currentPocDisplay := currentPocDisplay + 1;
 		println("idx2 = " + idx2);
+		println("idx = " + idx);
 //		if idx2 = 3 then
 //			idx2 := 7;
 //		end
@@ -692,6 +693,7 @@ actor DecodingPictureBufferLuma ()
 		idx = 8,
 		numPocRef = 0
 	do
+		println("mvInfoDone");
 		idx := 3;
 	end
 
@@ -699,7 +701,7 @@ actor DecodingPictureBufferLuma ()
 	guard
 		idx = 6, isNewPicture
 	do
-		println("true1");
+		println("true");
 		idx := 7;
 		//idx2 := 7;
 	end
@@ -708,6 +710,7 @@ actor DecodingPictureBufferLuma ()
 	guard
 		idx = 6, not isNewPicture
 	do
+		println("false");
 		idx := 3;
 	end
 
@@ -790,6 +793,7 @@ actor DecodingPictureBufferLuma ()
 		/* We remove from the Dpb all the pictures who are not in the Rps of
 		 * the current picture
 		 */
+		println("rps_done2");
 		foreach int i in 0 .. DPB_SIZE - 1
 		do
 			isRef[i] := isRef[i] and isStillRef[i];
@@ -925,7 +929,7 @@ actor DecodingPictureBufferLuma ()
 		xIdx := 0;
 		yIdx := 0;
 		idx2 := 6;
-		savedPoc[currentPoc2] := true;
+		savedPoc[currentPoc2 - 1] := true;
 	end
 
 	getReadAddr2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
@@ -1176,6 +1180,7 @@ actor DecodingPictureBufferLuma ()
 		idx2 = 8,
 		numPocRef2 = 0
 	do
+		//println("mvInfoDone2");
 		//println("mvCounter = " + mvCounter);
 		mvCounter := mvCounter + 1;
 		idx2 := 3;
@@ -1187,7 +1192,7 @@ actor DecodingPictureBufferLuma ()
 	guard
 		idx2 = 6, isNewPicture2
 	do
-		println("true");
+		println("true2");
 		if not switcher2 then
 			idx2 	:= 3;
 		else
@@ -1201,6 +1206,7 @@ actor DecodingPictureBufferLuma ()
 	guard
 		idx2 = 6, not isNewPicture2
 	do
+		println("false2");
 		idx2 := 3;
 	end
 

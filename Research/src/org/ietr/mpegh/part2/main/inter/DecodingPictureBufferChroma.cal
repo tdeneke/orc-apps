@@ -895,7 +895,7 @@ actor DecodingPictureBufferChroma ()
 		xIdx := 0;
 		yIdx := 0;
 		idx2 := 6;
-		savedPoc[currentPoc2] := true;
+		savedPoc[currentPoc2 - 1] := true;
 	end
 
 	getReadAddr2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
