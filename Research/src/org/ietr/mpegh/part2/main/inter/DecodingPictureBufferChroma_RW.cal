@@ -100,7 +100,7 @@ actor DecodingPictureBufferChroma_RW ()
 	uint(size = 8) DPB_SIZE = 17;
 
 	uint(size=8)  pictureBuffer[DPB_SIZE][PICT_HEIGHT/2+2*BORDER_SIZE][PICT_WIDTH/2+2*BORDER_SIZE];
-	int (size=16) pocRef[DPB_SIZE];
+	int (size=16) pocRef[DPB_SIZE]:=[-1: for int k in 0 .. DPB_SIZE - 1];
 	int          isRef[DPB_SIZE];
 	bool pocDone[1000] := [false : for int i in 0 .. 999];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
@@ -189,6 +189,8 @@ actor DecodingPictureBufferChroma_RW ()
     end
     
     bool isFirstPic := true;
+    bool isSecondPic := true;
+    int lastIdx := 0;
     
     firstPic : action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
@@ -207,6 +209,7 @@ actor DecodingPictureBufferChroma_RW ()
 				currIdx := i;
 			end
 		end
+		lastIdx := currIdx;
 		isRef[currIdx]  := 1;
 		pocRef[currIdx] := poc;
 		isNewPicture    := true;
@@ -242,6 +245,7 @@ actor DecodingPictureBufferChroma_RW ()
 		picSize[1] := picHeightInPix;
 		xIdx := 0;
 		yIdx := 0;
+		lastIdx := currIdx;
 		foreach uint i in 0 .. DPB_SIZE - 1
 		do
 			if(isRef[i] = 0) then
@@ -274,7 +278,12 @@ actor DecodingPictureBufferChroma_RW ()
 	do
 		//println("getRps_done_true");
 		isRef[currIdx] := isRef[currIdx] + 1;
-		idx := 7;
+		if isSecondPic then
+			idx := 3;
+		else
+			idx := 7;
+		end
+		isSecondPic := false;
 	end
 	
 	getRps_done_notFirstNotFullFrame: action ==>
@@ -316,7 +325,11 @@ actor DecodingPictureBufferChroma_RW ()
 		idx = 2, sizeOfList = 0
 	do
 		nbList := nbList + 1;
-		idx := 1;
+		if isFirstPic then
+			idx := 1;
+		else
+			idx := 4;
+		end
 	end
 
 
@@ -338,7 +351,7 @@ actor DecodingPictureBufferChroma_RW ()
   	      pictureBuffer,
   	      xPixIdx,
   	      yPixIdx,
-  	      currIdx);
+  	      lastIdx);
 		
 		xIdx := xIdx + 1;
 		if(xIdx = picSizeInCu[0]) then
@@ -357,21 +370,18 @@ actor DecodingPictureBufferChroma_RW ()
 	/* Fill in chroma border */
 		fillBorder_chroma_cal(
 		  pictureBuffer,
-		  currIdx,
+		  lastIdx,
 		  xSize / 2,
 		  ySize / 2,
 		  BORDER_SIZE / 2);
 		 
 		pocDone[currentPocCounter] := true;
 		currentPocCounter := currentPocCounter + 1;
-		pocToIndex[pocRef[currIdx]] := currIdx;
+		pocToIndex[pocRef[lastIdx]] := lastIdx;
 		xIdx := 0;
 		yIdx := 0;
-		if isFirstPic then
-			idx := 3;
-		else
-			idx := 8;
-		end
+		idx := 3;
+		
 		isFirstPic := false;
 		//savedPoc[currentPoc] := true;
 	end
@@ -841,19 +851,6 @@ bool isFirstPic2 := true;
 			end;
 		idx2 := 8;
 	end
-	
-//	getReadAddrWait2: action IsReadOrNewSlc2:[isRead], IsBiPredOrLx2:[isBiPredOrLx] ==>
-//	guard
-//		idx2 = 3, isRead = 1, currentPoc2 > currentPocCounter
-//	do
-//		numPocRef :=
-//			if(isBiPredOrLx = BI_PRED) then
-//				2
-//			else
-//				1
-//			end;
-//		idx2 := 8;
-//	end
 
 	/* We get all the informations needed for sending the reference Cu. We save
 	 * these samples in refCu, it will be sent with the actions sendCu.isYxY
