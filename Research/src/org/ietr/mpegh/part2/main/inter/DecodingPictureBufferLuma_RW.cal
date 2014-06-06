@@ -97,6 +97,8 @@ actor DecodingPictureBufferLuma_RW ()
 	uint(size=8)  pictureBuffer[DPB_SIZE][PICT_HEIGHT+2*BORDER_SIZE][PICT_WIDTH+2*BORDER_SIZE];
 	int (size=16) pocRef[DPB_SIZE]:=[-1 : for int k in 0 .. DPB_SIZE - 1];
 	int           isRef[DPB_SIZE];
+	bool          isStillRef[DPB_SIZE];
+	bool          isStillRef2[DPB_SIZE];
 	bool pocDone[1000] := [false : for int i in 0 .. 999];
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
 	
@@ -247,12 +249,13 @@ actor DecodingPictureBufferLuma_RW ()
 		nbList := 0;
 		idx := 4;
 		currentPoc1 := poc;
+		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 	end
 	
 	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
 		picHeightInPix], Poc:[poc] ==>
 	guard
-		idx = 3, isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)
+		idx = 3, isRead = 0 and not(if(currIdx = -1) then false else poc = pocRef[currIdx]end)//, poc <= (currentPocCounter + 2)
 	do
 		println("newpict1");
 //		println("Dpb ; Pict num "+pictNum);
@@ -276,6 +279,7 @@ actor DecodingPictureBufferLuma_RW ()
 		currentPoc1 := poc;
 		isNewPicture    := true;
 		nbList          := 0;
+		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		//isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
 	end
@@ -287,7 +291,7 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		(idx = 1 or idx = 4) , nbList < 5
 	do
-//		println("getRps_launch");
+		println("getRps_launch");
 		sizeOfList := numPic;
 		idx := 2;
 	end
@@ -296,7 +300,15 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx = 4, nbList = 5, isNewPicture = true
 	do
-//		println("getRps_done_trueFull");
+		println("getRps_done_trueFull");
+		foreach int i in 0 .. DPB_SIZE - 1
+		do
+			if isRef[i] > 0 and isStillRef[i] then
+				isRef[i] := isRef[i] + 1;
+			elsif isRef[i] != 0 then
+				isRef[i] := isRef[i] - 1;
+			end
+		end
 		isRef[currIdx] := isRef[currIdx] + 1;
 		
 		if isSecondPic then
@@ -311,7 +323,15 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		(idx = 4 or idx = 1), nbList = 5, isNewPicture = false
 	do
-//		println("getRps_done_trueNotFull");
+		println("getRps_done_trueNotFull");
+		foreach int i in 0 .. DPB_SIZE - 1
+		do
+			if isRef[i] > 0 and isStillRef[i] then
+				isRef[i] := isRef[i] + 1;
+			elsif isRef[i] != 0 then
+				isRef[i] := isRef[i] - 1;
+			end
+		end
 		isRef[currIdx] := isRef[currIdx] + 1;
 		idx := 3;
 	end
@@ -320,7 +340,16 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx = 1, nbList = 5
 	do
-//		println("getRps_done_first");
+		foreach int i in 0 .. DPB_SIZE - 1
+		do
+			if isRef[i] > 0 and isStillRef[i] then
+				isRef[i] := isRef[i] + 1;
+			elsif isRef[i] != 0 then
+				isRef[i] := isRef[i] - 1;
+			end
+		end
+		isRef[currIdx] := isRef[currIdx] + 1;
+		println("getRps_done_first");
 		//isRef[currIdx] := isRef[currIdx] + 1;
 		idx := 7;
 	end
@@ -336,10 +365,10 @@ actor DecodingPictureBufferLuma_RW ()
 		sizeOfList := sizeOfList - 1;
 		foreach int i in 0 .. DPB_SIZE - 1
 		do
-//			println("isRef[i] = " + isRef[i]);
-//			println("pocRef[i] = " + pocRef[i]);
+//			println("isRef["+i+"] =" + isRef[i]);
+//			println("pocRef["+i+"] = " + pocRef[i]);
 			if(pocRef[i] = pocVal)then
-				isRef[i] := isRef[i] + 1;
+				isStillRef[i] := true;
 			end
 		end
 	end
@@ -348,7 +377,7 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx = 2, sizeOfList = 0
 	do
-//		println("getRpsPoc_done");
+		println("getRpsPoc_done");
 		nbList := nbList + 1;
 		if isFirstPic then
 			idx := 1;
@@ -391,7 +420,7 @@ actor DecodingPictureBufferLuma_RW ()
 		int xSize := picSize[0],
 		int ySize := picSize[1]
 	do
-//		println("cuPixDone");
+		println("cuPixDone");
 		/* Fill in luma border */
 //		println("currIdx = " + currIdx);
 		fillBorder_luma_cal(
@@ -458,6 +487,7 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx = 3, isRead = 1, currentPoc1 <= currentPocCounter
 	do
+		println("getAddr");
 		numPocRef :=
 			if(isBiPredOrLx = BI_PRED) then
 				2
@@ -701,7 +731,9 @@ actor DecodingPictureBufferLuma_RW ()
 		idx = 8,
 		numPocRef = 0
 	do
-		//println("mvInfoDone");
+		println("mvInfoDone");
+//		println("currentPoc1 = " + currentPoc1);
+//		println("currentPocCounter = " + currentPocCounter);
 		idx := 3;
 	end
 
@@ -720,14 +752,15 @@ actor DecodingPictureBufferLuma_RW ()
 		nbList2 := 0;
 		idx2 := 4;
 		currentPoc2 := poc;
+		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 	end
 	
 	isNewPict2: action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
 		picHeightInPix], Poc2:[poc] ==>
 	guard
-		idx2 = 3, isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)
+		idx2 = 3, isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)//, poc <= (currentPocCounter + 2)
 	do
-//		println("newpict2");
+		println("newpict2");
 //		println("Dpb ; Pict num "+pictNum);
 		picSizeInCu2[0] := (picWidthInPix+15)/16;
 		picSizeInCu2[1] := (picHeightInPix+15)/16;
@@ -751,7 +784,7 @@ actor DecodingPictureBufferLuma_RW ()
 		isNewPicture2    := true;
 		nbList2         := 0;
 		//isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
-		
+		isStillRef2 := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx2 := 4;
 	end
 
@@ -770,7 +803,7 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx2 = 4, nbList2 = 5, isNewPicture2 = true
 	do
-//		println("getRps_done_true2");
+		println("getRps_done_true2");
 		isRef[currIdx2] := isRef[currIdx2] + 1;
 		if isFirstPic2 then
 			idx2 := 3;
@@ -784,7 +817,7 @@ actor DecodingPictureBufferLuma_RW ()
 	guard
 		idx2 = 4, nbList2 = 5, isNewPicture2 = false
 	do
-//		println("getRps_done_true2");
+		println("getRps_done_true2");
 		isRef[currIdx2] := isRef[currIdx2] + 1;
 		idx2 := 3;
 	end
@@ -850,7 +883,7 @@ actor DecodingPictureBufferLuma_RW ()
 		int xSize := picSize2[0],
 		int ySize := picSize2[1]
 	do
-//		println("cuPixDone2");
+		println("cuPixDone2");
 //		println("currIdx2 = " + currIdx2);
 		/* Fill in luma border */
 		fillBorder_luma_cal(
@@ -1117,6 +1150,11 @@ actor DecodingPictureBufferLuma_RW ()
 		idx2 = 8,
 		numPocRef2 = 0
 	do
+//		println("mvInfoDone2");
+//		println("currentPoc2 = " + currentPoc2);
+//		println("currentPoc1 = " + currentPoc1);
+//		println("currentPocCounter = " + currentPocCounter);
+//		println("idx = " + idx);
 		idx2 := 3;
 	end
 
