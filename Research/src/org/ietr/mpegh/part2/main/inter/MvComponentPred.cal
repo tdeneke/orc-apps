@@ -762,11 +762,12 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 	 * tables, and initializing the reference tables
 	 */
 	isNewSlice: action PartMode:[partMode], SliceAddr:[sliceAddress] repeat 2,
-		SyntaxElem:[paralMergeLevel, tmvpFlag] ==>
+		SyntaxElem:[paralMergeLevel, tmvpFlag], Select:[select]==>
 	guard
 		idx = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
-		partMode = PART_MODE_PICT
+		partMode = PART_MODE_PICT, select = 0
 	do
+		idx2 := 1;
 		if DEBUG_MV then
 			println("newSlice");
 		end
@@ -1355,11 +1356,12 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 	end	
 	
 	isNewSlice_2: action PartMode2:[partMode], SliceAddr2:[sliceAddress] repeat 2,
-		SyntaxElem:[paralMergeLevel, tmvpFlag] ==>
+		SyntaxElem:[paralMergeLevel, tmvpFlag] , Select:[select]==>
 	guard
 		idx2 = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
-		partMode = PART_MODE_PICT
+		partMode = PART_MODE_PICT, select = 1
 	do
+		idx := 1;
 		if DEBUG_MV then
 			println("newSlice");
 		end
@@ -1947,27 +1949,27 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		idx2 := 8;	
 	end
 	
-	int idx2 := 0;
-	int idx := 0;
+	int idx2 := 1;
+	int idx := 1;
 	
-	checkPocOrder_0: action Select:[select] ==>
-	guard
-		select = 0
-	do
-		idx  := 1;
-		idx2 := 0;
-	end
-	checkPocOrder_1: action Select:[select] ==>
-	guard
-		select = 1
-	do
-		idx  := 0;
-		idx2 := 1;
-	end
+//	checkPocOrder_0: action Select:[select] ==>
+//	guard
+//		select = 0
+//	do
+//		idx  := 1;
+//		idx2 := 0;
+//	end
+//	checkPocOrder_1: action Select:[select] ==>
+//	guard
+//		select = 1
+//	do
+//		idx  := 0;
+//		idx2 := 1;
+//	end
 	
-	schedule fsm checkPocOrder:
-		checkPocOrder (checkPocOrder_0  )-->GetPartMode;
-		checkPocOrder (checkPocOrder_1  )-->GetPartMode_2;
+	schedule fsm GetPartMode:
+//		GetPartMode (checkPocOrder_0  )-->GetPartMode;
+//		GetPartMode (checkPocOrder_1  )-->GetPartMode;
 		GetPartMode (isNewSlice       )--> CheckIndepSlc;
 		GetPartMode (getPartMode      )--> GetCuInfo;
 
@@ -2002,10 +2004,10 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		Send2ndMv     (send2ndMv_skip     )--> GetCuInfo;
 		
 		
-		GetPartMode_2 (isNewSlice_2       )--> CheckIndepSlc_2;
-		GetPartMode_2 (getPartMode_2      )--> GetCuInfo_2;
+		GetPartMode (isNewSlice_2       )--> GetPartMode;
+		GetPartMode (getPartMode_2      )--> GetCuInfo_2;
 
-		CheckIndepSlc_2(checkDepSlc_isTrue_2  )--> GetPartMode_2;
+		CheckIndepSlc_2(checkDepSlc_isTrue_2  )--> GetPartMode;
 		CheckIndepSlc_2(checkDepSlc_isFalse_2 )--> GetTilesCoord_2;
 
 		GetTilesCoord_2 (getTilesCoord_launch_2 )--> GetTilesCoord_2;
@@ -2018,13 +2020,13 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		GetRpsPoc_2 (getRpsPoc_done_2   )--> GetRps_2;
 
 		GetSizeRefList_2 (getSizeRefList_launch_2 )--> GetRefList_2;
-		GetSizeRefList_2 (getSizeRefList_done_2   )--> GetPartMode_2;
+		GetSizeRefList_2 (getSizeRefList_done_2   )--> GetPartMode;
 
 		GetRefList_2 (getRefList_launch_2 )--> GetRefList_2;
 		GetRefList_2 (getRefList_done_2   )--> GetSizeRefList_2;
 
 		GetCuInfo_2   (getCuInfo_launch_2 )--> GetCuMode_2;
-		GetCuInfo_2   (getCuInfo_done_2   )--> GetPartMode_2;
+		GetCuInfo_2   (getCuInfo_done_2   )--> GetPartMode;
 
 		GetCuMode_2 (getCuMode_isNotInter_2 )--> GetCuInfo_2;
 		GetCuMode_2 (getCuMode_isInter_2    )--> CheckMergeIdx_2;
@@ -2034,5 +2036,9 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		GetMvd_2        (getMvd_2        )--> Send2ndMv_2;
 		Send2ndMv_2     (send2ndMv_launch_2     )--> GetCuInfo_2;
 		Send2ndMv_2     (send2ndMv_skip_2     )--> GetCuInfo_2;
+	end
+	priority
+		getPartMode_2 > isNewSlice;
+		getPartMode   > isNewSlice_2;
 	end
 end
