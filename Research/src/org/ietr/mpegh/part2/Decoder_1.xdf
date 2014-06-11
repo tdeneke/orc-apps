@@ -210,6 +210,9 @@
             </Entry>
         </Type>
     </Port>
+    <Port kind="Output" name="endOfSlice">
+        <Type name="bool"/>
+    </Port>
     <Decl kind="Param" name="TILE_SPLIT_ENABLE">
         <Type name="uint">
             <Entry kind="Expr" name="size">
@@ -372,4 +375,5 @@
         src="Algo_Parser" src-port="NumRefIdxLxActive"/>
     <Connection dst="GenerateRefList" dst-port="RefPicListModif"
         src="Algo_Parser" src-port="RefPicListModif"/>
+    <Connection dst="" dst-port="endOfSlice" src="Algo_Parser" src-port="EndOfSlice"/>
 </XDF>

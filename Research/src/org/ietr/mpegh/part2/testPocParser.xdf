@@ -6,8 +6,17 @@
     <Instance id="instance_2">
         <Class name="org.ietr.mpegh.part2.common.SourceFrame"/>
     </Instance>
-    <Connection dst="instance_1" dst-port="PocStreamOrder"
-        src="instance_2" src-port="PocId"/>
+    <Instance id="sink">
+        <Class name="org.ietr.mpegh.part2.main.synParser.ParserSink"/>
+    </Instance>
+    <Instance id="instance_4">
+        <Class name="org.ietr.mpegh.part2.main.synParser.SourceSink"/>
+    </Instance>
     <Connection dst="instance_1" dst-port="byte" src="instance_2" src-port="O"/>
-    <Connection dst="instance_1" dst-port="IsNewHead" src="instance_2" src-port="IsNewHeader"/>
+    <Connection dst="sink" dst-port="HeaderData" src="instance_1" src-port="HeaderData"/>
+    <Connection dst="sink" dst-port="Poc" src="instance_1" src-port="Poc"/>
+    <Connection dst="sink" dst-port="PocId" src="instance_1" src-port="PocId"/>
+    <Connection dst="sink" dst-port="HeaderSize" src="instance_1" src-port="HeaderSize"/>
+    <Connection dst="instance_4" dst-port="O1" src="instance_2" src-port="O1"/>
+    <Connection dst="instance_4" dst-port="O2" src="instance_2" src-port="O2"/>
 </XDF>

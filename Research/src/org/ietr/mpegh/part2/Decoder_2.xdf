@@ -196,6 +196,9 @@
             </Entry>
         </Type>
     </Port>
+    <Port kind="Output" name="endOfSlice">
+        <Type name="bool"/>
+    </Port>
     <Decl kind="Param" name="TILE_SPLIT_ENABLE">
         <Type name="uint">
             <Entry kind="Expr" name="size">
@@ -356,4 +359,5 @@
     <Connection dst="Select" dst-port="Residual_v" src="xIT" src-port="Block_v"/>
     <Connection dst="Algo_Parser" dst-port="byte" src="" src-port="byte"/>
     <Connection dst="Algo_Parser" dst-port="Select" src="" src-port="Select_0"/>
+    <Connection dst="" dst-port="endOfSlice" src="Algo_Parser" src-port="EndOfSlice"/>
 </XDF>
