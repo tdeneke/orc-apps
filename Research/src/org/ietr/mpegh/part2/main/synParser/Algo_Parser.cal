@@ -52,7 +52,8 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE, int PARSER_ID)
 				 int(size=16) WeightedPredChroma,
 				uint(size=16) TileSize,
 				uint(size=16) TileCUInfo,
-				 int(size= 8) Qp
+				 int(size= 8) Qp,
+				 bool EndOfSlice
 
 :
 	uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL];
@@ -3572,30 +3573,42 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE, int PARSER_ID)
 		end_of_slice_flag := res[0];
 		CtbAddrTS := CtbAddrTS + 1;
 		CtbAddrRS := ctbAddrTStoRS[CtbAddrTS];
-		if end_of_slice_flag = 0 then
-			if pps_entropy_coding_sync_enabled_flag[pps_id] = 1 and (CtbAddrTS mod PicWidthInCtbsY) = 2 then
-				ctxTableWPP := [[ctxTable[i][j]	    : for int j in 0 .. NB_MAX_NUM_CTX-1] : for int i in 0 .. NB_MAX_SE-1];
+		sliceData_idx := 41;
+	end
+	
+	read_SliceData.NotEndOfSlice : action ==>
+	guard
+		sliceData_idx = 41 and isFifoFull(fifo), end_of_slice_flag = 0
+	do
+		if pps_entropy_coding_sync_enabled_flag[pps_id] = 1 and (CtbAddrTS mod PicWidthInCtbsY) = 2 then
+			ctxTableWPP := [[ctxTable[i][j]	    : for int j in 0 .. NB_MAX_NUM_CTX-1] : for int i in 0 .. NB_MAX_SE-1];
+		end
+		sliceData_idx := 3;
+		if pps_tiles_enabled_flag[pps_id] = 1 and (TileId[ CtbAddrTS ] != TileId[ CtbAddrTS - 1]) then
+			//println("endOfTile ###################################################");
+			if TILE_SPLIT_ENABLE = 0 then
+				sliceData_idx := 3;
+			else
+				sliceData_idx := 5;
 			end
-			sliceData_idx := 3;
-			if pps_tiles_enabled_flag[pps_id] = 1 and (TileId[ CtbAddrTS ] != TileId[ CtbAddrTS - 1]) then
-				//println("endOfTile ###################################################");
-				if TILE_SPLIT_ENABLE = 0 then
-					sliceData_idx := 3;
-				else
-					sliceData_idx := 5;
-				end
-			end
-		else
-			//println("endOfSlice ################################################### counter = " + counter);
-						counter := counter + 1;
-			sliceData_idx := 5;
-			//curr_Tile := 0;
-			CtbAddrTS := 0;
-			CtbAddrRS := 0;
-			//numByPassBytes := [0: for int i in 0 .. MAX_NUM_TILES - 1];
-			byPassFlag := false;
 		end
 	end
+	
+	read_SliceData.EndOfSlice : action ==> EndOfSlice:[true]
+	guard
+		sliceData_idx = 41 and isFifoFull(fifo), end_of_slice_flag = 1
+	do
+		//println("endOfSlice ################################################### counter = " + counter);
+					counter := counter + 1;
+		sliceData_idx := 5;
+		//curr_Tile := 0;
+		CtbAddrTS := 0;
+		CtbAddrRS := 0;
+		//numByPassBytes := [0: for int i in 0 .. MAX_NUM_TILES - 1];
+		byPassFlag := false;
+	end
+	
+	
 	/**************************************************************************
 	 * read_SliceData_end
 	 *************************************************************************/
