@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XDF name="Decoder_1">
+    <Port kind="Input" name="Mv">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="IsBiPredOrLx">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="2"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="RefPoc_0">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="RefIdx">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="3"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="IsBiPredOrLx_0">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="2"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Mv_0">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="byte">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_y">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_v">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Sample_u">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Input" name="Select_0">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="DispCoord">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="14"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="PicSizeInMb">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="9"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="Out_y">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="Out_u">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="Out_v">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="PictSize">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefPoc">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="Poc">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefList">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="PartMode">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="4"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="TilesCoord">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="PictSize_0">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="RefPoc_1">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="SliceType">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="2"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="SliceAddr">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="Poc_0">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="LcuSizeMax">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="8"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="CUInfo">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Port kind="Output" name="MvPredSyntaxElem">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="16"/>
+            </Entry>
+        </Type>
+    </Port>
+    <Decl kind="Param" name="TILE_SPLIT_ENABLE">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Decl>
+    <Decl kind="Param" name="TILE_INDEX">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Decl>
+    <Decl kind="Param" name="PARSER_ID">
+        <Type name="int">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Decl>
+    <Instance id="Select">
+        <Class name="org.ietr.mpegh.part2.SelectCu_yuv"/>
+    </Instance>
+    <Instance id="xIT">
+        <Class name="org.ietr.mpegh.part2.main.IT.IT_yuv"/>
+    </Instance>
+    <Instance id="QpGen">
+        <Class name="org.ietr.mpegh.part2.main.Filters.QpGen"/>
+    </Instance>
+    <Instance id="SAOFilter">
+        <Class name="org.ietr.mpegh.part2.main.Filters.SaoFilter_yuv"/>
+    </Instance>
+    <Instance id="Algo_Parser">
+        <Class name="org.ietr.mpegh.part2.main.synParser.Algo_Parser"/>
+        <Parameter name="TILE_SPLIT_ENABLE">
+            <Expr kind="Var" name="TILE_SPLIT_ENABLE"/>
+        </Parameter>
+        <Parameter name="TILE_INDEX">
+            <Expr kind="Var" name="TILE_INDEX"/>
+        </Parameter>
+        <Parameter name="PARSER_ID">
+            <Expr kind="Var" name="PARSER_ID"/>
+        </Parameter>
+    </Instance>
+    <Instance id="GenerateRefList">
+        <Class name="devel.org.sc29.wg11.mpegh.part2.main.inter.GenerateRefList"/>
+    </Instance>
+    <Instance id="DBFilter">
+        <Class name="org.ietr.mpegh.part2.main.Filters.Dbf_yuv"/>
+    </Instance>
+    <Instance id="IntraPred">
+        <Class name="org.ietr.mpegh.part2.main.intra.IntraPrediction_yuv"/>
+    </Instance>
+    <Instance id="InterPred">
+        <Class name="org.ietr.mpegh.part2.main.inter.InterPrediction_yuv"/>
+    </Instance>
+    <Connection dst="" dst-port="DispCoord" src="Algo_Parser" src-port="DispCoord"/>
+    <Connection dst="" dst-port="PicSizeInMb" src="Algo_Parser" src-port="PicSizeInMb"/>
+    <Connection dst="" dst-port="Out_y" src="SAOFilter" src-port="Out_y"/>
+    <Connection dst="" dst-port="Out_u" src="SAOFilter" src-port="Out_u"/>
+    <Connection dst="" dst-port="Out_v" src="SAOFilter" src-port="Out_v"/>
+    <Connection dst="" dst-port="PictSize" src="Algo_Parser" src-port="PictSize"/>
+    <Connection dst="" dst-port="RefPoc" src="Algo_Parser" src-port="RefPoc"/>
+    <Connection dst="" dst-port="Poc" src="Algo_Parser" src-port="Poc"/>
+    <Connection dst="xIT" dst-port="Size" src="Algo_Parser" src-port="TUSize"/>
+    <Connection dst="xIT" dst-port="Coeff" src="Algo_Parser" src-port="Coeff"/>
+    <Connection dst="DBFilter" dst-port="Cbf" src="Algo_Parser" src-port="Cbf"/>
+    <Connection dst="DBFilter" dst-port="Mv" src="" src-port="Mv"/>
+    <Connection dst="DBFilter" dst-port="IsBiPredOrLx" src="" src-port="IsBiPredOrLx"/>
+    <Connection dst="DBFilter" dst-port="SplitTransf" src="Algo_Parser" src-port="SplitTransform"/>
+    <Connection dst="DBFilter" dst-port="PartMode" src="Algo_Parser" src-port="PartMode"/>
+    <Connection dst="DBFilter" dst-port="RefPoc" src="" src-port="RefPoc_0"/>
+    <Connection dst="DBFilter" dst-port="SlcAddr" src="Algo_Parser" src-port="SliceAddr"/>
+    <Connection dst="DBFilter" dst-port="PicSize" src="Algo_Parser" src-port="PictSize"/>
+    <Connection dst="DBFilter" dst-port="IsPicSlcLcu" src="Algo_Parser" src-port="IsPicSlcLcu"/>
+    <Connection dst="DBFilter" dst-port="DBFDisable" src="Algo_Parser" src-port="DBFDisable"/>
+    <Connection dst="DBFilter" dst-port="LFAcrossSlcTile"
+        src="Algo_Parser" src-port="LFAcrossSlcTile"/>
+    <Connection dst="DBFilter" dst-port="LcuSizeMax" src="Algo_Parser" src-port="LcuSizeMax"/>
+    <Connection dst="DBFilter" dst-port="TilesCoord" src="Algo_Parser" src-port="TilesCoord"/>
+    <Connection dst="DBFilter" dst-port="DbfSe" src="Algo_Parser" src-port="DbfSe"/>
+    <Connection dst="DBFilter" dst-port="CuInfo" src="Algo_Parser" src-port="CUInfo"/>
+    <Connection dst="QpGen" dst-port="TuSize" src="Algo_Parser" src-port="TUSize"/>
+    <Connection dst="DBFilter" dst-port="Qp" src="QpGen" src-port="Qp"/>
+    <Connection dst="IntraPred" dst-port="IntraPredMode"
+        src="Algo_Parser" src-port="IntraPredMode"/>
+    <Connection dst="IntraPred" dst-port="CuInfo" src="Algo_Parser" src-port="CUInfo"/>
+    <Connection dst="IntraPred" dst-port="PictSize" src="Algo_Parser" src-port="PictSize"/>
+    <Connection dst="IntraPred" dst-port="PartMode" src="Algo_Parser" src-port="PartMode"/>
+    <Connection dst="IntraPred" dst-port="SplitTransform"
+        src="Algo_Parser" src-port="SplitTransform"/>
+    <Connection dst="IntraPred" dst-port="SliceAddr" src="Algo_Parser" src-port="SliceAddr"/>
+    <Connection dst="IntraPred" dst-port="LcuSizeMax" src="Algo_Parser" src-port="LcuSizeMax"/>
+    <Connection dst="IntraPred" dst-port="StrongIntraSmoothing"
+        src="Algo_Parser" src-port="StrongIntraSmoothing"/>
+    <Connection dst="IntraPred" dst-port="TilesCoord" src="Algo_Parser" src-port="TilesCoord"/>
+    <Connection dst="InterPred" dst-port="Poc" src="Algo_Parser" src-port="Poc"/>
+    <Connection dst="InterPred" dst-port="PartMode" src="Algo_Parser" src-port="PartMode"/>
+    <Connection dst="InterPred" dst-port="SliceType" src="Algo_Parser" src-port="SliceType"/>
+    <Connection dst="InterPred" dst-port="CuInfo" src="Algo_Parser" src-port="CUInfo"/>
+    <Connection dst="InterPred" dst-port="RefIdx" src="" src-port="RefIdx"/>
+    <Connection dst="InterPred" dst-port="RefList" src="GenerateRefList" src-port="RefList"/>
+    <Connection dst="InterPred" dst-port="IsBiPredOrLx" src="" src-port="IsBiPredOrLx_0"/>
+    <Connection dst="InterPred" dst-port="Mv" src="" src-port="Mv_0"/>
+    <Connection dst="InterPred" dst-port="WeightedPredSe_y"
+        src="Algo_Parser" src-port="WeightedPredLuma"/>
+    <Connection dst="InterPred" dst-port="WeightedPredSe_u"
+        src="Algo_Parser" src-port="WeightedPredChroma"/>
+    <Connection dst="InterPred" dst-port="WeightedPredSe_v"
+        src="Algo_Parser" src-port="WeightedPredChroma"/>
+    <Connection dst="SAOFilter" dst-port="Sample_y" src="DBFilter" src-port="FiltSample_y"/>
+    <Connection dst="SAOFilter" dst-port="Sample_u" src="DBFilter" src-port="FiltSample_u"/>
+    <Connection dst="SAOFilter" dst-port="Sample_v" src="DBFilter" src-port="FiltSample_v"/>
+    <Connection dst="SAOFilter" dst-port="TileCoord" src="Algo_Parser" src-port="TilesCoord"/>
+    <Connection dst="SAOFilter" dst-port="LcuSizeMax" src="Algo_Parser" src-port="LcuSizeMax"/>
+    <Connection dst="SAOFilter" dst-port="LfAccrossSliceTile"
+        src="Algo_Parser" src-port="LFAcrossSlcTile"/>
+    <Connection dst="SAOFilter" dst-port="PicSize" src="Algo_Parser" src-port="PictSize"/>
+    <Connection dst="SAOFilter" dst-port="IsPicSlcLcu" src="Algo_Parser" src-port="IsPicSlcLcu"/>
+    <Connection dst="SAOFilter" dst-port="SaoSe_y" src="Algo_Parser" src-port="SaoSeLuma"/>
+    <Connection dst="SAOFilter" dst-port="SaoSe_u" src="Algo_Parser" src-port="SaoSeChromaU"/>
+    <Connection dst="SAOFilter" dst-port="SaoSe_v" src="Algo_Parser" src-port="SaoSeChromaV"/>
+    <Connection dst="DBFilter" dst-port="Samp_y" src="Select" src-port="Out_y"/>
+    <Connection dst="DBFilter" dst-port="Samp_u" src="Select" src-port="Out_u"/>
+    <Connection dst="DBFilter" dst-port="Samp_v" src="Select" src-port="Out_v"/>
+    <Connection dst="IntraPred" dst-port="Sample_y" src="Select" src-port="Out_y"/>
+    <Connection dst="IntraPred" dst-port="Sample_u" src="Select" src-port="Out_u"/>
+    <Connection dst="IntraPred" dst-port="Sample_v" src="Select" src-port="Out_v"/>
+    <Connection dst="Select" dst-port="Intra_y" src="IntraPred" src-port="Out_y"/>
+    <Connection dst="Select" dst-port="Intra_u" src="IntraPred" src-port="Out_u"/>
+    <Connection dst="Select" dst-port="Intra_v" src="IntraPred" src-port="Out_v"/>
+    <Connection dst="Select" dst-port="Inter_y" src="InterPred" src-port="Out_y"/>
+    <Connection dst="Select" dst-port="Inter_u" src="InterPred" src-port="Out_u"/>
+    <Connection dst="Select" dst-port="Inter_v" src="InterPred" src-port="Out_v"/>
+    <Connection dst="Select" dst-port="PartMode" src="Algo_Parser" src-port="PartMode"/>
+    <Connection dst="Select" dst-port="CuInfo" src="Algo_Parser" src-port="CUInfo"/>
+    <Connection dst="Select" dst-port="Residual_y" src="xIT" src-port="Block_y"/>
+    <Connection dst="Select" dst-port="Residual_u" src="xIT" src-port="Block_u"/>
+    <Connection dst="Select" dst-port="Residual_v" src="xIT" src-port="Block_v"/>
+    <Connection dst="Algo_Parser" dst-port="byte" src="" src-port="byte"/>
+    <Connection dst="InterPred" dst-port="Sample_y" src="" src-port="Sample_y"/>
+    <Connection dst="InterPred" dst-port="Sample_v" src="" src-port="Sample_v"/>
+    <Connection dst="InterPred" dst-port="Sample_u" src="" src-port="Sample_u"/>
+    <Connection dst="Algo_Parser" dst-port="Select" src="" src-port="Select_0"/>
+    <Connection dst="" dst-port="RefList" src="GenerateRefList" src-port="RefList"/>
+    <Connection dst="" dst-port="PartMode" src="Algo_Parser" src-port="PartMode"/>
+    <Connection dst="" dst-port="TilesCoord" src="Algo_Parser" src-port="TilesCoord"/>
+    <Connection dst="" dst-port="PictSize_0" src="Algo_Parser" src-port="PictSize"/>
+    <Connection dst="GenerateRefList" dst-port="RefPoc"
+        src="Algo_Parser" src-port="RefPoc"/>
+    <Connection dst="" dst-port="RefPoc_1" src="Algo_Parser" src-port="RefPoc"/>
+    <Connection dst="" dst-port="SliceType" src="Algo_Parser" src-port="SliceType"/>
+    <Connection dst="" dst-port="SliceAddr" src="Algo_Parser" src-port="SliceAddr"/>
+    <Connection dst="" dst-port="Poc_0" src="Algo_Parser" src-port="Poc"/>
+    <Connection dst="" dst-port="LcuSizeMax" src="Algo_Parser" src-port="LcuSizeMax"/>
+    <Connection dst="" dst-port="CUInfo" src="Algo_Parser" src-port="CUInfo"/>
+    <Connection dst="" dst-port="MvPredSyntaxElem" src="Algo_Parser" src-port="MvPredSyntaxElem"/>
+    <Connection dst="GenerateRefList" dst-port="NumRefIdxLXAct"
+        src="Algo_Parser" src-port="NumRefIdxLxActive"/>
+    <Connection dst="GenerateRefList" dst-port="RefPicListModif"
+        src="Algo_Parser" src-port="RefPicListModif"/>
+</XDF>
