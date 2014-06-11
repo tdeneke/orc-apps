@@ -77,6 +77,7 @@ import std.util.Math.*;
 import devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
 //@DEBUG
 actor MvComponentPred(bool FIX_TMVP_REFIDX0)
+	bool EndOfSlice,
 	uint(size=16) CUInfo,
 	uint(size=8)  LcuSizeMax,
 	uint(size=4)  PartMode,
@@ -88,6 +89,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 	uint(size=2)  SliceType,
 	int (size=16) SyntaxElem,
 	uint(size=16) TilesCoord,
+	bool EndOfSlice2,
 	uint(size=16) CUInfo2,
 	uint(size=8)  LcuSizeMax2,
 	uint(size=4)  PartMode2,
@@ -122,8 +124,8 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
  	bool DEBUG_PicSize	    = false;
  	bool DEBUG_RefList		= false;
  	bool DEBUG_RpsPoc		= false;
- 	bool DEBUG_SyntaxElem	= true;
- 	bool DEBUG_Mv			= true;
+ 	bool DEBUG_SyntaxElem	= false;
+ 	bool DEBUG_Mv			= false;
 	/* Constants representing all the neighbour required during for predicting
 	 * the different components
 	 */
@@ -315,8 +317,8 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 			do
 				refIdxRef[currIdx][x][y] := [refIdxToSave[i]:
 					for int i in 0 .. 1];
-				println("refIdxRef[currIdx][x][y][0] = " + refIdxRef[currIdx][x][y][0]);
-				println("refIdxRef[currIdx][x][y][1] = " + refIdxRef[currIdx][x][y][1]);
+//				println("refIdxRef[currIdx][x][y][0] = " + refIdxRef[currIdx][x][y][0]);
+//				println("refIdxRef[currIdx][x][y][1] = " + refIdxRef[currIdx][x][y][1]);
 			end
 		end
 	end
@@ -612,12 +614,12 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 		if(xN>=0 && yN>=0 && xN<picSizeInPart[0] && yN<picSizeInPart[1]) then
 			predFlag := refIdxRef[colRefIdx][xN][yN][0] != -1 ||
 				refIdxRef[colRefIdx][xN][yN][1] != -1;
-				println("predFlag = " + predFlag);
+				//println("predFlag = " + predFlag);
 			if(predFlag) then
 				mv := [[mvRef[colRefIdx][xN][yN][i][j]:for int j in 0 .. 1]:
 					for int i in 0 .. 1];
 				if(isMerged) then
-					println("caseIsMerged");
+					//println("caseIsMerged");
 					if(not FIX_TMVP_REFIDX0) then
 						refIdxRefCurrPic :=
 							if(isInter(partAddr[0]-1, partAddr[1]+nPSH-1)) then
@@ -683,7 +685,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 					mvPred[numCandidate] := [[mv[i][j]:for int j in 0 .. 1]:
 						for int i in 0 .. 1];
 				else
-					println("caseIsNotMerged");
+					//println("caseIsNotMerged");
 					listAvail[0] :=
 						if(refIdxRef[colRefIdx][xN][yN][listX] != -1) then
 							listX
@@ -757,18 +759,59 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 			combIdx := combIdx + 1;
 		end
 	end
-
+	
+	int idx := 0;
+	int idx2 := 1;
+	
+	int poc;
+	int poc2;
+	
+	int currentPoc := 0;
 	/* Getting information from new Slice, finding some place for the refence
 	 * tables, and initializing the reference tables
 	 */
+	 
+	isNewFirstSlice: action PartMode:[partMode], SliceAddr:[sliceAddress] repeat 2,
+		SyntaxElem:[paralMergeLevel, tmvpFlag], Select:[select], Poc:[poc_in] ==>
+	guard
+		idx = 0, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
+		partMode = PART_MODE_PICT, select = 0, poc_in = currentPoc
+	do
+		poc := poc_in;
+		idx2 := 1;
+		println("newSlice");
+		switcher := false;
+		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
+		dependSlc := partMode = PART_MODE_SLICE_DEP;
+		newPict   := partMode = PART_MODE_PICT;
+		enTmpMvp  := tmvpFlag != 0;
+		paralMergeLvl := paralMergeLevel - 2;
+		if DEBUG_PartMode then
+			println("partMode = "+partMode);
+		end
+		nbList := 0;
+		if(partMode = PART_MODE_PICT) then
+			slcIdx := 0;
+		elsif(partMode = PART_MODE_SLICE_INDEP) then
+			slcIdx := slcIdx + 1;
+			slcAddrRef[currIdx][slcIdx] := [slcAddr[i]: for int i in 0 .. 1];
+			numSlcPerPict[currIdx] := numSlcPerPict[currIdx] + 1;
+		end
+		currentPoc := currentPoc + 1;
+		idx := 2;
+	end
+	
+	
 	isNewSlice: action PartMode:[partMode], SliceAddr:[sliceAddress] repeat 2,
-		SyntaxElem:[paralMergeLevel, tmvpFlag], Select:[select]==>
+		SyntaxElem:[paralMergeLevel, tmvpFlag], Select:[select], Poc:[poc_in] , EndOfSlice2:[endOfSlice]==>
 	guard
 		idx = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
-		partMode = PART_MODE_PICT, select = 0
+		partMode = PART_MODE_PICT, select = 0, poc_in = currentPoc, switcher = true
 	do
+		poc := poc_in;
 		idx2 := 1;
-			println("newSlice");
+		switcher := false;
+		println("newSlice");
 		
 		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
 		dependSlc := partMode = PART_MODE_SLICE_DEP;
@@ -786,6 +829,38 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 			slcAddrRef[currIdx][slcIdx] := [slcAddr[i]: for int i in 0 .. 1];
 			numSlcPerPict[currIdx] := numSlcPerPict[currIdx] + 1;
 		end
+		currentPoc := currentPoc + 1;
+		idx := 2;
+	end
+	
+	isNewSliceSameDec: action PartMode:[partMode], SliceAddr:[sliceAddress] repeat 2,
+		SyntaxElem:[paralMergeLevel, tmvpFlag], Select:[select], Poc:[poc_in] ==>
+	guard
+		idx = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
+		partMode = PART_MODE_PICT, select = 0, poc_in = currentPoc, switcher = false
+	do
+		poc := poc_in;
+		idx2 := 1;
+		
+		println("newSlice");
+		
+		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
+		dependSlc := partMode = PART_MODE_SLICE_DEP;
+		newPict   := partMode = PART_MODE_PICT;
+		enTmpMvp  := tmvpFlag != 0;
+		paralMergeLvl := paralMergeLevel - 2;
+		if DEBUG_PartMode then
+			println("partMode = "+partMode);
+		end
+		nbList := 0;
+		if(partMode = PART_MODE_PICT) then
+			slcIdx := 0;
+		elsif(partMode = PART_MODE_SLICE_INDEP) then
+			slcIdx := slcIdx + 1;
+			slcAddrRef[currIdx][slcIdx] := [slcAddr[i]: for int i in 0 .. 1];
+			numSlcPerPict[currIdx] := numSlcPerPict[currIdx] + 1;
+		end
+		currentPoc := currentPoc + 1;
 		idx := 2;
 	end
 
@@ -810,12 +885,12 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 	guard
 		idx = 2,dependSlc
 	do
-		println("depSlice_isTrue");
+//		println("depSlice_isTrue");
 		idx := 1;
 	end
 	
 	checkDepSlc_isFalse: action SyntaxElem:[colFromLX, colRefIdxVal],
-		LcuSizeMax:[log2_lcuSz], PicSize:[picSize] repeat 2, Poc:[poc],
+		LcuSizeMax:[log2_lcuSz], PicSize:[picSize] repeat 2,
 		SliceType:[sliceType], TilesCoord:[valNumTiles] ==> IsReadOrNewSlice:[0]
 	guard
 		idx = 2,not dependSlc
@@ -1152,7 +1227,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 				else
 					mvpIdx[i]
 				end;
-			println("idxMvInfo = " + idxMvInfo);
+//			println("idxMvInfo = " + idxMvInfo);
 			if idxMvInfo > -1 and idxMvInfo < 5 then
 				if(mvPred[idxMvInfo][i][0] >  32767) then mvPred[idxMvInfo][i][0] :=  32767; end
 				if(mvPred[idxMvInfo][i][0] < -32768) then mvPred[idxMvInfo][i][0] := -32768; end
@@ -1161,54 +1236,54 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 				mv[i][0] := mvPred[idxMvInfo][i][0] + mvd[2*i];
 				mv[i][1] := mvPred[idxMvInfo][i][1] + mvd[2*i + 1];
 				refIdx[i] := refIdxPred[idxMvInfo][i];
-				println("i = " + i);
-				println("mv[i][0] = " + mv[i][0]);
-				println("mv[i][1] = " + mv[i][1]);
-				println("refIdx[i] = " + refIdx[i]);
+//				println("i = " + i);
+//				println("mv[i][0] = " + mv[i][0]);
+//				println("mv[i][1] = " + mv[i][1]);
+//				println("refIdx[i] = " + refIdx[i]);
 			end
 		end
 		if(mergeIdx = -1) then
 			
 			refIdx := [refIdxRef[currIdx][partAddr[0]][partAddr[1]][i]:
 				for int i in 0 .. 1];
-				println("refIdx = [ " + refIdx[0] + " , " + refIdx[1] + " ]");
+//				println("refIdx = [ " + refIdx[0] + " , " + refIdx[1] + " ]");
 		end
 		if(not isBSlice || refIdx[0]!=-1 && refIdx[1] !=-1 &&
 			predCuSize = 8 && (cuSize[0] < 8 || cuSize[1]<8)) then
 			refIdx[1] := -1;
 			mv[1][0] := 0;
 			mv[1][1] := 0;
-			println("case1");
+//			println("case1");
 		end
 		if(refIdx[0] = -1) then
 			mv[0][0] := 0;
 			mv[0][1] := 0;
-			println("case2");
+//			println("case2");
 		end
 		if(refIdx[1] = -1) then
 			mv[1][0] := 0;
 			mv[1][1] := 0;
-			println("case3");
+//			println("case3");
 		end
 		saveRefIdx(refIdx);
 		saveMvComponent(mv);
 		if(refIdx[0]!= -1 and refIdx[1]!= -1) then
-			println("case4");
+//			println("case4");
 			isBiPredOrLx := BI_PRED;
 		else if(refIdx[0] != -1) then
-			println("case5");
+//			println("case5");
 			isBiPredOrLx := PRED_L0;
 		else
-			println("case6");
+//			println("case6");
 			isBiPredOrLx := PRED_L1;
 		end end
 		if(refIdx[0]!=-1) then
-			println("case7");
+//			println("case7");
 			refIdxToSend := refIdx[0];
 			pocToSend := pocRefListX[0][refIdx[0]];
 			mvToSend := [mv[0][i] + (cuAddr[i]<<2): for int i in 0 ..1];
 		else
-			println("case8");
+//			println("case8");
 			refIdxToSend := refIdx[1];
 			pocToSend    := pocRefListX[1][refIdx[1]];
 			mvToSend     := [mv[1][i] + (cuAddr[i]<<2): for int i in 0 ..1];
@@ -1355,13 +1430,16 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 	
 	////////////////////////////////////////////////////////////////// second Frame ////////////////////////////////////////////////////////////////////////
 	
+	bool switcher := false;
 	
 	isNewSlice_2: action PartMode2:[partMode], SliceAddr2:[sliceAddress] repeat 2,
-		SyntaxElem:[paralMergeLevel, tmvpFlag] , Select:[select]==>
+		SyntaxElem2:[paralMergeLevel, tmvpFlag] , Select:[select], Poc2:[poc_in], EndOfSlice:[endOfSlice]==>
 	guard
 		idx2 = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
-		partMode = PART_MODE_PICT, select = 1
+		partMode = PART_MODE_PICT, select = 1, poc_in = currentPoc, switcher = false
 	do
+		switcher := true;
+		poc2 := poc_in;
 		idx := 1;
 			println("newSlice");
 		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
@@ -1380,6 +1458,36 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 			slcAddrRef[currIdx][slcIdx] := [slcAddr[i]: for int i in 0 .. 1];
 			numSlcPerPict[currIdx] := numSlcPerPict[currIdx] + 1;
 		end
+		currentPoc := currentPoc + 1;
+		idx2 := 2;
+	end
+	
+	isNewSliceSameDec_2: action PartMode2:[partMode], SliceAddr2:[sliceAddress] repeat 2,
+		SyntaxElem2:[paralMergeLevel, tmvpFlag] , Select:[select], Poc2:[poc_in] ==>
+	guard
+		idx2 = 1, partMode = PART_MODE_SLICE_DEP || partMode = PART_MODE_SLICE_INDEP ||
+		partMode = PART_MODE_PICT, select = 1, poc_in = currentPoc, switcher = true
+	do
+		poc2 := poc_in;
+		idx := 1;
+			println("newSlice");
+		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
+		dependSlc := partMode = PART_MODE_SLICE_DEP;
+		newPict   := partMode = PART_MODE_PICT;
+		enTmpMvp  := tmvpFlag != 0;
+		paralMergeLvl := paralMergeLevel - 2;
+		if DEBUG_PartMode then
+			println("partMode = "+partMode);
+		end
+		nbList := 0;
+		if(partMode = PART_MODE_PICT) then
+			slcIdx := 0;
+		elsif(partMode = PART_MODE_SLICE_INDEP) then
+			slcIdx := slcIdx + 1;
+			slcAddrRef[currIdx][slcIdx] := [slcAddr[i]: for int i in 0 .. 1];
+			numSlcPerPict[currIdx] := numSlcPerPict[currIdx] + 1;
+		end
+		currentPoc := currentPoc + 1;
 		idx2 := 2;
 	end
 
@@ -1409,7 +1517,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 	end
 	
 	checkDepSlc_isFalse_2: action SyntaxElem2:[colFromLX, colRefIdxVal],
-		LcuSizeMax2:[log2_lcuSz], PicSize2:[picSize] repeat 2, Poc2:[poc],
+		LcuSizeMax2:[log2_lcuSz], PicSize2:[picSize] repeat 2,
 		SliceType2:[sliceType], TilesCoord2:[valNumTiles] ==> IsReadOrNewSlice2:[0]
 	guard
 		idx2 = 2,not dependSlc
@@ -1427,7 +1535,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 			foreach int i in 0 .. 16
 			do
 				if((currIdx = -1 and not isRef[i]) ||
-					(isRef[i] and pocRef[i]=poc)) then
+					(isRef[i] and pocRef[i]=poc2)) then
 					currIdx  := i;
 				end
 			end
@@ -1444,7 +1552,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 		end
 		
 		isRef[currIdx] := true;
-		pocRef[currIdx] := poc;
+		pocRef[currIdx] := poc2;
 		colRefIdx := colRefIdxVal & 15;
 		if(isBSlice)then
 			colFromLX := 1-colFromLX;
@@ -1745,7 +1853,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 				else
 					mvpIdx[i]
 				end;
-			println("idxMvInfo = " + idxMvInfo);
+//			println("idxMvInfo = " + idxMvInfo);
 			if idxMvInfo > -1 and idxMvInfo < 5 then
 				if(mvPred[idxMvInfo][i][0] >  32767) then mvPred[idxMvInfo][i][0] :=  32767; end
 				if(mvPred[idxMvInfo][i][0] < -32768) then mvPred[idxMvInfo][i][0] := -32768; end
@@ -1754,54 +1862,54 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 				mv[i][0] := mvPred[idxMvInfo][i][0] + mvd[2*i];
 				mv[i][1] := mvPred[idxMvInfo][i][1] + mvd[2*i + 1];
 				refIdx[i] := refIdxPred[idxMvInfo][i];
-				println("i = " + i);
-				println("mv[i][0] = " + mv[i][0]);
-				println("mv[i][1] = " + mv[i][1]);
-				println("refIdx[i] = " + refIdx[i]);
+//				println("i = " + i);
+//				println("mv[i][0] = " + mv[i][0]);
+//				println("mv[i][1] = " + mv[i][1]);
+//				println("refIdx[i] = " + refIdx[i]);
 			end
 		end
 		if(mergeIdx = -1) then
 			
 			refIdx := [refIdxRef[currIdx][partAddr[0]][partAddr[1]][i]:
 				for int i in 0 .. 1];
-				println("refIdx = [ " + refIdx[0] + " , " + refIdx[1] + " ]");
+//				println("refIdx = [ " + refIdx[0] + " , " + refIdx[1] + " ]");
 		end
 		if(not isBSlice || refIdx[0]!=-1 && refIdx[1] !=-1 &&
 			predCuSize = 8 && (cuSize[0] < 8 || cuSize[1]<8)) then
 			refIdx[1] := -1;
 			mv[1][0] := 0;
 			mv[1][1] := 0;
-			println("case1");
+//			println("case1");
 		end
 		if(refIdx[0] = -1) then
 			mv[0][0] := 0;
 			mv[0][1] := 0;
-			println("case2");
+//			println("case2");
 		end
 		if(refIdx[1] = -1) then
 			mv[1][0] := 0;
 			mv[1][1] := 0;
-			println("case3");
+//			println("case3");
 		end
 		saveRefIdx(refIdx);
 		saveMvComponent(mv);
 		if(refIdx[0]!= -1 and refIdx[1]!= -1) then
-			println("case4");
+//			println("case4");
 			isBiPredOrLx := BI_PRED;
 		else if(refIdx[0] != -1) then
-			println("case5");
+//			println("case5");
 			isBiPredOrLx := PRED_L0;
 		else
-			println("case6");
+//			println("case6");
 			isBiPredOrLx := PRED_L1;
 		end end
 		if(refIdx[0]!=-1) then
-			println("case7");
+//			println("case7");
 			refIdxToSend := refIdx[0];
 			pocToSend := pocRefListX[0][refIdx[0]];
 			mvToSend := [mv[0][i] + (cuAddr[i]<<2): for int i in 0 ..1];
 		else
-			println("case8");
+//			println("case8");
 			refIdxToSend := refIdx[1];
 			pocToSend    := pocRefListX[1][refIdx[1]];
 			mvToSend     := [mv[1][i] + (cuAddr[i]<<2): for int i in 0 ..1];
@@ -1946,8 +2054,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 		idx2 := 8;	
 	end
 	
-	int idx2 := 1;
-	int idx := 1;
+	
 	
 //	checkPocOrder_0: action Select:[select] ==>
 //	guard
@@ -1965,8 +2072,8 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 //	end
 	
 	schedule fsm GetPartMode:
-//		GetPartMode (checkPocOrder_0  )-->GetPartMode;
-//		GetPartMode (checkPocOrder_1  )-->GetPartMode;
+		GetPartMode (isNewSliceSameDec)-->CheckIndepSlc;
+		GetPartMode (isNewFirstSlice  )--> CheckIndepSlc;
 		GetPartMode (isNewSlice       )--> CheckIndepSlc;
 		GetPartMode (getPartMode      )--> GetCuInfo;
 
@@ -2000,7 +2107,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 		Send2ndMv     (send2ndMv_launch    )--> GetCuInfo;
 		Send2ndMv     (send2ndMv_skip     )--> GetCuInfo;
 		
-		
+		GetPartMode (isNewSliceSameDec_2)--> CheckIndepSlc_2;
 		GetPartMode (isNewSlice_2       )--> CheckIndepSlc_2;
 		GetPartMode (getPartMode_2      )--> GetCuInfo_2;
 
