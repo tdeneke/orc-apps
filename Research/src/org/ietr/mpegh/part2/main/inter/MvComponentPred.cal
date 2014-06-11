@@ -75,8 +75,8 @@ package org.ietr.mpegh.part2.main.inter;
 
 import std.util.Math.*;
 import devel.org.sc29.wg11.mpegh.part2.common.CommonConstantHEVC.*;
-
-actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
+//@DEBUG
+actor MvComponentPred(bool FIX_TMVP_REFIDX0)
 	uint(size=16) CUInfo,
 	uint(size=8)  LcuSizeMax,
 	uint(size=4)  PartMode,
@@ -768,9 +768,8 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		partMode = PART_MODE_PICT, select = 0
 	do
 		idx2 := 1;
-		if DEBUG_MV then
 			println("newSlice");
-		end
+		
 		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
 		dependSlc := partMode = PART_MODE_SLICE_DEP;
 		newPict   := partMode = PART_MODE_PICT;
@@ -840,9 +839,8 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 			end
 			numSlcPerPict[currIdx] := 1;
 			slcAddrRef[currIdx][0] := [slcAddr[i]: for int i in 0 .. 1];
-			if DEBUG_MV then
 				println("currentIdx = " + currIdx);
-			end
+			
 			foreach int x in 0 .. (picSize[0] - 1) / 4
 			do
 				foreach int y in 0 .. (picSize[1] - 1) / 4
@@ -1142,7 +1140,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		int refIdxToSend,
 		int(size=16) pocToSend
 	do
-		if DEBUG_SyntaxElem and DEBUG_MV then
+		if DEBUG_SyntaxElem then
 			println("mvd_0_x = "+mvd[0]+" : mvd_0_y = "+mvd[1]);
 			println("mvd_1_x = "+mvd[2]+" : mvd_1_y = "+mvd[3]);
 		end
@@ -1215,7 +1213,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 			pocToSend    := pocRefListX[1][refIdx[1]];
 			mvToSend     := [mv[1][i] + (cuAddr[i]<<2): for int i in 0 ..1];
 		end
-		if DEBUG_Mv and DEBUG_MV then
+		if DEBUG_Mv then
 			println("mv = "+mvToSend[0]+", "+mvToSend[1]);
 		end
 		idx := 12;
@@ -1342,7 +1340,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		mvToSend := [mvRef[currIdx][partAddr[0]][partAddr[1]][1][i] +
 			(cuAddr[i]<<2): for int i in 0 .. 1];
 		pocToSend := pocRefListX[1][refIdxToSend];
-		if DEBUG_Mv  and DEBUG_MV then
+		if DEBUG_Mv  then
 			println("mv = "+mvToSend[0]+", "+mvToSend[1]);
 		end		
 		idx := 8;	
@@ -1355,6 +1353,9 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		idx := 8;	
 	end	
 	
+	////////////////////////////////////////////////////////////////// second Frame ////////////////////////////////////////////////////////////////////////
+	
+	
 	isNewSlice_2: action PartMode2:[partMode], SliceAddr2:[sliceAddress] repeat 2,
 		SyntaxElem:[paralMergeLevel, tmvpFlag] , Select:[select]==>
 	guard
@@ -1362,9 +1363,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		partMode = PART_MODE_PICT, select = 1
 	do
 		idx := 1;
-		if DEBUG_MV then
 			println("newSlice");
-		end
 		slcAddr   := [sliceAddress[0]/4, sliceAddress[1]/4];
 		dependSlc := partMode = PART_MODE_SLICE_DEP;
 		newPict   := partMode = PART_MODE_PICT;
@@ -1434,9 +1433,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 			end
 			numSlcPerPict[currIdx] := 1;
 			slcAddrRef[currIdx][0] := [slcAddr[i]: for int i in 0 .. 1];
-			if DEBUG_MV then
 				println("currentIdx = " + currIdx);
-			end
 			foreach int x in 0 .. (picSize[0] - 1) / 4
 			do
 				foreach int y in 0 .. (picSize[1] - 1) / 4
@@ -1736,7 +1733,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		int refIdxToSend,
 		int(size=16) pocToSend
 	do
-		if DEBUG_SyntaxElem and DEBUG_MV then
+		if DEBUG_SyntaxElem then
 			println("mvd_0_x = "+mvd[0]+" : mvd_0_y = "+mvd[1]);
 			println("mvd_1_x = "+mvd[2]+" : mvd_1_y = "+mvd[3]);
 		end
@@ -1809,7 +1806,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 			pocToSend    := pocRefListX[1][refIdx[1]];
 			mvToSend     := [mv[1][i] + (cuAddr[i]<<2): for int i in 0 ..1];
 		end
-		if DEBUG_Mv and DEBUG_MV then
+		if DEBUG_Mv then
 			println("mv = "+mvToSend[0]+", "+mvToSend[1]);
 		end
 		idx2 := 12;
@@ -1936,7 +1933,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		mvToSend := [mvRef[currIdx][partAddr[0]][partAddr[1]][1][i] +
 			(cuAddr[i]<<2): for int i in 0 .. 1];
 		pocToSend := pocRefListX[1][refIdxToSend];
-		if DEBUG_Mv  and DEBUG_MV then
+		if DEBUG_Mv then
 			println("mv = "+mvToSend[0]+", "+mvToSend[1]);
 		end
 		idx2 := 8;	
@@ -2004,7 +2001,7 @@ actor MvComponentPred(bool FIX_TMVP_REFIDX0, bool DEBUG_MV)
 		Send2ndMv     (send2ndMv_skip     )--> GetCuInfo;
 		
 		
-		GetPartMode (isNewSlice_2       )--> GetPartMode;
+		GetPartMode (isNewSlice_2       )--> CheckIndepSlc_2;
 		GetPartMode (getPartMode_2      )--> GetCuInfo_2;
 
 		CheckIndepSlc_2(checkDepSlc_isTrue_2  )--> GetPartMode;
