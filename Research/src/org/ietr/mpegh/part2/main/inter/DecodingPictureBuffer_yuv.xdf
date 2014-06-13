@@ -218,13 +218,13 @@
         </Type>
     </Port>
     <Instance id="DPB_y">
-        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferLuma"/>
+        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferLuma_RW"/>
     </Instance>
     <Instance id="DPB_u">
-        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferChroma"/>
+        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferChroma_RW"/>
     </Instance>
     <Instance id="DPB_v">
-        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferChroma"/>
+        <Class name="org.ietr.mpegh.part2.main.inter.DecodingPictureBufferChroma_RW"/>
     </Instance>
     <Connection dst="DPB_y" dst-port="IsBiPredOrLx" src="" src-port="IsBiPredOrLx"/>
     <Connection dst="DPB_y" dst-port="IsReadOrNewSlc" src="" src-port="IsReadOrNewSlice"/>
