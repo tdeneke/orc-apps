@@ -106,8 +106,7 @@ actor DecodingPictureBufferChroma_RW ()
 	uint pocToIndex[1000] := [0 : for int i in 0 .. 999];
 	uint currentPocCounter := 0;
 	uint currentPocDisplay := 0;	
-	bool          isStillRef[DPB_SIZE];
-	bool          isStillRef2[DPB_SIZE];
+
 	int currentPoc1 := 0;
 	int currentPoc2 := 0;
 	
@@ -218,7 +217,6 @@ actor DecodingPictureBufferChroma_RW ()
 		currentPoc1 := poc;
 				
 		idx := 1;
-		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 	end
 	
 	/** Getting informations from new slice/picture. Updating these informations **/
@@ -226,13 +224,12 @@ actor DecodingPictureBufferChroma_RW ()
 		picHeightInPix], Poc:[poc] ==>
 	guard
 		/* Fix me : We should know when there is a new picture */
-		idx = 3, isRead = 0 and if(currIdx = -1) then false else poc = pocRef[currIdx]end//, poc <= (currentPocCounter + 2)
+		idx = 3, isRead = 0 and if(currIdx = -1) then false else poc = pocRef[currIdx]end
 	do
 		isNewPicture := false;
 		nbList := 0;
 		idx := 4;
 		currentPoc1 := poc;
-		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 	end
 	
 	isNewPict: action IsReadOrNewSlc:[isRead], PicSize:[picWidthInPix,
@@ -260,7 +257,6 @@ actor DecodingPictureBufferChroma_RW ()
 		currentPoc1 := poc;
 		isNewPicture    := true;
 		nbList          := 0;
-		isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		//isStillRef := [false: for int i in 0 .. DPB_SIZE - 1];
 		idx := 4;
 	end
@@ -280,17 +276,8 @@ actor DecodingPictureBufferChroma_RW ()
 	guard
 		idx = 4, nbList = 5, isNewPicture = true
 	do
-		println("getRps_done_trueFull");
-		foreach int i in 0 .. DPB_SIZE - 1
-		do
-			if isRef[i] > 0 and isStillRef[i] then
-				isRef[i] := isRef[i] + 1;
-			elsif isRef[i] != 0 then
-				isRef[i] := isRef[i] - 1;
-			end
-		end
+		//println("getRps_done_true");
 		isRef[currIdx] := isRef[currIdx] + 1;
-		
 		if isSecondPic then
 			idx := 3;
 		else
@@ -299,19 +286,11 @@ actor DecodingPictureBufferChroma_RW ()
 		isSecondPic := false;
 	end
 	
-	getRps_done_NotFullFrame: action ==>
+	getRps_done_notFirstNotFullFrame: action ==>
 	guard
-		(idx = 4 or idx = 1), nbList = 5, isNewPicture = false
+		idx = 4, nbList = 5, isNewPicture = false
 	do
-		println("getRps_done_trueNotFull");
-		foreach int i in 0 .. DPB_SIZE - 1
-		do
-			if isRef[i] > 0 and isStillRef[i] then
-				isRef[i] := isRef[i] + 1;
-			elsif isRef[i] != 0 then
-				isRef[i] := isRef[i] - 1;
-			end
-		end
+		//println("getRps_done_true");
 		isRef[currIdx] := isRef[currIdx] + 1;
 		idx := 3;
 	end
@@ -320,16 +299,7 @@ actor DecodingPictureBufferChroma_RW ()
 	guard
 		idx = 1, nbList = 5
 	do
-		foreach int i in 0 .. DPB_SIZE - 1
-		do
-			if isRef[i] > 0 and isStillRef[i] then
-				isRef[i] := isRef[i] + 1;
-			elsif isRef[i] != 0 then
-				isRef[i] := isRef[i] - 1;
-			end
-		end
-		isRef[currIdx] := isRef[currIdx] + 1;
-		println("getRps_done_first");
+		//println("getRps_done_false");
 		//isRef[currIdx] := isRef[currIdx] + 1;
 		idx := 7;
 	end
@@ -341,14 +311,11 @@ actor DecodingPictureBufferChroma_RW ()
 	guard
 		idx = 2 , sizeOfList > 0
 	do
-//		println("pocVal = " + pocVal);
 		sizeOfList := sizeOfList - 1;
 		foreach int i in 0 .. DPB_SIZE - 1
 		do
-//			println("isRef["+i+"] =" + isRef[i]);
-//			println("pocRef["+i+"] = " + pocRef[i]);
 			if(pocRef[i] = pocVal)then
-				isStillRef[i] := true;
+				isRef[i] := isRef[i] + 1;
 			end
 		end
 	end
@@ -732,7 +699,7 @@ bool isFirstPic2 := true;
 	isNewPict2: action IsReadOrNewSlc2:[isRead], PicSize2:[picWidthInPix,
 		picHeightInPix], Poc2:[poc] ==>
 	guard
-		idx2 = 3, isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)//, poc <= (currentPocCounter + 2)
+		idx2 = 3, isRead = 0 and not(if(currIdx2 = -1) then false else poc = pocRef[currIdx2]end)
 	do
 		//println("newpict2");
 //		println("Dpb ; Pict num "+pictNum);
