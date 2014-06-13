@@ -17,7 +17,7 @@
         </Parameter>
     </Instance>
     <Instance id="HevcDecoder">
-        <Class name="org.ietr.mpegh.part2.Decoder_1"/>
+        <Class name="org.ietr.mpegh.part2.HEVCDecoderInter"/>
         <Parameter name="TILE_SPLIT_ENABLE">
             <Expr kind="Literal" literal-kind="Integer" value="0"/>
         </Parameter>
@@ -29,7 +29,7 @@
         </Parameter>
     </Instance>
     <Instance id="HevcDecoder_2">
-        <Class name="org.ietr.mpegh.part2.Decoder_2"/>
+        <Class name="org.ietr.mpegh.part2.HEVCDecoderInter"/>
         <Parameter name="TILE_SPLIT_ENABLE">
             <Expr kind="Literal" literal-kind="Integer" value="0"/>
         </Parameter>
@@ -46,133 +46,64 @@
     <Instance id="Merger">
         <Class name="org.ietr.mpegh.part2.common.MergeYUV"/>
     </Instance>
-    <Instance id="MvComponentPred">
-        <Class name="org.ietr.mpegh.part2.main.inter.MvComponentPred"/>
-    </Instance>
     <Connection dst="display" dst-port="DispCoord" src="HevcDecoder" src-port="DispCoord"/>
+    <Connection dst="display" dst-port="PicSizeInMb" src="HevcDecoder" src-port="SIZE"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_y"
+        src="HevcDecoder" src-port="Sample_y"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_u"
+        src="HevcDecoder" src-port="Sample_u"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_v"
+        src="HevcDecoder" src-port="Sample_v"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx"
+        src="HevcDecoder" src-port="IsBiPredOrLx"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice"
+        src="HevcDecoder" src-port="IsReadOrNewSlice"/>
+    <Connection dst="DPB_FrameBase" dst-port="Mv" src="HevcDecoder" src-port="Mv"/>
     <Connection dst="DPB_FrameBase" dst-port="PictSize"
         src="HevcDecoder" src-port="PictSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="PocRef" src="HevcDecoder" src-port="RefPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PredCuSize"
+        src="HevcDecoder" src-port="PredCuSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="RpsPoc" src="HevcDecoder" src-port="RpsPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_y2"
+        src="HevcDecoder_2" src-port="Sample_y"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_u2"
+        src="HevcDecoder_2" src-port="Sample_u"/>
+    <Connection dst="DPB_FrameBase" dst-port="Sample_v2"
+        src="HevcDecoder_2" src-port="Sample_v"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx2"
+        src="HevcDecoder_2" src-port="IsBiPredOrLx"/>
+    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice2"
+        src="HevcDecoder_2" src-port="IsReadOrNewSlice"/>
+    <Connection dst="DPB_FrameBase" dst-port="Mv2" src="HevcDecoder_2" src-port="Mv"/>
+    <Connection dst="DPB_FrameBase" dst-port="PicSize2"
+        src="HevcDecoder_2" src-port="PictSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="PocRef2"
+        src="HevcDecoder_2" src-port="RefPoc"/>
+    <Connection dst="DPB_FrameBase" dst-port="PredCuSize2"
+        src="HevcDecoder_2" src-port="PredCuSize"/>
+    <Connection dst="DPB_FrameBase" dst-port="RpsPoc2"
+        src="HevcDecoder_2" src-port="RpsPoc"/>
     <Connection dst="Merger" dst-port="Y" src="DPB_FrameBase" src-port="vid_y"/>
     <Connection dst="Merger" dst-port="U" src="DPB_FrameBase" src-port="vid_u"/>
     <Connection dst="Merger" dst-port="V" src="DPB_FrameBase" src-port="vid_v"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_y"
+        src="DPB_FrameBase" src-port="RefSample_y"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_u"
+        src="DPB_FrameBase" src-port="RefSample_u"/>
+    <Connection dst="HevcDecoder" dst-port="RefSample_v"
+        src="DPB_FrameBase" src-port="RefSample_v"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_v"
+        src="DPB_FrameBase" src-port="RefSample_v2"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_u"
+        src="DPB_FrameBase" src-port="RefSample_u2"/>
+    <Connection dst="HevcDecoder_2" dst-port="RefSample_y"
+        src="DPB_FrameBase" src-port="RefSample_y2"/>
     <Connection dst="display" dst-port="Byte" src="Merger" src-port="YUV"/>
+    <Connection dst="HevcDecoder" dst-port="BYTE" src="Source" src-port="O1"/>
+    <Connection dst="HevcDecoder_2" dst-port="BYTE" src="Source" src-port="O2"/>
+    <Connection dst="HevcDecoder" dst-port="ParserSelect" src="Source" src-port="Select"/>
+    <Connection dst="HevcDecoder_2" dst-port="ParserSelect" src="Source" src-port="Select"/>
     <Connection dst="DPB_FrameBase" dst-port="Poc2" src="HevcDecoder_2" src-port="Poc"/>
     <Connection dst="DPB_FrameBase" dst-port="Poc" src="HevcDecoder" src-port="Poc"/>
-    <Connection dst="HevcDecoder_2" dst-port="byte" src="Source" src-port="O2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Select_0" src="Source" src-port="Select"/>
-    <Connection dst="HevcDecoder" dst-port="byte" src="Source" src-port="O1"/>
-    <Connection dst="MvComponentPred" dst-port="Select" src="Source" src-port="Select"/>
-    <Connection dst="MvComponentPred" dst-port="CUInfo"
-        src="HevcDecoder" src-port="CUInfo"/>
-    <Connection dst="MvComponentPred" dst-port="CUInfo2"
-        src="HevcDecoder_2" src-port="CUInfo"/>
-    <Connection dst="MvComponentPred" dst-port="LcuSizeMax"
-        src="HevcDecoder" src-port="LcuSizeMax"/>
-    <Connection dst="MvComponentPred" dst-port="SyntaxElem"
-        src="HevcDecoder" src-port="MvPredSyntaxElem"/>
-    <Connection dst="MvComponentPred" dst-port="Poc" src="HevcDecoder" src-port="Poc_0"/>
-    <Connection dst="MvComponentPred" dst-port="SliceAddr"
-        src="HevcDecoder" src-port="SliceAddr"/>
-    <Connection dst="MvComponentPred" dst-port="SliceType"
-        src="HevcDecoder" src-port="SliceType"/>
-    <Connection dst="MvComponentPred" dst-port="RpsPoc"
-        src="HevcDecoder" src-port="RefPoc_1"/>
-    <Connection dst="MvComponentPred" dst-port="PicSize"
-        src="HevcDecoder" src-port="PictSize_0"/>
-    <Connection dst="MvComponentPred" dst-port="PartMode"
-        src="HevcDecoder" src-port="PartMode"/>
-    <Connection dst="MvComponentPred" dst-port="TilesCoord"
-        src="HevcDecoder" src-port="TilesCoord"/>
-    <Connection dst="MvComponentPred" dst-port="RefList"
-        src="HevcDecoder" src-port="RefList"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_y"
-        src="HevcDecoder" src-port="Out_y"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_u"
-        src="HevcDecoder" src-port="Out_u"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_v"
-        src="HevcDecoder" src-port="Out_v"/>
-    <Connection dst="DPB_FrameBase" dst-port="Mv" src="MvComponentPred" src-port="Mv"/>
-    <Connection dst="HevcDecoder" dst-port="Mv" src="MvComponentPred" src-port="Mv"/>
-    <Connection dst="HevcDecoder" dst-port="Mv_0" src="MvComponentPred" src-port="Mv"/>
-    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx2"
-        src="MvComponentPred" src-port="IsBiPredOrLx"/>
-    <Connection dst="HevcDecoder" dst-port="IsBiPredOrLx"
-        src="MvComponentPred" src-port="IsBiPredOrLx"/>
-    <Connection dst="HevcDecoder" dst-port="RefPoc_0"
-        src="MvComponentPred" src-port="PocRef"/>
-    <Connection dst="DPB_FrameBase" dst-port="PredCuSize"
-        src="MvComponentPred" src-port="PredCuSize"/>
-    <Connection dst="HevcDecoder" dst-port="IsBiPredOrLx_0"
-        src="MvComponentPred" src-port="IsBiPredOrLx"/>
-    <Connection dst="HevcDecoder" dst-port="Sample_y"
-        src="DPB_FrameBase" src-port="RefSample_y"/>
-    <Connection dst="HevcDecoder" dst-port="Sample_u"
-        src="DPB_FrameBase" src-port="RefSample_u"/>
-    <Connection dst="HevcDecoder" dst-port="Sample_v"
-        src="DPB_FrameBase" src-port="RefSample_v"/>
-    <Connection dst="HevcDecoder" dst-port="Select_0" src="Source" src-port="Select"/>
-    <Connection dst="HevcDecoder" dst-port="RefIdx"
-        src="MvComponentPred" src-port="RefIdx"/>
-    <Connection dst="DPB_FrameBase" dst-port="IsBiPredOrLx"
-        src="MvComponentPred" src-port="IsBiPredOrLx"/>
-    <Connection dst="MvComponentPred" dst-port="RefList2"
-        src="HevcDecoder_2" src-port="RefList"/>
-    <Connection dst="MvComponentPred" dst-port="PartMode2"
-        src="HevcDecoder_2" src-port="PartMode"/>
-    <Connection dst="MvComponentPred" dst-port="TilesCoord2"
-        src="HevcDecoder_2" src-port="TilesCoord"/>
-    <Connection dst="MvComponentPred" dst-port="PicSize2"
-        src="HevcDecoder_2" src-port="PictSize"/>
-    <Connection dst="MvComponentPred" dst-port="RpsPoc2"
-        src="HevcDecoder_2" src-port="RefPoc"/>
-    <Connection dst="MvComponentPred" dst-port="SliceType2"
-        src="HevcDecoder_2" src-port="SliceType"/>
-    <Connection dst="MvComponentPred" dst-port="SliceAddr2"
-        src="HevcDecoder_2" src-port="SliceAddr"/>
-    <Connection dst="MvComponentPred" dst-port="SyntaxElem2"
-        src="HevcDecoder_2" src-port="MvPredSyntaxElem"/>
-    <Connection dst="MvComponentPred" dst-port="LcuSizeMax2"
-        src="HevcDecoder_2" src-port="LcuSizeMax"/>
-    <Connection dst="MvComponentPred" dst-port="Poc2"
-        src="HevcDecoder_2" src-port="Poc_0"/>
-    <Connection dst="DPB_FrameBase" dst-port="Mv2" src="MvComponentPred" src-port="Mv2"/>
-    <Connection dst="DPB_FrameBase" dst-port="PocRef2"
-        src="MvComponentPred" src-port="PocRef2"/>
-    <Connection dst="DPB_FrameBase" dst-port="PredCuSize2"
-        src="MvComponentPred" src-port="PredCuSize2"/>
-    <Connection dst="HevcDecoder_2" dst-port="RefIdx"
-        src="MvComponentPred" src-port="RefIdx2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Mv" src="MvComponentPred" src-port="Mv2"/>
-    <Connection dst="HevcDecoder_2" dst-port="IsBiPredOrLx"
-        src="MvComponentPred" src-port="IsBiPredOrLx2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Mv_0"
-        src="MvComponentPred" src-port="Mv2"/>
-    <Connection dst="HevcDecoder_2" dst-port="IsBiPredOrLx_0"
-        src="MvComponentPred" src-port="IsBiPredOrLx2"/>
-    <Connection dst="HevcDecoder_2" dst-port="RefPoc_1"
-        src="MvComponentPred" src-port="PocRef2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Sample_y"
-        src="DPB_FrameBase" src-port="RefSample_y2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Sample_v"
-        src="DPB_FrameBase" src-port="RefSample_u2"/>
-    <Connection dst="HevcDecoder_2" dst-port="Sample_u"
-        src="DPB_FrameBase" src-port="RefSample_v2"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_y2"
-        src="HevcDecoder_2" src-port="Out_y"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_u2"
-        src="HevcDecoder_2" src-port="Out_u"/>
-    <Connection dst="DPB_FrameBase" dst-port="Sample_v2"
-        src="HevcDecoder_2" src-port="Out_v"/>
-    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice2"
-        src="MvComponentPred" src-port="IsReadOrNewSlice2"/>
-    <Connection dst="DPB_FrameBase" dst-port="IsReadOrNewSlice"
-        src="MvComponentPred" src-port="IsReadOrNewSlice"/>
-    <Connection dst="display" dst-port="PicSizeInMb" src="HevcDecoder" src-port="PicSizeInMb"/>
-    <Connection dst="DPB_FrameBase" dst-port="RpsPoc2"
-        src="HevcDecoder_2" src-port="RefPoc_0"/>
-    <Connection dst="DPB_FrameBase" dst-port="PicSize2"
-        src="HevcDecoder_2" src-port="PictSize_0"/>
-    <Connection dst="DPB_FrameBase" dst-port="PocRef"
-        src="MvComponentPred" src-port="PocRef"/>
-    <Connection dst="DPB_FrameBase" dst-port="RpsPoc" src="HevcDecoder" src-port="RefPoc"/>
 </XDF>
