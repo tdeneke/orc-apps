@@ -14,11 +14,23 @@ unit BitstreamReadUtils :
 	uint(size= 8) FIFO_CPT_BITS    =  FIFO_SIZE;
 	uint(size= 8) FIFO_IDX         =  FIFO_SIZE+1;
 	uint(size= 8) FIFO_SIZE_ALL    =  FIFO_SIZE+2;
+	
+	/**************************************************************************
+	 * function flush whole fifo
+	 *************************************************************************/
+	procedure flushFifo (uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL])
+  	begin
+	    fifo[FIFO_CPT_BITS] := 0;
+  	end
 	/**************************************************************************
 	 * function isFifoFull
 	 *************************************************************************/
   	function isFifoFull (uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL]) --> bool :
   		fifo[FIFO_CPT_BITS] >= (FIFO_SIZE-1)<<3
+  	end
+  	
+  	function availableFifoBits (uint(size=FIFO_DEPTH) fifo[FIFO_SIZE_ALL], uint n) --> bool :
+  		fifo[FIFO_CPT_BITS] >= n
   	end
 	/**************************************************************************
 	 * function getFifoIdx
