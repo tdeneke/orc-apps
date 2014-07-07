@@ -60,4 +60,34 @@
         src="Dec2" src-port="NumRefIdxLxAct_out"/>
     <Connection dst="MvInfoMerger" dst-port="RefPicListModif_2"
         src="Dec2" src-port="RefPicListModif_out"/>
+    <Connection dst="dec1" dst-port="CuInfo_in" src="MvInfoMerger" src-port="Merged_CUInfo"/>
+    <Connection dst="dec1" dst-port="LcuSizeMax_in" src="MvInfoMerger" src-port="Merged_LcuSizeMax"/>
+    <Connection dst="dec1" dst-port="PartMode_in" src="MvInfoMerger" src-port="Merged_PartMode"/>
+    <Connection dst="dec1" dst-port="PictSize_in" src="MvInfoMerger" src-port="Merged_PicSize"/>
+    <Connection dst="dec1" dst-port="Poc_in" src="MvInfoMerger" src-port="Merged_Poc"/>
+    <Connection dst="dec1" dst-port="RefPoc_in" src="MvInfoMerger" src-port="Merged_RpsPoc"/>
+    <Connection dst="dec1" dst-port="SliceAddr_in" src="MvInfoMerger" src-port="Merged_SliceAddr"/>
+    <Connection dst="dec1" dst-port="SliceType_in" src="MvInfoMerger" src-port="Merged_SliceType"/>
+    <Connection dst="dec1" dst-port="MvPrefSyntaxElem_in"
+        src="MvInfoMerger" src-port="Merged_SyntaxElem"/>
+    <Connection dst="dec1" dst-port="TilesCoord_in" src="MvInfoMerger" src-port="Merged_TilesCoord"/>
+    <Connection dst="dec1" dst-port="NumRefIdxLxAct_in"
+        src="MvInfoMerger" src-port="Merged_NumRefIdxLXAct"/>
+    <Connection dst="dec1" dst-port="RefPicListModif_in"
+        src="MvInfoMerger" src-port="Merged_RefPicListModif"/>
+    <Connection dst="Dec2" dst-port="CuInfo_in" src="MvInfoMerger" src-port="Merged_CUInfo"/>
+    <Connection dst="Dec2" dst-port="LcuSizeMax_in" src="MvInfoMerger" src-port="Merged_LcuSizeMax"/>
+    <Connection dst="Dec2" dst-port="PartMode_in" src="MvInfoMerger" src-port="Merged_PartMode"/>
+    <Connection dst="Dec2" dst-port="PictSize_in" src="MvInfoMerger" src-port="Merged_PicSize"/>
+    <Connection dst="Dec2" dst-port="Poc_in" src="MvInfoMerger" src-port="Merged_Poc"/>
+    <Connection dst="Dec2" dst-port="RefPoc_in" src="MvInfoMerger" src-port="Merged_RpsPoc"/>
+    <Connection dst="Dec2" dst-port="SliceAddr_in" src="MvInfoMerger" src-port="Merged_SliceAddr"/>
+    <Connection dst="Dec2" dst-port="SliceType_in" src="MvInfoMerger" src-port="Merged_SliceType"/>
+    <Connection dst="Dec2" dst-port="MvPrefSyntaxElem_in"
+        src="MvInfoMerger" src-port="Merged_SyntaxElem"/>
+    <Connection dst="Dec2" dst-port="TilesCoord_in" src="MvInfoMerger" src-port="Merged_TilesCoord"/>
+    <Connection dst="Dec2" dst-port="NumRefIdxLxAct_in"
+        src="MvInfoMerger" src-port="Merged_NumRefIdxLXAct"/>
+    <Connection dst="Dec2" dst-port="RefPicListModif_in"
+        src="MvInfoMerger" src-port="Merged_RefPicListModif"/>
 </XDF>
