@@ -1,0 +1,188 @@
+package org.ietr.mpegh.part2.common;
+
+actor MvDataMerger () 
+	uint ParserSelect,
+	uint NewPict,
+	uint(size=16) CUInfo,
+	uint(size=8)  LcuSizeMax,
+	uint(size=4)  PartMode,
+	uint(size=16) PicSize,
+	int(size=16)  Poc,
+	int (size=16) RefList,
+	int (size=16) RpsPoc,
+	uint(size=16) SliceAddr,
+	uint(size=2)  SliceType,
+	int (size=16) SyntaxElem,
+	uint(size=16) TilesCoord,
+	uint(size=5)  NumRefIdxLXAct,
+	uint(size=4)  RefPicListModif,
+	
+	uint(size=16) CUInfo_2,
+	uint(size=8)  LcuSizeMax_2,
+	uint(size=4)  PartMode_2,
+	uint(size=16) PicSize_2,
+	int(size=16)  Poc_2,
+	int (size=16) RefList_2,
+	int (size=16) RpsPoc_2,
+	uint(size=16) SliceAddr_2,
+	uint(size=2)  SliceType_2,
+	int (size=16) SyntaxElem_2,
+	uint(size=16) TilesCoord_2,
+	uint(size=5)  NumRefIdxLXAct_2,
+	uint(size=4)  RefPicListModif_2
+	==> 
+	uint(size=16) Merged_CUInfo,
+	uint(size=8)  Merged_LcuSizeMax,
+	uint(size=4)  Merged_PartMode,
+	uint(size=16) Merged_PicSize,
+	int(size=16)  Merged_Poc,
+	int (size=16) Merged_RefList,
+	int (size=16) Merged_RpsPoc,
+	uint(size=16) Merged_SliceAddr,
+	uint(size=2)  Merged_SliceType,
+	int (size=16) Merged_SyntaxElem,
+	uint(size=16) Merged_TilesCoord,
+	uint(size=5)  Merged_NumRefIdxLXAct,
+	uint(size=4)  Merged_RefPicListModif
+	:
+	
+	uint switcher := 0;
+	
+	action ParserSelect:[s], NewPict:[h,w] ==>
+	do
+		switcher := s;
+	end
+	
+	action CUInfo:[data] ==> Merged_CUInfo:[data]
+	guard
+		switcher = 0
+	end
+	
+	action LcuSizeMax:[data] ==> Merged_LcuSizeMax:[data]
+	guard
+		switcher = 0
+	end
+	
+	action PartMode:[data] ==> Merged_PartMode:[data]
+	guard
+		switcher = 0
+	end
+	
+	action PicSize:[data] ==> Merged_PicSize:[data]
+	guard
+		switcher = 0
+	end
+	
+	
+	action Poc:[data] ==> Merged_Poc:[data]
+	guard
+		switcher = 0
+	end
+	
+	action RefList:[data] ==> Merged_RefList:[data]
+	guard
+		switcher = 0
+	end
+	
+	action RpsPoc:[data] ==> Merged_RpsPoc:[data]
+	guard
+		switcher = 0
+	end
+	
+	action SliceAddr:[data] ==> Merged_SliceAddr:[data]
+	guard
+		switcher = 0
+	end
+	
+	action SliceType:[data] ==> Merged_SliceType:[data]
+	guard
+		switcher = 0
+	end
+	
+	action SyntaxElem:[data] ==> Merged_SyntaxElem:[data]
+	guard
+		switcher = 0
+	end
+	
+	action TilesCoord:[data] ==> Merged_TilesCoord:[data]
+	guard
+		switcher = 0
+	end
+	
+	action NumRefIdxLXAct:[data] ==> Merged_NumRefIdxLXAct:[data]
+	guard
+		switcher = 0
+	end
+	
+	action RefPicListModif:[data] ==> Merged_RefPicListModif:[data]
+	guard
+		switcher = 0
+	end
+	
+	
+	action CUInfo_2:[data] ==> Merged_CUInfo:[data]
+	guard
+		switcher = 1
+	end
+	
+	action LcuSizeMax_2:[data] ==> Merged_LcuSizeMax:[data]
+	guard
+		switcher = 1
+	end
+	
+	action PartMode_2:[data] ==> Merged_PartMode:[data]
+	guard
+		switcher = 1
+	end
+	
+	action PicSize_2:[data] ==> Merged_PicSize:[data]
+	guard
+		switcher = 1
+	end
+	
+	
+	action Poc_2:[data] ==> Merged_Poc:[data]
+	guard
+		switcher = 1
+	end
+	
+	action RefList_2:[data] ==> Merged_RefList:[data]
+	guard
+		switcher = 1
+	end
+	
+	action RpsPoc_2:[data] ==> Merged_RpsPoc:[data]
+	guard
+		switcher = 1
+	end
+	
+	action SliceAddr_2:[data] ==> Merged_SliceAddr:[data]
+	guard
+		switcher = 1
+	end
+	
+	action SliceType_2:[data] ==> Merged_SliceType:[data]
+	guard
+		switcher = 1
+	end
+	
+	action SyntaxElem_2:[data] ==> Merged_SyntaxElem:[data]
+	guard
+		switcher = 1
+	end
+	
+	action TilesCoord_2:[data] ==> Merged_TilesCoord:[data]
+	guard
+		switcher = 1
+	end
+	
+	action NumRefIdxLXAct_2:[data] ==> Merged_NumRefIdxLXAct:[data]
+	guard
+		switcher = 1
+	end
+	
+	action RefPicListModif_2:[data] ==> Merged_RefPicListModif:[data]
+	guard
+		switcher = 1
+	end
+end
