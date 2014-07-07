@@ -8,7 +8,6 @@ actor MvDataMerger ()
 	uint(size=4)  PartMode,
 	uint(size=16) PicSize,
 	int(size=16)  Poc,
-	int (size=16) RefList,
 	int (size=16) RpsPoc,
 	uint(size=16) SliceAddr,
 	uint(size=2)  SliceType,
@@ -22,7 +21,6 @@ actor MvDataMerger ()
 	uint(size=4)  PartMode_2,
 	uint(size=16) PicSize_2,
 	int(size=16)  Poc_2,
-	int (size=16) RefList_2,
 	int (size=16) RpsPoc_2,
 	uint(size=16) SliceAddr_2,
 	uint(size=2)  SliceType_2,
@@ -75,11 +73,6 @@ actor MvDataMerger ()
 	
 	
 	action Poc:[data] ==> Merged_Poc:[data]
-	guard
-		switcher = 0
-	end
-	
-	action RefList:[data] ==> Merged_RefList:[data]
 	guard
 		switcher = 0
 	end
@@ -145,12 +138,7 @@ actor MvDataMerger ()
 	guard
 		switcher = 1
 	end
-	
-	action RefList_2:[data] ==> Merged_RefList:[data]
-	guard
-		switcher = 1
-	end
-	
+
 	action RpsPoc_2:[data] ==> Merged_RpsPoc:[data]
 	guard
 		switcher = 1

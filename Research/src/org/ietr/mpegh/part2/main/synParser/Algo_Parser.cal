@@ -12,7 +12,7 @@ import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextConstantHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacContextFunctionHEVC.*;
 import  devel.org.sc29.wg11.mpegh.part2.common.CabacParserFunctionHEVC.*;
 
-actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
+actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE, uint PARSER_ID)
 // TilesInfo[0]: number of tiles to decode
 // TilesInfo[i>0]: increasing indexes of tiles
 				uint ParserSelect,
@@ -247,11 +247,11 @@ actor Algo_Parser (uint TILE_INDEX, uint TILE_SPLIT_ENABLE)
 		 nal_unit_type = NAL_CRA_NUT    or
 		 nal_unit_type = NAL_RASL_R)
 	do
-//		if s = PARSER_ID then
-//			bypassFlag := false;
-//		else
-//			bypassFlag := true;
-//		end
+		if s = PARSER_ID then
+			bypassFlag := false;
+		else
+			bypassFlag := true;
+		end
 		if DEBUG_PARSER then
 			println("=========== Slice ===========");
 		end

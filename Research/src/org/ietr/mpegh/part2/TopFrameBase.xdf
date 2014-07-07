@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XDF name="TopFrameBase">
+    <Decl kind="Param" name="PARSER_ID">
+        <Type name="uint">
+            <Entry kind="Expr" name="size">
+                <Expr kind="Literal" literal-kind="Integer" value="32"/>
+            </Entry>
+        </Type>
+    </Decl>
+    <Instance id="source">
+        <Class name="org.sc29.wg11.common.Source"/>
+    </Instance>
+    <Instance id="selectGen">
+        <Class name="org.ietr.mpegh.part2.common.selectGen"/>
+    </Instance>
+    <Instance id="dec1">
+        <Class name="org.ietr.mpegh.part2.HEVCDecoderInterFB"/>
+        <Parameter name="PARSER_ID">
+            <Expr kind="Literal" literal-kind="Integer" value="0"/>
+        </Parameter>
+    </Instance>
+    <Instance id="Dec2">
+        <Class name="org.ietr.mpegh.part2.HEVCDecoderInterFB"/>
+        <Parameter name="PARSER_ID">
+            <Expr kind="Literal" literal-kind="Integer" value="1"/>
+        </Parameter>
+    </Instance>
+    <Instance id="MvInfoMerger">
+        <Class name="org.ietr.mpegh.part2.common.MvDataMerger"/>
+    </Instance>
+    <Connection dst="dec1" dst-port="BYTE" src="source" src-port="O"/>
+    <Connection dst="Dec2" dst-port="BYTE" src="source" src-port="O"/>
+    <Connection dst="dec1" dst-port="ParserSelect" src="selectGen" src-port="Select"/>
+    <Connection dst="Dec2" dst-port="ParserSelect" src="selectGen" src-port="Select"/>
+    <Connection dst="MvInfoMerger" dst-port="PartMode" src="dec1" src-port="PartMode_out"/>
+    <Connection dst="MvInfoMerger" dst-port="TilesCoord" src="dec1" src-port="TilesCoord_out"/>
+    <Connection dst="MvInfoMerger" dst-port="PicSize" src="dec1" src-port="PictSize_out"/>
+    <Connection dst="MvInfoMerger" dst-port="ParserSelect"
+        src="selectGen" src-port="Select"/>
+    <Connection dst="MvInfoMerger" dst-port="RpsPoc" src="dec1" src-port="RefPoc_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SliceType" src="dec1" src-port="SliceType_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SliceAddr" src="dec1" src-port="SliceAddr_out"/>
+    <Connection dst="MvInfoMerger" dst-port="Poc" src="dec1" src-port="Poc_out"/>
+    <Connection dst="MvInfoMerger" dst-port="LcuSizeMax" src="dec1" src-port="LcuSizeMax_out"/>
+    <Connection dst="MvInfoMerger" dst-port="CUInfo" src="dec1" src-port="CuInfo_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SyntaxElem" src="dec1" src-port="MvPredSyntaxElem_out"/>
+    <Connection dst="MvInfoMerger" dst-port="NumRefIdxLXAct" src="dec1" src-port="NumRefIdxLxAct_out"/>
+    <Connection dst="MvInfoMerger" dst-port="RefPicListModif" src="dec1" src-port="RefPicListModif_out"/>
+    <Connection dst="MvInfoMerger" dst-port="PartMode_2" src="Dec2" src-port="PartMode_out"/>
+    <Connection dst="MvInfoMerger" dst-port="CUInfo_2" src="Dec2" src-port="CuInfo_out"/>
+    <Connection dst="MvInfoMerger" dst-port="LcuSizeMax_2" src="Dec2" src-port="LcuSizeMax_out"/>
+    <Connection dst="MvInfoMerger" dst-port="PicSize_2" src="Dec2" src-port="PictSize_out"/>
+    <Connection dst="MvInfoMerger" dst-port="Poc_2" src="Dec2" src-port="Poc_out"/>
+    <Connection dst="MvInfoMerger" dst-port="RpsPoc_2" src="Dec2" src-port="RefPoc_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SliceAddr_2" src="Dec2" src-port="SliceAddr_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SliceType_2" src="Dec2" src-port="SliceType_out"/>
+    <Connection dst="MvInfoMerger" dst-port="SyntaxElem_2" src="Dec2" src-port="MvPredSyntaxElem_out"/>
+    <Connection dst="MvInfoMerger" dst-port="TilesCoord_2" src="Dec2" src-port="TilesCoord_out"/>
+    <Connection dst="MvInfoMerger" dst-port="NumRefIdxLXAct_2"
+        src="Dec2" src-port="NumRefIdxLxAct_out"/>
+    <Connection dst="MvInfoMerger" dst-port="RefPicListModif_2"
+        src="Dec2" src-port="RefPicListModif_out"/>
+</XDF>
