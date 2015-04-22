@@ -9,7 +9,11 @@
             <Expr kind="Literal" literal-kind="Integer" value="16"/>
         </Parameter>
     </Instance>
+<<<<<<< HEAD
     <Instance id="HevcDecoder">
+=======
+    <Instance id="HEVCDecoder">
+>>>>>>> 87cff1cf4e5eac4ab2e938aa8dd906531627531d
         <Class name="org.sc29.wg11.mpegh.part2.HEVCDecoderInter"/>
         <Parameter name="TILE_SPLIT_ENABLE">
             <Expr kind="Literal" literal-kind="Integer" value="0"/>
@@ -18,9 +22,17 @@
             <Expr kind="Literal" literal-kind="Integer" value="0"/>
         </Parameter>
     </Instance>
+<<<<<<< HEAD
     <Connection dst="HEVCDisplay" dst-port="DispCoord" src="HevcDecoder" src-port="DispCoord"/>
     <Connection dst="HEVCDisplay" dst-port="PicSizeInMb"
         src="HevcDecoder" src-port="SIZE"/>
     <Connection dst="HEVCDisplay" dst-port="Byte" src="HevcDecoder" src-port="VID"/>
     <Connection dst="HevcDecoder" dst-port="BYTE" src="HEVCSource" src-port="O"/>
+=======
+    <Connection dst="HEVCDisplay" dst-port="DispCoord" src="HEVCDecoder" src-port="DispCoord"/>
+    <Connection dst="HEVCDisplay" dst-port="PicSizeInMb"
+        src="HEVCDecoder" src-port="SIZE"/>
+    <Connection dst="HEVCDisplay" dst-port="Byte" src="HEVCDecoder" src-port="VID"/>
+    <Connection dst="HEVCDecoder" dst-port="BYTE" src="HEVCSource" src-port="O"/>
+>>>>>>> 87cff1cf4e5eac4ab2e938aa8dd906531627531d
 </XDF>
