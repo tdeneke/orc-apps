@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XDF name="orccmpeg">
+    <Instance id="MPEG4Decoder">
+        <Class name="org.sc29.wg11.mpeg4.part2.sp.RVC_decoder"/>
+    </Instance>
+    <Instance id="MPEG4Source">
+        <Class name="org.sc29.wg11.common.Source"/>
+    </Instance>
+    <Instance id="MPEG4Display">
+        <Class name="org.sc29.wg11.common.DisplayYUV"/>
+    </Instance>
+    <Connection dst="MPEG4Decoder" dst-port="bits" src="MPEG4Source" src-port="O"/>
+    <Connection dst="MPEG4Display" dst-port="B" src="MPEG4Decoder" src-port="VID"/>
+    <Connection dst="MPEG4Display" dst-port="WIDTH" src="MPEG4Decoder" src-port="WIDTH"/>
+    <Connection dst="MPEG4Display" dst-port="HEIGHT" src="MPEG4Decoder" src-port="HEIGHT"/>
+</XDF>
